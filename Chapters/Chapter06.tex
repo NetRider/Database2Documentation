@@ -7,7 +7,7 @@ Maggiore sarà la pericolosità associata all'edificio, maggiore sarà la possib
 
 \begin{table}[h]
 	\centering
-	\renewcommand{\arraystretch}{3}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|C{8cm}|}
 		\hline
 		
@@ -52,12 +52,12 @@ Questi numeri sono organizzati all'interno di una matrice.
 
 \begin{table}[h]
 	\centering
-	\renewcommand{\arraystretch}{2}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                                        & \multicolumn{3}{c|}{\textbf{Classi di appartenenza Predette}}                 & \multirow{2}{*}{Totale}  \\ \cline{3-5}
+		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                                        & \multicolumn{3}{c|}{\textbf{Classi Stimate}}                 & \multirow{2}{*}{Totale}  \\ \cline{3-5}
 		\multicolumn{2}{|c|}{}                                                                                         & Classe 1                 & Classe 2                 & Classe 3                 &                          \\ \hline
-		\multirow{3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di \\ Appartenenza\\ Reali\end{tabular}}} & Classe 1 & N(1,1)                   & N(1,2)                   & N(1,3)                   & $T_{R1}$ \\ \cline{2-6} 
+		\multirow{3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & Classe 1 & N(1,1)                   & N(1,2)                   & N(1,3)                   & $T_{R1}$ \\ \cline{2-6} 
 		& Classe 2 & N(2,1)                   & N(2,2)                   & N(2,3)                   & $T_{R2}$ \\ \cline{2-6} 
 		& Classe 3 & N(3,1)                   & N(3,2)                   & N(3,3)                   & $T_{R3}$ \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                   & $T_{C1}$ & $T_{C2}$ & $T_{C3}$ & $TOT$                      \\ \hline
@@ -91,11 +91,9 @@ Queste matrici per costruzione hanno dimensione 2x2.
 Ogni classe reale avrà la sua matrice di contingenza binaria. Il perché di questo passaggio ad una rappresentazione binaria è da ricercare nel significato degli elementi della matrice, infatti essi hanno una carica espressiva maggiore rispetto alla tabella di contingenza non binaria, inoltre permettono di analizzare le classi in modo distinto.
 Tali matrici sono costruite nel seguente modo:
 
-\newpage
-
-\begin{table}[h]
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
 		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
@@ -106,21 +104,21 @@ Tali matrici sono costruite nel seguente modo:
 	\end{tabular}
 	\label{tab:BinariaClasse1}
 	\caption{In tabella è rappresentata la matrice di contingenza binaria della Classe 1. \\
-		$N_1$ = N(1,1) ;
-		$N_2$ = N(1,2) + N(1,3) ;
-		$N_3$ = N(2,1) + N(3,1) ; 
-		$N_4$ = N(2,2) + N(2,3) + N(3,2) + N(3,3) ; \\
-		$T_{C1}$ = $N_1$ + $N_3$ ;
-		$T_{C2}$ = $N_2$ + $N_4$ ; 
-		$T_{R1}$ = $N_1$ + $N_2$ ;
-		$T_{R2}$ = $N_3$ + $N_4$ ; 
-		$TOT$ = $T_{C1}$ + $T_{C2}$ = $T_{R1}$ + $T_{R2}$
+		$N_1$=N(1,1) ;
+		$N_2$=N(1,2)+N(1,3) ;
+		$N_3$=N(2,1)+N(3,1) ; 
+		$N_4$=N(2,2)+N(2,3)+N(3,2)+N(3,3) ; \\
+		$T_{C1}$=$N_1$+$N_3$ ;
+		$T_{C2}$=$N_2$+$N_4$ ; 
+		$T_{R1}$=$N_1$+$N_2$ ;
+		$T_{R2}$=$N_3$+$N_4$ ; 
+		$TOT$=$T_{C1}$+$T_{C2}$=$T_{R1}$+$T_{R2}$
 	}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
 		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
@@ -131,21 +129,21 @@ Tali matrici sono costruite nel seguente modo:
 	\end{tabular}
 	\label{tab:BinariaClasse2}
 	\caption{In tabella è rappresentata la matrice di contingenza binaria della Classe 2. \\
-		$N_1$ = N(2,2) ;
-		$N_2$ = N(1,1) + N(1,3) ;
-		$N_3$ = N(1,2) + N(3,2) ; 
-		$N_4$ = N(1,1) + N(1,3) + N(3,1) + N(3,3) ; \\
-		$T_{C1}$ = $N_1$ + $N_3$ ;
-		$T_{C2}$ = $N_2$ + $N_4$ ; 
-		$T_{R1}$ = $N_1$ + $N_2$ ;
-		$T_{R2}$ = $N_3$ + $N_4$ ; 
-		$TOT$ = $T_{C1}$ + $T_{C2}$ = $T_{R1}$ + $T_{R2}$
+		$N_1$=N(2,2) ;
+		$N_2$=N(1,1)+N(1,3) ;
+		$N_3$=N(1,2)+N(3,2) ; 
+		$N_4$=N(1,1)+N(1,3)+N(3,1)+ N(3,3) ; \\
+		$T_{C1}$=$N_1$+$N_3$ ;
+		$T_{C2}$=$N_2$+$N_4$ ; 
+		$T_{R1}$=$N_1$+$N_2$ ;
+		$T_{R2}$=$N_3$+$N_4$ ; 
+		$TOT$=$T_{C1}$+$T_{C2}$=$T_{R1}$+$T_{R2}$
 	}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
 		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
@@ -156,15 +154,15 @@ Tali matrici sono costruite nel seguente modo:
 	\end{tabular}
 	\label{tab:BinariaClasse3}
 	\caption{In tabella è rappresentata la matrice di contingenza binaria della Classe 3. \\
-		$N_1$ = N(3,3) ;
-		$N_2$ = N(1,1) + N(1,2) ;
-		$N_3$ = N(3,1) + N(3,2) ; 
-		$N_4$ = N(1,1) + N(1,2) + N(2,1) + N(2,2) ; \\
-		$T_{C1}$ = $N_1$ + $N_3$ ;
-		$T_{C2}$ = $N_2$ + $N_4$ ; 
-		$T_{R1}$ = $N_1$ + $N_2$ ;
-		$T_{R2}$ = $N_3$ + $N_4$ ; 
-		$TOT$ = $T_{C1}$ + $T_{C2}$ = $T_{R1}$ + $T_{R2}$
+		$N_1$=N(3,3) ;
+		$N_2$=N(1,1)+N(1,2) ;
+		$N_3$=N(3,1)+N(3,2) ; 
+		$N_4$=N(1,1)+N(1,2)+N(2,1)+N(2,2) ; \\
+		$T_{C1}$=$N_1$+$N_3$ ;
+		$T_{C2}$=$N_2$+$N_4$ ; 
+		$T_{R1}$=$N_1$+$N_2$ ;
+		$T_{R2}$=$N_3$+$N_4$ ; 
+		$TOT$=$T_{C1}$+$T_{C2}$=$T_{R1}$+$T_{R2}$
 	}
 \end{table}
 
@@ -177,14 +175,14 @@ Questo modo di rappresentare i dati sarà molto utile per ricavare delle misure 
 \end{enumerate}
 Tali valori vanno ricercati nella matrice di contingenza binaria. Essi per costruzione della matrice saranno esattamente i quattro elementi di cui e composta. 
 
-\begin{table}[]
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                                               & \multicolumn{2}{c|}{\textbf{Classi stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
 		\multicolumn{2}{|c|}{}                                                                                                & Classe Generica             & No classe Generica             &                         \\ \hline
-		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di appartenenza\\ reale\end{tabular}}} & Classe Generica    & VP                          & FN                             & P = VP + FN             \\ \cline{2-5} 
+		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\reali\end{tabular}}} & Classe Generica    & VP                          & FN                             & P = VP + FN             \\ \cline{2-5} 
 		& No classe Generica & FP                          & VN                             & N = FP + VN             \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                          & VP + FP                     & FN + VN                        & P + N                   \\ \hline
 	\end{tabular}
@@ -211,14 +209,14 @@ Definiamo inoltre delle metriche di valutazione.
 		Acc = \frac{VP+VN}{(VP + FN)+(VN + FN)}
 	\end{equation}
 \end{enumerate}
-\newpage
+
 Avendo introdotto tali strumenti matematici per fare la validazione, di seguito verranno illustrati i risultati ottenuti dall'esecuzione del metodo di calcolo sul dataset delle stazioni ferroviarie abruzzesi.
 Come prima cosa si dovranno definire gli intervalli a cui le classi sono associate.
 Il metodo restituisce valori continui di exposure per cui sono state definite i seguenti intervalli che corrisponderanno alle classi definite in precedenza. Il valore minimo restituito dal metodo è 0. Esso corrisponde ad una situazione per nulla pericolosa. Il valore massimo invece è 1,8. Tale valore corrisponde ad un situazione ad altro rischio.Tali intervalli sono i seguenti:
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{3}
+	\renewcommand{\arraystretch}{1.5}
 	\begin{tabular}{|C{8cm}|}
 		\hline
 		
@@ -241,7 +239,7 @@ La tabella \ref{tab:StazioniExposure} contiene le seguenti informazioni:
 	\item La colonna "Exp" rappresenta la lista dei valori di exposure che l'algoritmo ha calcolato. I colori indicano le classi di appartenenza stimate.
 \end{enumerate}
 
-\begin{table}[h] \tiny
+\begin{table}[H] \tiny
 \centering
 	\renewcommand{\arraystretch}{1.26}
 	\captionsetup{font=scriptsize}
@@ -299,10 +297,12 @@ La tabella \ref{tab:StazioniExposure} contiene le seguenti informazioni:
 \newpage
 Partendo da questa rappresentazione tabulare si possono costruire le matrici di contingenza introdotte precedentemente.
 
-
-\begin{table}[h]
+Possiamo osservare dalla tabella \ref{tab:MatriceContingenzaStazione} che i valori più alti sono concentrati lungo la diagonale principale della matrice di contingenza. Questo fenomeno si genera perché nella diagonale sono presenti il numero di valori stimati correttamente.  
+Si può anche osservare che l'algoritmo non sbaglia mai assegnando una pericolosità alta ad una stazione a bassa pericolosità, stessa cosa per il viceversa infatti, dalla tabella, sia la classe bassa sia la classe alta, hanno valori nulli in posizione N(1,3) ed N(3,1).
+Da tale tabella si possono ricavare le matrici di contingenza binarie.
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|C{2cm}|C{2cm}|c|}
 		\hline
 		\multicolumn{2}{|c|}{}                                                                                                               & \multicolumn{3}{c|}{\textbf{Classi di appartenenza Predette}}                                &                          \\ \cline{3-5}
@@ -315,15 +315,14 @@ Partendo da questa rappresentazione tabulare si possono costruire le matrici di 
 	\caption{Nella tabella viene mostrata la matrice di contingenza ricavata a partire dai risultati ottenuti dal metodo di calcolo}
 	\label{tab:MatriceContingenzaStazione}
 \end{table}
-Possiamo osservare dalla tabella \ref{tab:MatriceContingenzaStazione} che i valori più alti sono concentrati lungo la diagonale principale della matrice di contingenza. Questo fenomeno si genera perché nella diagonale sono presenti il numero di valori stimati correttamente.  
-Si può anche osservare che l'algoritmo non sbaglia mai assegnando una pericolosità alta ad una stazione a bassa pericolosità, stessa cosa per il viceversa infatti, dalla tabella, sia la classe bassa sia la classe alta, hanno valori nulli in posizione N(1,3) ed N(3,1).
-Da tale tabella si possono ricavare le matrici di contingenza binarie. 
+ 
 Possiamo osservare dalla tabella \ref{tab:BinariaBassa}
 che l'algoritmo riesce a riconoscere 38 stazioni su 47 in fascia di pericolo bassa. Per quanto riguarda i falsi negativi esso restituisce 9 casi.
 L'algoritmo categorizza in modo scorretto 8 stazioni su 67 stimando la classe di appartenenza come più bassa rispetto alla realtà. Infine riesce a riconoscere 59 casi su 67 che la stazione è in fascia più alta.
-\begin{table}[h]
+
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
 		\hline
 		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi di appartenenza Predette}}    &                          \\ \cline{3-4}
@@ -337,9 +336,9 @@ L'algoritmo categorizza in modo scorretto 8 stazioni su 67 stimando la classe di
 \end{table}
 
 Per la tabella \ref{tab:BinariaMedia} si possono trarre conclusioni simili a quelle viste per la matrice di contingenza binaria descritta in tabella \ref{tab:BinariaBassa}. Si può notare come l'algoritmo categorizza in modo corretto la maggior parte delle stazioni, ben 52  su 61.
-\begin{table}[h]
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
 		\hline
 		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi di appartenenza Predette}}    &                          \\ \cline{3-4}
@@ -354,9 +353,10 @@ Per la tabella \ref{tab:BinariaMedia} si possono trarre conclusioni simili a que
 
 
 L'algoritmo, essendo stato pensato per individuare i casi pericolosi, dovrà restituire, a maggior ragione, dei risultati validi per la classi di pericolosità alta. Come possiamo vedere dalla tabella \ref{tab:BinariaAlta} vengono categorizzati correttamente i casi che effettivamente sono pericolosi. Si può notare come in un unico caso l'algoritmo confonde la classe stimata di appartenenza. Tale caso verrà analizzato più approfonditamente in seguito. Si può osservare dalla tabella che l'algoritmo non sbaglia, ad eccezione di un caso, di categorizzare come non altamente pericolosa una stazione (N(2,2)). Ci sono infatti 107 casi su 108 in cui l'algoritmo stima correttamente. 
-\begin{table}[h]
+
+\begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
 		\hline
 		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi di appartenenza Predette}}    &                          \\ \cline{3-4}
@@ -374,10 +374,10 @@ Di seguito viene proposta la tabella che riassume i risultati ottenuti dal calco
 
 \begin{table}[h]
 	\centering
-	\renewcommand{\arraystretch}{1.7}
+	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|}
 		\hline
-		\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFFF}} & \cellcolor[HTML]{32CB00}Classe a rischio di pericolosità bassa & \cellcolor[HTML]{FFFE65}Classe a rischio di pericolosità medio & \cellcolor[HTML]{FE0000}Classe a rischio di pericolosità alto \\ \hline
+		\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFFF}} & \cellcolor[HTML]{32CB00} Classe a rischio basso & \cellcolor[HTML]{FFFE65} Classe a rischio medio & \cellcolor[HTML]{FE0000}Classe a rischio alto \\ \hline
 		\textbf{TPR}                                   & 0,83                                                           & 0,87                                                           & 0,83                                                          \\ \hline
 		\textbf{TNR}                                   & 0,90                                                           & 0,83                                                           & 0,99                                                          \\ \hline
 		\textbf{P}                                     & 0,85                                                           & 0,85                                                           & 0,83                                                          \\ \hline

@@ -44,7 +44,7 @@ Per ogni entità vengono mostrate
 
 \begin{table}[h]
 	\centering
-	\renewcommand{\arraystretch}{1.4}
+	\renewcommand{\arraystretch}{1.2} \small
 	
 	\begin{tabular}{|c|c|c|c|}
 		\hline
@@ -64,7 +64,7 @@ Per ogni entità vengono mostrate
 	\label{tab:entita}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[h] \scriptsize
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|}
@@ -75,8 +75,9 @@ Per ogni entità vengono mostrate
 		ha associato           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che\\ una stazione può avere associato un valore\\ di exposure. Stessa considerazione si può fare \\ per i segmenti\end{tabular} & \begin{tabular}[c]{@{}c@{}}railway\_station\textless\textgreater      station\_exposure\\ railway\_routes\_segment\textless\textgreater segment\_exposure\end{tabular} & nessuno               \\ \hline
 		è costituito           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che una route \\ può essere associata con N segmenti. Un segmento\\ può appartenere ad una sola route\end{tabular}               & railway\_routes\textless\textgreater railway\_routes\_segment                                                                                                      & nessuno               \\ \hline
 	\end{tabular}
-	\caption{tab:associazioni}
-	\label{In tabella sono descritte le associazioni in modo dettagliato}
+
+	\caption{In tabella sono descritte le associazioni in modo dettagliato}
+	\label{tab:associazioni}
 \end{table}
 
 Dallo schema Concettuale si è progettato quello logico nel seguente modo.
