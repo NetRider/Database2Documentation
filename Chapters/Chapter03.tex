@@ -1,0 +1,128 @@
+% Chapter 3
+
+\chapter{Metodo per il ranking delle stazioni ferroviarie} % Chapter title
+
+\label{ch:mathtest} % For referencing the chapter elsewhere, use \autoref{ch:mathtest}
+
+Il fine del metodo che ci si accinge a descrivere è valutare il livello di rischio frana (Exposure) al quale potrebbero essere soggette un insieme di assets. Con tale valutazione si potrà creare una graduatoria degli assets più a rischio di una determinata zona (GeoArea) e potrà essere di supporto agli enti responsabili di manutenzione o controllo della zona stessa. Il metodo che verrà sviluppato tiene a mente tutte le considerazioni presentate nell'introduzione, da cui è emerso che oltre alla ripidità del pendio e allo spazio percorso dalla frana è fondamentale anche la traiettoria seguita. Quest'ultima è alla base del metodo ed è stato il principale elemento di studio. Per un'analisi approfondita di questi aspetti sono sono state introdotte le curve di livello ($\mathcal{I}$). Inoltre il territorio preso in considerazione (\textit{GeoArea}), dove sono dislocati gli assets strategici ($\mathcal{B}$), è stato suddiviso in piccole particelle di terreno ($\mathcal{Z}$) dalle quali può aver origine una frana se si verificano determinate condizioni che andremo a definire.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/raggio_di_azione_frana}
+	\caption{Due assets che si trovano nei pressi di un pendio. Entrambi hanno la propria \textit{HazardArea} di raggio $r$, di cui quella dell'edificio in rosso comprende il punto di distacco del masso. Quindi l'edificio si trova in una zona pericolosa, al contrario di quello di colore verde. }
+	\label{raggio_azione_frana}
+\end{figure}
+
+Il metodo calcola per ogni asset $b_i$, il proprio valore di exposure. Ricordando dall'introduzione che una frana può estendersi per una distanza notevole ma pur sempre limitata (Figure \ref{raggio_azione_frana}), sembra logico limitare l'area di studio alla sola ($HazardArea_i$). L'analisi che segue quindi interesserà le sole Zones $Z$ all'interno di tale area, ovvero le particelle appartenenti all'insieme $NZ_i$ (\textit{Nearest Zones} di $b_i$) (Figura \ref{landslide0}).
+Come detto in precedenza, elemento fondamentale alla base del metodo è la  traiettoria di frana. Il metodo infatti si occupa di stimare tale traiettoria per ognuna delle \textit{Nearest Zones} $nz_{i,j} \in NZ_i$ dunque è indispensabile considerare le curve di livello  (Figura \ref{landslide1}). 
+
+\begin{figure}[h]
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/landslide0}
+		\caption{Da scrivere}
+		\label{landslide0}
+	\end{minipage}
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/landslide1}
+		\caption{Da scrivere}
+		\label{landslide1}
+	\end{minipage}
+\end{figure}
+
+Naturalmente le sole curve di livello di interesse alla $nz_{i,j}$ sono quelle che intersecano la ($HazardArea_i$), ovvero le (Nearest Isoipses) $NI_i$.
+Queste ultime vengono utilizzate per determinare la distribuzione delle masse all'interno della particella di terreno $nz_{i,j}$. Pertanto esse verranno utilizzate per frazionare la $nz_{i,j}$  in frammenti $zf_{i,j,t}$. I centri di massa ($czf_{i,j,t}$) di tali frammenti sono alla base del calcolo della regressione lineare. Dal calcolo della regressione lineare otteniamo la retta ($lr_{i,j}$) che stima appunto la traiettoria di frana della nostra particella $nz_{i,j}$. 
+
+A questo punto, ricavata la retta che stima la traiettoria di frana $lr_{i,j}$ della particella $nz_{i,j}$, bisogna determinare se la presunta frana di tale particella "impatta" o meno sull'edificio $b_i$ oggetto di analisi. Per poter comprendere appieno cosa si intende per "impatto" è necessario definire le seguenti notazioni:
+
+\begin{enumerate}
+	\setcounter{enumi}{13}
+	\item \textbf{$ \mathcal{BLR}_i $} (\textbf{Buffered Linear Regressions}) $= \{blr_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{NZ}_i)\}$ | $\forall lr_{i,j} \in $ \textbf{$ \mathcal{LR}_i $} si ha che $blr_{i,j}$ è la geometria risultante dalla \textit{LineBuffering} di $lr_{i,j}$ Figura\ref{buffer_regression}. $blr_{i,j}$ rappresenta quella che potrebbe essere la scia della frana della particella $nz_{i,j}$ alla quale ci si riferisce. Ovvero identifica l'area che tale frana mette a rischio. 
+	Per una migliore comprensione riferirsi alla (Figura \ref{buffer_regression})
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.5\textwidth]{images/buffer_rect}
+		\caption{La \textbf{Buffered Linear Regression} $blr_{i,j}$ ottenuta dalla \textit{LineBuffering} della retta di regressione lineare $lr_{i,j}$. Essa rappresenta l'area attorno la retta entro una distanza $d$ dalla stessa.}
+		\label{buffer_regression}
+	\end{figure}
+	
+	\item \textbf{$ \mathcal{LS}_i $} (\textbf{LandSlides}) $ = \{ls_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LS}_i)\}$ con $\mathcal{LS}_i \subseteq \mathcal{BLR}_i$  sottoinsieme | $\mathcal{LS}_i = (\mathcal{BLR}_i  \cap BuildingBuffer_i)	\not= \emptyset $.
+	Con parole esplicite, gli elementi dell'insieme $ \mathcal{LS}_i $ sono	le sole $blr_{i,j}$ che intersecano il \textit{BuildingBuffer$_i$}. Nello specifico, le sole frane che "impattano" l'edificio $b_i$ (Figura \ref{landslides}).
+	
+	\begin{figure}[h]
+		\hspace{0.1\linewidth}
+		\begin{minipage}[t]{0.30\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/buildingimpactfactor}
+			\caption{L'area di colore in giallo intorno all'edificio rappresenta il $BuildingBuffer_i$ di raggio $d$.}
+			\label{buildingimpactfactor}
+		\end{minipage}
+		\hspace{0.2\linewidth}
+		\begin{minipage}[t]{0.30\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{images/landslides}
+			\caption{Il rettangolo verde rappresenta una \textit{LandSlide} che non costituisce un pericolo per l'edificio. In rosso invece è stata raffigurata una \textit{LandSlide} ad altissimo rischio.}
+			\label{landslides}
+		\end{minipage}
+	\end{figure}
+	
+\end{enumerate}
+
+Avendo ben definite le frane che "impattano" l'edificio $b_i$, viene da tener conto di un altro fattore determinante, ossia l'entità di tale "impatto". Una \textit{LandSlide} di fatto può "impattare" su un edificio in modo totale o parziale e di conseguenza influire diversamente sul valore di exposure della stessa. Introduciamo pertanto la notazione di \textit{Impact Factor}
+
+\begin{enumerate}
+	\setcounter{enumi}{15}
+	
+	\item \textbf{$IFls_{i,j}$} (\textbf{Impact Factor}) è un valore percentuale $\in(0,1]$ che esprime l'entità dell'impatto della $ls_{i,j}$ sull'edificio $b_i$. Essa corrisponde al rapporto tra l'area della $ls_{i,j} \cap BuildingBuffer_i$ e l'area del $BuildingBuffer_i$. Un valore di $IFls_{i,j}=1$ equivale a dire che la frana impatta in modo totale sull'edificio. Da tenere conto che un valore pari a 0 non è possibile essendo già l'insieme $LS_{i}$ quella delle sole frane che impattano su $b_i$. Matematicamente la \textit{Impact Factor} è descritta come segue:
+	
+	\begin{equation}\label{eq:impactfactor}
+	ImpactFactor=\frac{Area(BuildingBuffer_i \cap ls_{i,j})}{Area(BuildingBuffer_i)}
+	\end{equation}
+	
+	In (Figura \ref{impact_factor}) vediamo da due diverse prospettive i casi di impatto di una \textit{LandSlide}.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.9\textwidth]{images/landslide5}
+		\caption{A sinistra il caso di impatto totale a cui corrisponderà una \textit{Impact Factor} pari a 1. A destra il caso di impatto parziale a cui corrisponderà una \textit{Impact Factor} $<1$  }
+		\label{impact_factor}
+	\end{figure}
+	
+\end{enumerate}
+
+
+
+\begin{equation}\label{eq:exposure1}
+Exp\_b_i =\sum_{k=1}^n Exp\_b_{i,k}
+\end{equation}
+
+\begin{equation}\label{eq:exposure2}
+Exp\_b_{i,k} =\frac{Size*Sz_{k}}{d} * ImpactFactor 
+\end{equation}
+
+\begin{equation}
+Size =\frac{Area(z_k) }{the average values of all the areas of zones Z}
+\end{equation}
+
+
+\begin{figure}[h]
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/landslide2}
+		\caption{Da Scrivere}
+		\label{landslide2}
+	\end{minipage}
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/landslide3}
+		\caption{Da Scrivere }
+		\label{landslide3}
+	\end{minipage}
+\end{figure}

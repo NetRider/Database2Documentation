@@ -1,0 +1,14 @@
+% Chapter X
+
+\chapter{Estensione del metodo alle linee ferroviarie} % Chapter title
+Il metodo proposto è stato esteso sulle linee ferroviarie.
+
+Definizioni
+\begin{enumerate}
+	\item \textbf{$ \mathcal{R} $ (routes)} $ = \{r_k(k=1,..,\mathbf{card}(\mathcal{R}) | r_k $ è una \textit{routes} ubicata all'interno dei confini della  GeoArea \}. Per routes si intende una generica tratta (come ad esempio una ferrovia, un'autostrada) descritta dalla tupla < \textit{ID}, \textit{Name}, \textit{geometry}>. Il campo \textit{ID} identifica univocamente la tratta; \textit{Name} una sua etichetta nominale \textit{geometry} rappresenta una geometria che descrive sul territorio la tratta.
+	
+	
+	\item \textbf{$ \mathcal{SR} $ (Segmentize Routes)} $ = \{sr_{k,p}$($k=1,..,\mathbf{card}(\mathcal{R}$),$(p = 1, 2, .. $))$  | sr_{k,p} $ è una \textit{segmentize route} ubicata all'interno dei confini della  GeoArea \}. Per segmentize routes si intende una generica sotto-tratta di un elemento $r_k$ dell'insieme $\mathcal{R}$. l'unione di tutti gli $sr_{k,p}$ restituisce l'elemento $r_k$ 
+	
+	\item \textbf{$EXPSR$ (Exposure Segmentize Routes)} $ = \{expsr_{k,p}$($k=1,..,\mathbf{card}(\mathcal{R}$),$(p = 1, 2, .. $))$ | expsr_{k,p} $ è il valore di \textit{exposure} del segmento di tratta della routes k-esima. Per \textit{exposure} si intende il valore numerico che indica quanto il segmento di tratta è esposto al rischio frana.
+\end{enumerate}
