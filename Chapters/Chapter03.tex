@@ -55,21 +55,29 @@ A questo punto, ricavata la retta che stima la traiettoria di frana $lr_{i,j}$ d
 	Con parole esplicite, gli elementi dell'insieme $ \mathcal{LS}_i $ sono	le sole $blr_{i,j}$ che intersecano il \textit{BuildingBuffer$_i$}. Nello specifico, le sole frane che "impattano" l'edificio $b_i$ (Figura \ref{landslides}).
 	
 	\begin{figure}[h]
-		\hspace{0.1\linewidth}
-		\begin{minipage}[t]{0.30\linewidth}
-			\centering
-			\includegraphics[width=\textwidth]{images/buildingimpactfactor}
-			\caption{L'area di colore in giallo intorno all'edificio rappresenta il $BuildingBuffer_i$ di raggio $d$.}
-			\label{buildingimpactfactor}
-		\end{minipage}
-		\hspace{0.2\linewidth}
-		\begin{minipage}[t]{0.30\linewidth}
-			\centering
-			\includegraphics[width=\textwidth]{images/landslides}
-			\caption{Il rettangolo verde rappresenta una \textit{LandSlide} che non costituisce un pericolo per l'edificio. In rosso invece è stata raffigurata una \textit{LandSlide} ad altissimo rischio.}
-			\label{landslides}
-		\end{minipage}
+		\centering
+		\includegraphics[width=0.4\textwidth]{images/landslides}
+		\caption{Il rettangolo verde rappresenta una \textit{LandSlide} che non costituisce un pericolo per l'edificio. In rosso invece è stata raffigurata una \textit{LandSlide} ad altissimo rischio.}
+	\label{landslides}
 	\end{figure}
+	
+
+\begin{figure}[h]
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/landslide2}
+		\caption{Da Scrivere}
+		\label{landslide2}
+	\end{minipage}
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.4\linewidth}
+		\centering
+		\includegraphics[width=\textwidth]{images/landslide3}
+		\caption{Da Scrivere }
+		\label{landslide3}
+	\end{minipage}
+\end{figure}
 	
 \end{enumerate}
 
@@ -95,34 +103,36 @@ Avendo ben definite le frane che "impattano" l'edificio $b_i$, viene da tener co
 	
 \end{enumerate}
 
+A questo punto si ha tutto il necessario per poter calcolare l'exposure dell'edificio $b_i$ che naturalmente terrà conto di tutti i fattori descritti in precedenza. Quindi, per ogni $b_i$ l'Exposure sarà calcolata come la somma dei valori di exposure parziali $Pexp_{i,j}$ (Definizione \ref{Pexp}) derivanti dai contributi delle sole \textit{NearestZones} le quali \textit{LandSlides} $ls_{i,j}$ impattano sull'edificio stesso.
+Definiamo tali zone come \textit{LandSlide Zones} (Definizione \ref{LSZ})
 
+\begin{enumerate}
+	\setcounter{enumi}{16}
+
+	\item \label{LSZ} \textbf{$ \mathcal{LSZ}_i $ (LandSlide Zones)} $ = \{lsz_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ con $\mathcal{LSZ}_i \subseteq \mathcal{NZ}_i$  sottoinsieme | $\mathcal{LSZ}_i$ 
+	è l'insieme delle sole $nz_{i,j}$ aventi $ls_{i,j}$ che impatano sull'edificio $b_i$. 
+	Con parole più esplicite, $lsz_{i,j}$ è la Zone della relativa alla \textit{LandSlide} $ls_{i,j}$. 
+	Tenendo presente che $\mathcal{LSZ}_i$ è un sottoinsieme di $\mathcal{NZ}_i$, l'elemento $lsz_{i,j}$  è descritta dalla medesima tupla <\textit{ID}, \textit{boundary}, \textit{$Sz_k$}> di $nz_{i,j}$ . 
+	
+	\item \label{Pexp} $Pexp_i$ \textbf{(Partial Exposures)} $ = \{pexp_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ |$pexp_{i,j}$ è il valore di exposure parziale con cui la \textit{LandSlide Zone} $nz_{i,j}$ influisce sull'edificio $b_i$. Tale valore dipende dal valore di $sz_k$ della $lsz{i,j}$ , dall'area della zone stessa, e dal \textit{Impact Factor} $IFls_{i,j}$ della relativa \textit{LandSlide}. Matematicamente $pexp_{i,j}$ è descritta come segue:
+	
+	\begin{equation}\label{eq:exposure2}
+	pexp_{i,j} =[(Area)*(Sz_{k})] * IFls_{i,j}
+	\end{equation}
+	ove "Area" e "$Sz_k$" sono la rispettiva Area e valore $Sz_k$ della relativa $lsz_{i,j}$ 
+	
+\end{enumerate}
+
+Pertanto abbiamo che l'exposure totale risulta essere definita dalla seguente equazione
 
 \begin{equation}\label{eq:exposure1}
-Exp\_b_i =\sum_{k=1}^n Exp\_b_{i,k}
+exp_i =\sum_{j=1}^n pexp_{i,j}
 \end{equation}
 
-\begin{equation}\label{eq:exposure2}
-Exp\_b_{i,k} =\frac{Size*Sz_{k}}{d} * ImpactFactor 
-\end{equation}
-
-\begin{equation}
-Size =\frac{Area(z_k) }{the average values of all the areas of zones Z}
-\end{equation}
+Al Termine del metodo avremo un valore di exposure $exp_i$ per ogni edificio $b_i$ della \textit{GeoArea}
 
 
-\begin{figure}[h]
-	\hspace{0.05\linewidth}
-	\begin{minipage}[t]{0.4\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/landslide2}
-		\caption{Da Scrivere}
-		\label{landslide2}
-	\end{minipage}
-	\hspace{0.05\linewidth}
-	\begin{minipage}[t]{0.4\linewidth}
-		\centering
-		\includegraphics[width=\textwidth]{images/landslide3}
-		\caption{Da Scrivere }
-		\label{landslide3}
-	\end{minipage}
-\end{figure}
+
+
+
+

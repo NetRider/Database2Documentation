@@ -153,6 +153,13 @@
 	
 	\item \textit{$BuildingBuffer_i$} rappresenta l'area circostante l'edificio $b_i$ e approssima la sua estensione. E' definita come la circonferenza centrata su $b_i$ di raggio $l$ dove $l < r $ con $r$ raggio del \textit{$HazardArea_i$} (Figura \ref{buildingimpactfactor}).
 	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.5\textwidth]{images/buildingimpactfactor}
+		\caption{L'area di colore in giallo intorno all'edificio rappresenta il $BuildingBuffer_i$ di raggio $d$.}
+		\label{buildingimpactfactor}
+	\end{figure}
+	
 	\item \label{last_enum} \textbf{$EXP$ (Exposure)} $ = \{exp_i(i=1,..,\mathbf{card}(\mathcal{B})) | exp_i $ è il valore di \textit{exposure} del building i-esimo. Per \textit{exposure} si intende il valore numerico che indica quanto il building è esposto al rischio frana, 
 	rappresentato dalla tupla < \textit{ID}, \textit{description}, \textit{position} , \textit{exposure}> 
 	
