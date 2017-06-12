@@ -390,25 +390,65 @@ Dai risultati ottenuti e riassunti in tabella \ref{tab:RisultatiMetriche} possia
 Il TRN misura la percentuale di positivi che sono correttamente identificati come tali, per cui, possiamo vedere che mediamente l'algoritmo si classificano correttamente per più dell'80\% dei casi le classi di appartenenza corrette.
 Il TNR misura la percentuale di negativi che siano correttamente identificate come tali. Possiamo osservare come anche in questo caso l'algoritmo non scende mai al disotto del 83\%. Sia per quanto riguarda la precisione che l'accuratezza l'algoritmo si comporta in linea agli altri valori. Da notare che la classe di pericolosità più alta a valori molto alti di TNR e Acc. Questo fenomeno è dovuto al fatto che nel dataset ci sono poche stazioni ad alto rischio rispetto al numero associato agli altri rischi di pericolosità.  
 
-I risultati appena discussi confermano la bontà del metodo proposto. Ciò nonostante è stata eseguita indagine approfondita sulle stazioni la cui classificazione risulta errata. L'obiettivo è quello di comprendere se ci sono ulteriori margini di miglioramento del metodo.
+I risultati appena discussi confermano la bontà del metodo proposto. Ciò nonostante è stata eseguita indagine approfondita sulle stazioni la cui classificazione risulta errata. L'obiettivo è comprendere se ci sono ulteriori margini di miglioramento del metodo.
 I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Fontecchio. Vengono considerati falsi negativi in quanto la loro classificazione non coincide con quella proposta dagli esperti. Inoltre queste 3 stazioni sono state scelte in quanto i rispettivi valori di exposure  si discostano di più dal valore dell'estremo superiore della classe di appartenenza proposta dagli esperti. Ad esempio la stazione di Popoli - Vittorito risulta di classe 1 secondo il giudizio degli esperti. Il metodo però la classifica come classe 2. Per questo motivo è un falso negativo. Inoltre per afferire alla classe 1 il valore di exposure deve essere inferiore a 0.2, mentre il valore restituito dal metodo è pari a 0.42. L'errore è quindi pari a 0.22 e risulta il più elevato tra tutti i falsi negativi della classe 1. Lo stesso ragionamento è stato applicato alla scelta delle altre 2 stazioni prese in considerazione. 
 
-\begin{enumerate}
-	\item Popoli - Vittorito: in figura \ref{Popoli_Final} dalle prime due immagini è possibile osservare che la stazione non ha pendii importanti nelle immediate vicinanze, in quanto si trova in una zona prettamente pianeggiante. Nell'ultima immagine è possibile vedere, colorate in viola, le $nz_{i,j}$, con le rispettive landslides rappresentate con dei rettangoli colorati con i contorni evidenziati in nero. La diversa colorazione ha l'unico scopo di differenziare ulteriormente, esclusivamente a livello visivo, tra loro le landslides. Apparentemente il metodo sembra funzionare correttamente, ma in realtà la landslide di colore rosso ha una traiettoria inesatta. Come è possibile osservare in figura \ref{WrongLinearRegression} le curve di livello all'interno del $nz_{i,j}$ non sono numerose e in più hanno un andamento molto particolare. Di conseguenza i centri di massa $czf_{i,j,t}$ degli zone fragments $zf_{i,j,t}$ non sono ben allineati ma sparsi nella $nz_{i,j}$. Questo comporta che l'interpolazione della retta è molto imprecisa e quindi la traiettoria finale non è quella giusta. In questo caso particolare la landslide interseca il $BuildingBuffer_i$ e quindi contribuisce all'aumento dell'exposure della stazione. Ciò comporta il passaggio dalla classe 1 alla classe 2 e quindi ad una valutazione errata.
+\section{Stazione di Popoli - Vittorito}
+In figura \ref{Popoli_Final} è possibile osservare che la stazione è ubicata in un area pianeggiante. Infatti i pendii pericolosi non si trovano nelle immediate vicinanze della stazione ma a distanza considerevole. 
+
 	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/PopoliFinal}
+	\caption{Stazione di Popoli - Vittorito. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
+	\label{Popoli_Final}
+\end{figure}
+
+Nelle figure \ref{popolilandslide1} e \ref{popolilandslide2} sono rappresentate le $nz_{i,j}$, con le rispettive landslide evidenziate con dei rettangoli colorati con i contorni in nero. La diversa colorazione ha l'unico scopo di differenziare ulteriormente, esclusivamente a livello visivo, tra loro le landslides.
+
+
+\begin{figure}[h]
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.35\linewidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{images/PopoliFinal}
-		\caption{Da scrivere}
-		\label{Popoli_Final}
-	\end{figure}
-	
+		\includegraphics[width=1\textwidth]{images/PopoliLandslide1}
+		\caption{La prima landslide della stazione di Popoli.}
+		\label{popolilandslide1}
+	\end{minipage}
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.35\linewidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/PopoliLandslide2}
+		\caption{La seconda ed ultima landslide della stazione di Popoli.}
+		\label{popolilandslide2}
+	\end{minipage}
+\end{figure}
+
+
+Apparentemente il metodo sembra funzionare correttamente, ma in realtà la landslide di colore verde ha una traiettoria inesatta. Come è possibile osservare in figura \ref{popolirect} le curve di livello all'interno della $nz_{i,j}$ seguono un percorso tortuoso.  Di conseguenza i centri di massa $czf_{i,j,t}$ delle zone fragments $zf_{i,j,t}$ non sono ben allineati ma sparsi nella $nz_{i,j}$. Questo comporta che l'interpolazione della retta è molto imprecisa in quanto alcuni $czf_{i,j,t}$ si trovano a distanze elevate rispetto alla retta di regressione lineare, ovvero il valore della somma degli scarti è alto. 
+
 	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.5\textwidth]{images/Wrong_Linear_Regression}
-		\caption{Da Scrivere}
-		\label{WrongLinearRegression}
-	\end{figure}
-	\item Canistro: dalle prime due immagini della figura \ref{Canistro_Final} si nota che la stazione si trova in una vallata. Nell'ultima immagine si vede che le landslides che impattano sulla stazione sono 4, 2 delle quali però non sono corrette. La landslide di colore rosso è affetta degli stessi problemi di traiettoria non corretta emersi nella stazione precedente. Inoltre la landslide di colore giallo è troppo larga. Infatti nella figura \ref{WrongPerimeter} è possibile vedere che la landslide è più larga dello $nz_{i,j}$ da cui parte. Ciò accade perché la larghezza della landslides è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della landslide rispetto alla $nz_{i,j}$. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. Ruotandola la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.  Questo aspetto ha una notevole rilevanza sull'equazione \ref{eq:impactfactor} dell'impact factor. Infatti l'area dell'intersezione tra il $BuildingBuffer_i$ e la landslide $ls_{i,j}$ risulta maggiorata, contribuendo all'aumento dell'exposure e di conseguenza ad una classificazione più alta.
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/PopoliRect}
+	\caption{La retta di regressione lineare della prima landslide della stazione di Popoli.}
+	\label{popolirect}
+\end{figure}
+
+
+In altre parole da questa nearest zone possono avere origine più landslides, come si evince dalla figura \ref{popolimultilandslide}. Dall'immagine ci si accorge che sulla stessa nearest zone ci sono diversi versanti di frana (almeno 4) evidenziati dalle frecce in rosso. Il metodo proposto non tiene conto di questo caso particolare e si comporta come se esistesse una sola frana. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/PopoliMultiLandslide}
+	\caption{Tutte le frane che potrebbero partire dalla nearest zone della landslide 1.}
+	\label{popolimultilandslide}
+\end{figure}
+
+Per finire la landslide interseca il $BuildingBuffer_i$ e quindi contribuisce all'aumento dell'exposure della stazione. Ciò comporta il passaggio dalla classe 1 alla classe 2 e quindi ad una valutazione errata.
+
+Avendo a disposizione delle zones con area più piccola questa problematica non si verificherebbe. Per questo motivo si conclude che uno dei limiti del metodo proposto è che per ogni zone possa partire una sola landslide.
+
+\section{Stazione di Canistro}
+ Canistro: dalle prime due immagini della figura \ref{Canistro_Final} si nota che la stazione si trova in una vallata. Nell'ultima immagine si vede che le landslides che impattano sulla stazione sono 4, 2 delle quali però non sono corrette. La landslide di colore rosso è affetta degli stessi problemi di traiettoria non corretta emersi nella stazione precedente. Inoltre la landslide di colore giallo è troppo larga. Infatti nella figura \ref{WrongPerimeter} è possibile vedere che la landslide è più larga dello $nz_{i,j}$ da cui parte. Ciò accade perché la larghezza della landslides è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della landslide rispetto alla $nz_{i,j}$. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. Ruotandola la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.  Questo aspetto ha una notevole rilevanza sull'equazione \ref{eq:impactfactor} dell'impact factor. Infatti l'area dell'intersezione tra il $BuildingBuffer_i$ e la landslide $ls_{i,j}$ risulta maggiorata, contribuendo all'aumento dell'exposure e di conseguenza ad una classificazione più alta.
 	
 	\begin{figure}[h]
 		\centering
@@ -417,19 +457,19 @@ I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Font
 		\label{Canistro_Final}
 	\end{figure}
 	
+	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.5\textwidth]{images/WrongPerimeter}
-		\caption{Da Scrivere}
+		\caption{Stazione di Popoli - Vittorito. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
 		\label{WrongPerimeter}
 	\end{figure}
 	
-	\item Fontecchio: dalle prime due immagini della figura \ref{Fontechio_Final} si nota che la stazione si trova vicinissima  ai piedi di una montagna. Nell'ultima immagine è possibile osservare il numero elevato di landslides che impattano sulla stazione. A differenza di Popoli-Vittorito e Canistro, la stazione di Fontecchio è un falso negativo che il metodo classifica con una classe più bassa rispetto a quella proposta dagli esperti. In questo caso le landslides hanno una traiettoria corretta e dimensione vicinissima a quella della $nz_{i,j}$ da cui partono. Per questo motivo la classificazione errata è legata al dataset, ovvero gli $sz_k$ associati alle $nz_{i,j}$ hanno valori troppo bassi.
+\section{Stazione di Fontecchio}
+Fontecchio: dalle prime due immagini della figura \ref{Fontechio_Final} si nota che la stazione si trova vicinissima  ai piedi di una montagna. Nell'ultima immagine è possibile osservare il numero elevato di landslides che impattano sulla stazione. A differenza di Popoli-Vittorito e Canistro, la stazione di Fontecchio è un falso negativo che il metodo classifica con una classe più bassa rispetto a quella proposta dagli esperti. In questo caso le landslides hanno una traiettoria corretta e dimensione vicinissima a quella della $nz_{i,j}$ da cui partono. Per questo motivo la classificazione errata è legata al dataset, ovvero gli $sz_k$ associati alle $nz_{i,j}$ hanno valori troppo bassi.
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.9\textwidth]{images/FontecchioFinal}
 		\caption{Da scrivere}
 		\label{Fontechio_Final}
 	\end{figure}
-	
-\end{enumerate}
