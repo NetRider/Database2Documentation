@@ -16,19 +16,19 @@ Di seguito verrà proposto lo pseudo-codice dell'algoritmo per il calcolo dell'e
 	\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 	
 	\IncMargin{1em}
-	\Input{$b_i$}
+	\Input{$b_i$,$\mathcal{Z}$,$\mathcal{I}$,r,d,l}
 	\Output{$exp_i$} 
-	\caption{Exposure ($b_i$)}
+	\caption{Exposure ($b_i$,$\mathcal{Z}$,$\mathcal{I}$,r,d,l)}
 	\label{alg:0}
 	\BlankLine
 	
 	\SetAlgoNoLine
 	$ \mathcal{NZ}_i \leftarrow$ NearestZonesFinder($\mathcal{Z},b_i$,r); \\
-	$ \mathcal{NI}_i \leftarrow$ NearestIsoipseFinder($\mathcal{I},b_i,d$); \\
-	$ \mathcal{ZF}_i \leftarrow$ ZoneFragmentFinder($b_i , \mathcal{NI}_i , \mathcal{NZ}_i $ );  \\
-	$ \mathcal{BLR}_i \leftarrow $ LinearRegressionFinder($b_i,\mathcal{NZ}_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,BufferRadius); \\
+	$ \mathcal{NI}_i \leftarrow$ NearestIsoipseFinder($\mathcal{I},b_i,r$); \\
+	$ \mathcal{ZF}_i \leftarrow$ ZoneFragmentFinder($b_i , \mathcal{NI}_i , \mathcal{NZ}_i $);  \\
+	$ \mathcal{BLR}_i \leftarrow $ BufferedLinearRegressionFinder($b_i,\mathcal{NZ}_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,d); \\
 	$ \mathcal{LS}_i \leftarrow $ LandSlideFinder($b_i , \mathcal{LR}_i $); \\
-	$ exp_i \leftarrow$ ContributionOfLandSlide($b_i , \mathcal{LS}_i $);\\
+	$ exp_i \leftarrow$ ContributionOfLandSlide($b_i ,l, \mathcal{LS}_i $);\\
 	return $ exp_i $;
 	
 	
@@ -45,21 +45,21 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 	\SetKwInOut{Input}{Input}
 	\SetKwInOut{Output}{Output}
 	\IncMargin{1em}
-	\Input{$b_i$,r}
+	\Input{$\mathcal{Z}$,$b_i$,r}
 	\Output{$\mathcal{NZ}_i $} 
 	\caption{NearestZonesFinder($\mathcal{Z},b_i$,r)}
 	\label{alg:1}
 	\BlankLine
 	\SetAlgoNoLine
 	$ HazardArea_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,r)} ; \\ 
-	$ \mathcal{NZ}_i  \leftarrow $ $HazardZone_i \cap \mathcal{Z}$; \\
+	$ \mathcal{NZ}_i  \leftarrow $ $HazardArea_i \cap \mathcal{Z}$; \\
 	return $\mathcal{NZ}_i$;
 	
 \end{algorithm}
 
 \begin{enumerate}
 	\item Crea un buffer ($ HazardArea_i $) di raggio r intorno all'edificio $b_i$
-	\item Interseca tale buffer con le zone nell’insieme $\mathcal{Z}$. Il risultato è l’insieme contenente le sole zone con intersezione non vuota con il buffer costruito, ovvero l’insieme  $\mathcal{NZ}_i$
+	\item Interseca tale buffer con le zone dell’insieme $\mathcal{Z}$. Il risultato è l’insieme contenente le sole zone con intersezione non vuota con il buffer costruito, ovvero l’insieme  $\mathcal{NZ}_i$
 \end{enumerate}
 
 \begin{algorithm}[H]
@@ -69,7 +69,7 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 	\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 	
 	\IncMargin{1em}
-	\Input{$\mathcal{I},b_i,d$}
+	\Input{$\mathcal{I},b_i,r$}
 	\Output{$ \mathcal{NI}_i $} 
 	\caption{NearestIsoipseFinder($\mathcal{I},b_i,r$)}
 	\label{alg:two}
@@ -81,7 +81,7 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 \end{algorithm}
 \begin{enumerate}
 	\item Crea un buffer ($ HazardArea_i $) di raggio r intorno all'edificio $b_i$
-	\item Interseca tale buffer con le zone nell’insieme $\mathcal{I}$. Il risultato è l’insieme contenente le sole isoipse con intersezione non vuota con il buffer costruito, ovvero l’insieme  $\mathcal{NI}_i$
+	\item Interseca tale buffer con le isoipse dell’insieme $\mathcal{I}$. Il risultato è l’insieme contenente le sole isoipse con intersezione non vuota con il buffer costruito, ovvero l’insieme  $\mathcal{NI}_i$
 \end{enumerate}
 
 \begin{algorithm}[H]
@@ -92,7 +92,7 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 	\IncMargin{1em}
 	\Input{$b_i,\mathcal{NZ}_i,\mathcal{NI}_i$}
 	\Output{$\mathcal{ZF}_i$} 
-	\caption{ZoneFragmentFinder($b_i$)}
+	\caption{ZoneFragmentFinder($b_i,\mathcal{NZ}_i,\mathcal{NI}_i$)}
 	\label{alg:four}
 	\BlankLine
 	\SetAlgoNoLine
@@ -106,8 +106,8 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 			$Ci$ $\leftarrow $ $Tf$ [ 1 ] $\cap$ $Ti$  ;\\
 			\If {Ci is not empty }{
 				$Tf$ $\leftarrow$ $Tf$ + \textbf{ST\_split}( $Tf$ [ 1 ], $Ci$ [ 1 ] ) ;\\
-				$Ti$ $\leftarrow$ $Ti$ - \{ $Ci$[ 1 ] \} ;\\
 				$Tf$ $\leftarrow$ $Tf$ - \{ $Tf$ [ 1 ] \} ;\\
+				$Ti$ $\leftarrow$ $Ti$ - \{ $Ci$[ 1 ] \} ;\\
 			}
 			\Else { 
 				$\mathcal{ZF}_i$ $\leftarrow$ $\mathcal{ZF}_i$ + \{ $Tf$ [ 1 ] \} ;\\
@@ -119,26 +119,34 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 	
 	return $\mathcal{ZF}_i;$
 \end{algorithm}
-La funzione ZoneFragmentFinder($b_i$) esegue una multi-split tra $\mathcal{NZ}_i$ e l'insieme delle isoipse contenute in $\mathcal{NI}_i$.
-Per multi-split si intende il risultato descritto in figura \ref{zf}.
+La funzione ZoneFragmentFinder($b_i$) esegue una multi-split tra $\mathcal{NZ}_i$ e i frammenti di isoipse contenuti nell'insieme $\mathcal{NI}_i$.
+Il risultato di detta operazione è descritto in figura \ref{zf}.
 \begin{enumerate}
 	\item Si inizializza l'insieme $\mathcal{ZF}_i$.
-	\item Per ogni $nz_i$ contenuto nell'insieme $\mathcal{NZ}_i$ entro nel ciclo. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
-	\item Si inizializza l'insieme $Tf$ (Temp\_fragment) che conterrà i frammenti parziali su cui è possibile eseguire delle split.
-	\item Si inizializza l'insieme $Ti$(Temp\_isoipse) come il risultato dell'intersezione tra $nz_i$ corrente con gli elementi $\mathcal{NI}_i$. 
-	\item Si esegue la split con la prima isoipse contenuta nell'insieme $Ti$. L'isoipse una volta usata per la split non ne produrrà nessun altra.
-	\item Elimino l'isoipse $Ti$ [ 1 ] usata nella split precedente.
-	\item Finchè l'insieme $Tf$ non è vuoto significherà che gli elementi sono ulteriormente splittabili.
-	\item Interseco $Tf$ [ 1 ] con $Ti$. Il risultato genera un nuovo insieme chiamato $Ci$(Current\_isoipses).
-	\item Se l'insieme $Ci$ non è vuoto vorrà dire che l'elemento $Tf$ [ 1 ] è ulteriormente splittabile in quanto intersecato da almeno una isoipse.
-	\item Eseguo la split ed il risultato lo aggiungo all'insieme $Tf$.
-	\item Elimino dall'insieme $Ti$ l'isoipse che ha prodotto lo split.
-	\item Elimino da $Tf$ il frammento che è stato appena splittato in sotto frammenti.
-	\item Se $Ci$ è un insieme vuoto significherà che il frammento non è attraversato da nessuna isoipse, per cui non sarà più splittabile.
-	\item Aggiungo all'insieme $\mathcal{ZF}_i$ l'elemento $Tf$ [ 1 ] non più slittabile.
-	\item Rimuovo dall'insieme $Tf$ il primo elemento che ho appena aggiunto all'insieme dei frammenti atomici non più splittabili.
-	\item infine restituisco l'insieme $\mathcal{ZF}_i$
+	\item Per ogni $nz_i$ contenuto nell'insieme $\mathcal{NZ}_i$ si attiva l'esecuzione del ciclo. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
+	\item Si inizializza l'insieme $Tf$ (Temp\_fragment) che conterrà i frammenti intermedi prossimi candidati ad essere delle \textit{Zone Fragment} nel caso non ci siano ulteriori split possibili con esse.
+	\item Assegnazione all'insieme $Ti$(Temp\_isoipse) del risultato dell'intersezione tra la $nz_{i,j}$ corrente con gli elementi $\mathcal{NI}_i$. Dal punto di vista geometrico ciò equivale a depositare nell'insieme $Ti$ le sole isoipse che interessano la specifica \textit{Nearest Zone}. 
+	\item Si esegue lo split della $nz_{i,j}$ con la prima isoipse contenuta nell'insieme $Ti$ che per comodità denoteremo come $Ti$ [1].
+	\item Rimozione dell'isoipse $Ti$ [ 1 ] usata nella split precedente, poichè essendo già stata usata per una split non potrà produrne altre.
+	\item Se $Tf \not=\emptyset$ allora esistono ancora frammenti intermedi che potrebbero essere splittati dalle rimanenti isoipse.
+	\item Si interseca il primo frammento di $Tf$, che per comodità denoteremo con $Tf$ [ 1 ], con le rimanenti isoipse $Ti$. Il risultato genera un nuovo insieme chiamato $Ci$(Current\_isoipses).
+	\item Se l'insieme $Ci \not=\emptyset$, vuol dire che il frammento $Tf$ [ 1 ] è ulteriormente splittabile in quanto intersecato da almeno una isoipse.
+	\\
+	Se invece $Ci =\emptyset$, risulta che il frammento non è attraversato da nessuna isoipse, per cui non sarà più splittabile.
+	\item Viene eseguito lo split di $Tf$ [1] con il (frammento) di isoipse $Ci$[1] ed il risultato lo aggiungo all'insieme $Tf$.
+	\item Rimozione del frammento $Tf$ [1] dall'insieme $Tf$ poichè è stato precedentemente splittato in sotto frammenti.
+	\item Rimozione della isoipse che ha prodotto lo split ovvero $Ci$ [i].
 \end{enumerate}
+\begin{enumerate}
+	\setcounter{enumi}{14}
+	\item Aggiunta del framento $Tf$ [ 1 ] all'insieme $\mathcal{ZF}_i$  poichè non risulta più splittabile.
+	\item Rimozione del frammento $Tf$ [ 1 ] dall'insieme $Tf$ essendo ormai elemento dell'insieme dei frammenti atomici non più splittabili.
+\end{enumerate}
+\begin{enumerate}
+		\setcounter{enumi}{19}
+		\item Viene restituito l'insieme $\mathcal{ZF}_i$
+\end{enumerate}
+	
 
 \begin{algorithm}[H]
 	
@@ -146,9 +154,9 @@ Per multi-split si intende il risultato descritto in figura \ref{zf}.
 	\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
 	\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 	\IncMargin{1em}
-	\Input{$b_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,$BufferRadius$}
+	\Input{$b_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,d}
 	\Output{$\mathcal{BLR}_i$} 
-	\caption{LinearRegressionFinder($b_i , \mathcal{ZF}_i , \mathcal{NZ}_i$,$BufferRadius$)}
+	\caption{BufferedLinearRegressionFinder($b_i , \mathcal{ZF}_i , \mathcal{NZ}_i$,d)}
 	\label{alg:four}
 	\BlankLine
 	\SetAlgoNoLine
@@ -160,7 +168,7 @@ Per multi-split si intende il risultato descritto in figura \ref{zf}.
 		}
 		$slope$ $\leftarrow$ \textbf{regr\_slope}($Cp$) ;\\
 		$lr_{i,j}$ $\leftarrow$ \textbf{ST\_MakeLine}($slope$,$cnz_{i,j}$) ;\\
-		$\mathcal{BLR}_i \leftarrow \mathcal{BLR}_i $ + \{(\textbf{ST\_Buffer}($lr_{i,j}$,$BufferRadius$)) \} ;\\
+		$\mathcal{BLR}_i \leftarrow \mathcal{BLR}_i $ + \{(\textbf{ST\_Buffer}($lr_{i,j}$,d)) \} ;\\
 	}
 	
 	return $\mathcal{BLR}_i;$
@@ -168,15 +176,15 @@ Per multi-split si intende il risultato descritto in figura \ref{zf}.
 \end{algorithm}
 
 \begin{enumerate}
-	\item Inizializzo l'insieme $\mathcal{BLR}_i$.
-	\item Per ogni elemento all'interno dell'insieme $\mathcal{NZ}_i$. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
-	\item Calcolo il centroide $cnz_{i,j}$.
-	\item Per ogni $zf_{i,j,t}$ contenuto in $nz_i$ (figura \ref{zf}) 
-	\item Calcolo i centroidi di $zf_{i,j,t}$ e inserisco i punti risultati in un insieme chiamato Cp(Centroid\_point) (Figura \ref{czf})
-	\item Calcolo la pendenza della retta di regressione lineare sul insieme dei punti $Cp$ con la primitiva regr\_slope. Inserisco il risultato in una variabile chiamata $slope$
-	\item Calcolo la retta $lr_{i,j}$ passante per il punto $cnz_{i,j}$ e coefficiente angolare slope.
-	\item Inserisco in $\mathcal{BLR}_i$ il buffer della retta.
-	\item Restituisco l'insieme $\mathcal{BLR}_i$
+	\item Si inizializza l'insieme $\mathcal{BLR}_i$.
+	\item Per ogni elemento all'interno dell'insieme $\mathcal{NZ}_i$ si attiva il ciclo for. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
+	\item Calcolo del centroide $cnz_{i,j}$.
+	\item Per ogni $zf_{i,j,t}$ contenuto in $nz_i$ si attiva il secondo ciclo for (figura \ref{zf}) 
+	\item Calcolo dei centroidi di $zf_{i,j,t}$ ed inserimento dei punti risultati in un insieme chiamato Cp(Centroid\_point) (Figura \ref{czf})
+	\item Calcolo della pendenza della retta di regressione lineare sull'insieme dei punti $Cp$ con la primitiva "Postgres" regr\_slope. Inserisco il risultato in una variabile chiamata $slope$
+	\item Calcolo della retta $lr_{i,j}$ passante per il punto $cnz_{i,j}$ e coefficiente angolare slope.
+	\item Aggiunta a $\mathcal{BLR}_i$ del risultato della \textit{LineBuffering} della retta $lr_{i,j}$.
+	\item Viene restituito l'insieme $\mathcal{BLR}_i$
 \end{enumerate}
 
 

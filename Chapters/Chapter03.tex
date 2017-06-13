@@ -112,15 +112,24 @@ Definiamo tali zone come \textit{LandSlideZones} (Definizione \ref{LSZ})
 
 	\item \label{LSZ} \textbf{$ \mathcal{LSZ}_i $ (LandSlideZones)} $ = \{lsz_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ con $\mathcal{LSZ}_i \subseteq \mathcal{NZ}_i$  sottoinsieme | $\mathcal{LSZ}_i$ 
 	è l'insieme delle sole $nz_{i,j}$ aventi $ls_{i,j}$ che impatano sull'edificio $b_i$. 
-	Con parole più esplicite, $lsz_{i,j}$ è la Zone della relativa alla \textit{LandSlide} $ls_{i,j}$. 
-	Tenendo presente che $\mathcal{LSZ}_i$ è un sottoinsieme di $\mathcal{NZ}_i$, l'elemento $lsz_{i,j}$  è descritta dalla medesima tupla <\textit{ID}, \textit{boundary}, \textit{$Sz_k$}> di $nz_{i,j}$ . 
+	Con parole più esplicite, $lsz_{i,j}$ è la Zone relativa alla \textit{LandSlide} $ls_{i,j}$. 
+	Tenendo presente che $\mathcal{LSZ}_i$ è un sottoinsieme di $\mathcal{NZ}_i$, l'elemento $lsz_{i,j}$  è descritto dalla medesima tupla <\textit{ID}, \textit{boundary}, \textit{$Sz_k$}> di $nz_{i,j}$ . 
 	
-	\item \label{Pexp} $Pexp_i$ \textbf{(Partial Exposures)} $ = \{pexp_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ |$pexp_{i,j}$ è il valore di exposure parziale con cui la \textit{LandSlideZone} $lsz_{i,j}$ influisce sull'edificio $b_i$. Tale valore dipende dal valore di $sz_k$ della $lsz_{i,j}$ , dall'area della zone stessa, e dal \textit{Impact Factor} $IFls_{i,j}$ della relativa \textit{LandSlide} sull'edificio $b_i$. Matematicamente $pexp_{i,j}$ è descritta come segue:
-	
-	\begin{equation}\label{eq:exposure2}
-	pexp_{i,j} =[(Area)*(Sz_{k})] * IFls_{i,j}
-	\end{equation}
-	ove "Area" e "$Sz_k$" sono la rispettiva Area e valore $Sz_k$ della relativa $lsz_{i,j}$ 
+	\item \label{Pexp} $Pexp_i$ \textbf{(Partial Exposures)} $ = \{pexp_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ |$pexp_{i,j}$ è il valore di exposure parziale con cui la \textit{LandSlideZone} $lsz_{i,j}$ influisce sull'edificio $b_i$. Tale valore dipende dal valore di $Sz_k$ della $lsz_{i,j}$ , dall'area della zone stessa, e dal \textit{Impact Factor} $IFls_{i,j}$ della relativa \textit{LandSlide} sull'edificio $b_i$. Matematicamente $pexp_{i,j}$ è descritta dalla (Equazione \ref{eq:exposure2}). Nel singolare caso in cui ($b_i \cap lsz_{i,j} \not=\emptyset$), ovvero quando si sta calcolando la  \textit{Partial Exposure} della specifica \textit{LandSlideZone} che contiene $b_i$, la relativa $pexp_{i,j}$ viene calcolata imponendo la $IFls_{i,j}=1$ (Equazione \ref{eq:exposure3})  
+	\\
+	\begin{enumerate}
+		\item[$\bullet$] Caso $b_i \cap lsz_{i,j}=\emptyset$
+		\begin{equation}\label{eq:exposure2}
+		pexp_{i,j} =[(Area)*(Sz_{k})] * IFls_{i,j}
+		\end{equation}
+		
+		\item[$\bullet$] Caso $b_i \cap lsz_{i,j} \not=\emptyset$
+		\begin{equation}\label{eq:exposure3}
+		pexp_{i,j} =(Area)*(Sz_{k})
+		\end{equation}
+	\end{enumerate}
+
+	\centering{Con $j$ fissato, "Area" e "$Sz_k$" sono la rispettiva Area e valore $Sz_k$ della relativa $lsz_{i,j}$.}
 	
 \end{enumerate}
 
@@ -129,6 +138,9 @@ Pertanto abbiamo che l'exposure totale risulta essere definita dalla seguente eq
 \begin{equation}\label{eq:exposure1}
 exp_i =\sum_{j=1}^n pexp_{i,j}
 \end{equation}
+
+\centering{ove n=$\mathbf{card}(\mathcal{LSZ}_i)$}
+\bigbreak
 
 Al Termine del metodo avremo un valore di exposure $exp_i$ per ogni edificio $b_i$ della \textit{GeoArea}
 
