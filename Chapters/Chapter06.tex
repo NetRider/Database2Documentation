@@ -451,16 +451,17 @@ Il caso della stazione di Popoli - Vittorito evidenzia che il metodo proposto ha
 \newpage 
 
 \section{Stazione di Canistro}
- Canistro: dalle prime due immagini della figura \ref{Canistro_Final} si nota che la stazione si trova in una vallata. Nell'ultima immagine si vede che le landslides che impattano sulla stazione sono 4, 2 delle quali però non sono corrette. La landslide di colore rosso è affetta degli stessi problemi di traiettoria non corretta emersi nella stazione precedente. Inoltre la landslide di colore giallo è troppo larga. Infatti nella figura \ref{WrongPerimeter} è possibile vedere che la landslide è più larga dello $nz_{i,j}$ da cui parte. Ciò accade perché la larghezza della landslides è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della landslide rispetto alla $nz_{i,j}$. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. Ruotandola la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.  Questo aspetto ha una notevole rilevanza sull'equazione \ref{eq:impactfactor} dell'impact factor. Infatti l'area dell'intersezione tra il $BuildingBuffer_i$ e la landslide $ls_{i,j}$ risulta maggiorata, contribuendo all'aumento dell'exposure e di conseguenza ad una classificazione più alta.
-	
+La stazione di Canistro si trova in una vallata (Figura \ref{Canistro_Final}).  
+
 	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.9\textwidth]{images/CanistroFinal}
-		\caption{Stazione di Canistro. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
-		\label{Canistro_Final}
-	\end{figure}
-	
-	
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/CanistroFinal}
+	\caption{Stazione di Canistro. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
+	\label{Canistro_Final}
+\end{figure}
+
+Le landslides che impattano sulla stazione sono 4 (Figure \ref{canistrolandslide1}, \ref{canistrolandslide2}, \ref{canistrolandslide3}, \ref{canistrolandslide4}). 
+
 \begin{figure}[h]
 	\hspace{0.1\linewidth}
 	\begin{minipage}[t]{0.35\linewidth}
@@ -491,9 +492,35 @@ Il caso della stazione di Popoli - Vittorito evidenzia che il metodo proposto ha
 		\centering
 		\includegraphics[width=1\textwidth]{images/CanistroLandslide4}
 		\caption{La quarta ed ultima landslide della stazione di Canistro}
-		\label{popolilandslide4}
+		\label{canistrolandslide4}
 	\end{minipage}
 \end{figure}
+
+
+Due delle quali però non sono corrette. La landslide di colore verde è affetta dagli stessi problemi di traiettoria non corretta esaminati nella stazione precedente. Inoltre la landslide di colore giallo è troppo larga. Infatti nella figura \ref{wrongperimeter} è possibile vedere che la landslide è più larga dello $nz_{i,j}$ da cui parte.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/WrongPerimeter}
+	\caption{Perimetro sbagliato.}
+	\label{wrongperimeter}
+\end{figure}
+
+Ciò accade perché la larghezza della landslide è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della landslide rispetto alla $nz_{i,j}$. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. 
+
+Ruotandola la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/LandslideRotation}
+	\caption{Perimetro sbagliato.}
+	\label{landsliderotation}
+\end{figure}
+
+
+Questo aspetto ha una notevole rilevanza sull'equazione \ref{eq:impactfactor} dell'impact factor. Infatti l'area dell'intersezione tra il $BuildingBuffer_i$ e la landslide $ls_{i,j}$ risulta maggiorata, contribuendo all'aumento dell'exposure e di conseguenza ad una classificazione più alta.
+
+
 
 \newpage
 \section{Stazione di Fontecchio}
