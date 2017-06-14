@@ -25,10 +25,10 @@ Di seguito verrà proposto lo pseudo-codice dell'algoritmo per il calcolo dell'e
 	\SetAlgoNoLine
 	$ \mathcal{NZ}_i \leftarrow$ NearestZonesFinder($\mathcal{Z},b_i$,r); \\
 	$ \mathcal{NI}_i \leftarrow$ NearestIsoipseFinder($\mathcal{I},b_i,r$); \\
-	$ \mathcal{ZF}_i \leftarrow$ ZoneFragmentFinder($b_i , \mathcal{NI}_i , \mathcal{NZ}_i $);  \\
-	$ \mathcal{BLR}_i \leftarrow $ BufferedLinearRegressionFinder($b_i,\mathcal{NZ}_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,d); \\
-	$ \mathcal{LS}_i \leftarrow $ LandSlideFinder($b_i , \mathcal{LR}_i $); \\
-	$ exp_i \leftarrow$ ContributionOfLandSlide($b_i ,l, \mathcal{LS}_i $);\\
+	$ \mathcal{ZF}_i \leftarrow$ ZoneFragmentFinder($b_i , \mathcal{NZ}_i, \mathcal{NI}_i $);  \\
+	$ \mathcal{BLR}_i \leftarrow $ BufferedLinearRegressionFinder($b_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,d); \\
+	$ \mathcal{LS}_i \leftarrow $ LandSlideFinder($b_i , \mathcal{BLR}_i, l$); \\
+	$ exp_i \leftarrow$ ContributionOfLandSlide($b_i, \mathcal{LS}_i, l$);\\
 	return $ exp_i $;
 	
 	
@@ -133,7 +133,7 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 	\item Se l'insieme $Ci \not=\emptyset$, vuol dire che il frammento $Tf$ [ 1 ] è ulteriormente splittabile in quanto intersecato da almeno una isoipse.
 	\\
 	Se invece $Ci =\emptyset$, risulta che il frammento non è attraversato da nessuna isoipse, per cui non sarà più splittabile.
-	\item Viene eseguito lo split di $Tf$ [1] con il (frammento) di isoipse $Ci$[1] ed il risultato lo aggiungo all'insieme $Tf$.
+	\item Viene eseguito lo split di $Tf$ [1] con il (frammento) di isoipse $Ci$[1] ed il risultato viene aggiunto all'insieme $Tf$.
 	\item Rimozione del frammento $Tf$ [1] dall'insieme $Tf$ poichè è stato precedentemente splittato in sotto frammenti.
 	\item Rimozione della isoipse che ha prodotto lo split ovvero $Ci$ [i].
 \end{enumerate}
@@ -180,10 +180,16 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 	\item Per ogni elemento all'interno dell'insieme $\mathcal{NZ}_i$ si attiva il ciclo for. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
 	\item Calcolo del centroide $cnz_{i,j}$.
 	\item Per ogni $zf_{i,j,t}$ contenuto in $nz_i$ si attiva il secondo ciclo for (figura \ref{zf}) 
-	\item Calcolo dei centroidi di $zf_{i,j,t}$ ed inserimento dei punti risultati in un insieme chiamato Cp(Centroid\_point) (Figura \ref{czf})
-	\item Calcolo della pendenza della retta di regressione lineare sull'insieme dei punti $Cp$ con la primitiva "Postgres" regr\_slope. Inserisco il risultato in una variabile chiamata $slope$
-	\item Calcolo della retta $lr_{i,j}$ passante per il punto $cnz_{i,j}$ e coefficiente angolare slope.
+	\item Calcolo dei centroidi di $zf_{i,j,t}$ ed inserimento dei punti risultanti in un insieme chiamato Cp(Centroid\_point) (Figura \ref{czf})
+\end{enumerate}
+\begin{enumerate}
+	\setcounter{enumi}{6}
+	\item Calcolo della pendenza della retta di regressione lineare sull'insieme dei punti $Cp$ con la primitiva di Postgres "regr\_slope" ed assegnazione del risultato alla variabile chiamata "$slope$"
+	\item Calcolo della retta $lr_{i,j}$ passante per il punto $cnz_{i,j}$ e avente coefficiente angolare pari a "$slope$".
 	\item Aggiunta a $\mathcal{BLR}_i$ del risultato della \textit{LineBuffering} della retta $lr_{i,j}$.
+\end{enumerate}
+\begin{enumerate}
+	\setcounter{enumi}{10}
 	\item Viene restituito l'insieme $\mathcal{BLR}_i$
 \end{enumerate}
 
@@ -194,21 +200,21 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 	\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
 	\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 	\IncMargin{1em}
-	\Input{$b_i, \mathcal{LR}_i $}
+	\Input{$b_i, \mathcal{BLR}_i, l$}
 	\Output{$\mathcal{LS}_i$} 
-	\caption{LandSlideFinder($b_i , \mathcal{LR}_i $) }
+	\caption{LandSlideFinder($b_i , \mathcal{BLR}_i, l$) }
 	\label{alg:four}
 	\BlankLine
 	\SetAlgoNoLine
-	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,d)} ;\\
-	$ \mathcal{LS}_i \leftarrow $ \textbf{ST\_intersection}($BuildingBuffer_i,\mathcal{LR}_i $) ;\\
+	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,l)} ;\\
+	$ \mathcal{LS}_i \leftarrow $ \textbf{ST\_intersection}($BuildingBuffer_i,\mathcal{BLR}_i $) ;\\
 	return $\mathcal{LS}_i;$
 \end{algorithm}
 
 \begin{enumerate}
-	\item Crea un buffer di raggio d intorno all'edificio $b_i$
-	\item Interseca il buffer appena creato con l'insieme  $\mathcal{LR_i}$
-	\item Ne Risulta un insieme contenente le sole $\mathcal{LR}_i$ intersecate al buffer.(figura \ref{landslides}) 
+	\item Si crea un buffer di raggio $d$ intorno all'edificio $b_i$
+	\item Si interseca il buffer appena creato con l'insieme  $\mathcal{BLR}_i$
+	\item Ne Risulta un insieme contenente le sole $\mathcal{BLR}_i$ intersecate al buffer.(figura \ref{landslides}) 
 \end{enumerate}
 
 \begin{algorithm}[H]
@@ -217,32 +223,40 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 	\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
 	\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 	\IncMargin{1em}
-	\Input{$b_i, \mathcal{LR}_i ,\mathcal{NZ}_i $}
+	\Input{$b_i, \mathcal{LS}_i ,\mathcal{LSZ}_i, d $}
 	\Output{$exp_i$} 
-	\caption{ContributionOfLandSlide($b_i , \mathcal{LS}_i $) }
+	\caption{ContributionOfLandSlide($b_i , \mathcal{LS}_i, \mathcal{LSZ}_i, l $) }
 	\label{alg:four}
 	\BlankLine
 	\SetAlgoNoLine
 	
-	$ exp_i \leftarrow$ 0 ;\\
-	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,d)} ;\\
+	$ exp_i \leftarrow$ \O ;\\
+	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$, l)} ;\\
 	\For { each $  ls_{i,j} \in \mathcal{LS}_i $ }{
-		\If{\textbf{ST\_intersects($b_i,nz_{i,j}$)}}{
-			$exp_i \leftarrow $ $compute$ $equation$ \ref{eq:exposure1} ;\\
+		\If{\textbf{ST\_intersects($b_i, lsz_{i,j}$)}}{
+			$exp_i \leftarrow $ $exp_i$ + $pexp_{i,j}$ ($equation$ \ref{eq:exposure3}) ;\\
 		}
 		\Else {
-			$exp_i \leftarrow $ $compute$ $equation$ \ref{eq:exposure2} ;\\
+			$exp_i \leftarrow $ $exp_i$ + $pexp_{i,j}$ ($equation$ \ref{eq:exposure2}) ;\\
 		}
 		
 	}
 	return $exp_i;$
 \end{algorithm}
-La funzione ContributionOfLandSlide($b_i , \mathcal{LS}_i $) somma tutti i contributi delle \textbf{Landslide} che impattano sull'edificio.
+La funzione ContributionOfLandSlide($b_i , \mathcal{LS}_i, \mathcal{LSZ}_i, l $) somma tutti i contributi delle \textbf{Landslide} che impattano sull'edificio.
 \begin{enumerate}
-	\item Inizializzo la variabile $exp_i$ 
-	\item Calcolo un buffer di raggio d intorno al building $i$-esimo
-	\item Per ogni elemento contenuto in $\mathcal{LS}_i $
-	\item Se il building è situato sull' $nz_{i,j}$ che ha generato $ls_{i,j}$ allora calcolo l'equazione \ref{eq:exposure1} scritta in precedenza.
-	\item Altrimenti calcolo l'equazione \ref{eq:exposure2} scritta in precedenza 
-	\item Restituisco il valore di exposure del building $i$-esimo
+	\item Si inizializza la variabile $exp_i$ 
+	\item Si calcola il buffer di raggio $l$ intorno al building $i$-esimo
+	\item Per ogni elemento $ls_{i,j}$ contenuto in $\mathcal{LS}_i $ si avvia il ciclo for.
+	\item Se l'intersezione tra ($ls_{i,j}$ con $b_i$)$\not=\emptyset$, allora la $ls_{i,j}$ del corrente ciclo corrisponde alla	\textit{LandSlide} ove è ubicato il building.\\
+	Altrimenti la $ls_{i,j}$ corrisponde ad una \textit{LandSlide} che non contiene il building. 
+	\item Si calcola il valore di \textit{Partial Exposure} con l'equazione \ref{eq:exposure3}) a ed il risultato viene sommato a $exp_i$.
+\end{enumerate}
+\begin{enumerate}
+	\setcounter{enumi}{7}
+	\item Si calcola il valore di \textit{Partial Exposure} con l'equazione \ref{eq:exposure2} ed il risultato viene sommato a $exp_i$. 
+\end{enumerate}
+\begin{enumerate}
+	\setcounter{enumi}{10}
+	\item Viene restituito il valore di exposure totale del building $i$-esimo
 \end{enumerate}
