@@ -391,7 +391,7 @@ Il TRN misura la percentuale di positivi che sono correttamente identificati com
 Il TNR misura la percentuale di negativi che siano correttamente identificate come tali. Possiamo osservare come anche in questo caso l'algoritmo non scende mai al disotto del 83\%. Sia per quanto riguarda la precisione che l'accuratezza l'algoritmo si comporta in linea agli altri valori. Da notare che la classe di pericolosità più alta a valori molto alti di TNR e Acc. Questo fenomeno è dovuto al fatto che nel dataset ci sono poche stazioni ad alto rischio rispetto al numero associato agli altri rischi di pericolosità.  
 
 I risultati appena discussi confermano la bontà del metodo proposto. Ciò nonostante è stata eseguita indagine approfondita sulle stazioni la cui classificazione risulta errata. L'obiettivo è comprendere se ci sono ulteriori margini di miglioramento del metodo.
-I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Fontecchio. Vengono considerati falsi negativi in quanto la loro classificazione non coincide con quella proposta dagli esperti. Inoltre queste 3 stazioni sono state scelte in quanto i rispettivi valori di exposure  si discostano di più dal valore dell'estremo superiore della classe di appartenenza proposta dagli esperti. Ad esempio la stazione di Popoli - Vittorito risulta di classe 1 secondo il giudizio degli esperti. Il metodo però la classifica come classe 2. Per questo motivo è un falso negativo. Inoltre per afferire alla classe 1 il valore di exposure deve essere inferiore a 0.2, mentre il valore restituito dal metodo è pari a 0.42. L'errore è quindi pari a 0.22 e risulta il più elevato tra tutti i falsi negativi della classe 1. Lo stesso ragionamento è stato applicato alla scelta delle altre 2 stazioni prese in considerazione. 
+I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Fontecchio. Vengono considerati falsi negativi in quanto la loro classificazione non coincide con quella proposta dagli esperti. Inoltre queste 3 stazioni sono state scelte in quanto i rispettivi valori di exposure  si discostano di più dal valore dell'estremo superiore della classe di appartenenza proposta dagli esperti. Ad esempio la stazione di Popoli - Vittorito risulta di classe bassa secondo il giudizio degli esperti. Il metodo però la classifica come classe media. Per questo motivo è un falso negativo. Inoltre per afferire alla classe bassa il valore di exposure deve essere inferiore a 0.2, mentre il valore restituito dal metodo è pari a 0.42. L'errore è quindi pari a 0.22 e risulta il più elevato tra tutti i falsi negativi della classe bassa. Lo stesso ragionamento è stato applicato alla scelta delle altre 2 stazioni prese in considerazione. 
 
 \newpage
 \section{Stazione di Popoli - Vittorito}
@@ -444,7 +444,7 @@ In altre parole da questa nearest zone possono avere origine più landslides, co
 	\label{popolimultilandslide}
 \end{figure}
 
-Per finire la landslide interseca il $BuildingBuffer_i$ e quindi contribuisce all'aumento dell'exposure della stazione. Ciò comporta il passaggio dalla classe 1 alla classe 2 e quindi ad una valutazione errata.
+Per finire la landslide interseca il $BuildingBuffer_i$ e quindi contribuisce all'aumento dell'exposure della stazione. Ciò comporta il passaggio dalla classe bassa alla media e quindi ad una valutazione errata.
 
 Il caso della stazione di Popoli - Vittorito evidenzia che il metodo proposto ha una limitazione che va presa in considerazione. Non è in grado di gestire più landslides che hanno origine dalla stessa nearest zone, ma per evitare questo inconveniente è sufficiente diminuire l'area delle zones.
 
@@ -524,10 +524,45 @@ Questo aspetto ha una notevole rilevanza sull'equazione \ref{eq:impactfactor} de
 
 \newpage
 \section{Stazione di Fontecchio}
+La stazione è molto vicina ai piedi di una montagna con pendii molto ripidi (Figura \ref{Fontecchio_Final}).
 Fontecchio: dalle prime due immagini della figura \ref{Fontechio_Final} si nota che la stazione si trova vicinissima  ai piedi di una montagna. Nell'ultima immagine è possibile osservare il numero elevato di landslides che impattano sulla stazione. A differenza di Popoli-Vittorito e Canistro, la stazione di Fontecchio è un falso negativo che il metodo classifica con una classe più bassa rispetto a quella proposta dagli esperti. In questo caso le landslides hanno una traiettoria corretta e dimensione vicinissima a quella della $nz_{i,j}$ da cui partono. Per questo motivo la classificazione errata è legata al dataset, ovvero gli $sz_k$ associati alle $nz_{i,j}$ hanno valori troppo bassi.
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.9\textwidth]{images/FontecchioFinal}
-		\caption{Da scrivere}
-		\label{Fontechio_Final}
+		\caption{Stazione di Fontecchio. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
+		\label{Fontecchio_Final}
+	\end{figure}
+
+	\begin{figure}[h]
+		\hspace{0.1\linewidth}
+		\begin{minipage}[t]{0.35\linewidth}
+			\centering
+			\includegraphics[width=1\textwidth]{images/FontecchioLandslide1}
+			\caption{La prima landslide della stazione di Fontecchio.}
+			\label{fontecchiolandslide1}
+		\end{minipage}
+		\hspace{0.1\linewidth}
+		\begin{minipage}[t]{0.35\linewidth}
+			\centering
+			\includegraphics[width=1\textwidth]{images/FontecchioLandslide2}
+			\caption{La seconda landslide della stazione di Fontecchio.}
+			\label{fontecchiolandslide2}
+		\end{minipage}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\hspace{0.1\linewidth}
+		\begin{minipage}[t]{0.35\linewidth}
+			\centering
+			\includegraphics[width=1\textwidth]{images/FontecchioLandslide3}
+			\caption{La terza landslide della stazione di Fontecchio.}
+			\label{fontecchiolandslide3}
+		\end{minipage}
+		\hspace{0.1\linewidth}
+		\begin{minipage}[t]{0.35\linewidth}
+			\centering
+			\includegraphics[width=1\textwidth]{images/FontecchioLandslide4}
+			\caption{La quarta ed ultima landslide della stazione di Fontecchi.}
+			\label{fontecchiolandslide4}
+		\end{minipage}
 	\end{figure}
