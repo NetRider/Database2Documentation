@@ -524,45 +524,64 @@ Questo aspetto ha una notevole rilevanza sull'equazione \ref{eq:impactfactor} de
 
 \newpage
 \section{Stazione di Fontecchio}
-La stazione è molto vicina ai piedi di una montagna con pendii molto ripidi (Figura \ref{Fontecchio_Final}).
-Fontecchio: dalle prime due immagini della figura \ref{Fontechio_Final} si nota che la stazione si trova vicinissima  ai piedi di una montagna. Nell'ultima immagine è possibile osservare il numero elevato di landslides che impattano sulla stazione. A differenza di Popoli-Vittorito e Canistro, la stazione di Fontecchio è un falso negativo che il metodo classifica con una classe più bassa rispetto a quella proposta dagli esperti. In questo caso le landslides hanno una traiettoria corretta e dimensione vicinissima a quella della $nz_{i,j}$ da cui partono. Per questo motivo la classificazione errata è legata al dataset, ovvero gli $sz_k$ associati alle $nz_{i,j}$ hanno valori troppo bassi.
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.9\textwidth]{images/FontecchioFinal}
-		\caption{Stazione di Fontecchio. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
-		\label{Fontecchio_Final}
-	\end{figure}
+La stazione è molto vicina ai piedi di una montagna con pendii molto ripidi (Figura \ref{Fontecchio_Final}).  
 
 	\begin{figure}[h]
-		\hspace{0.1\linewidth}
-		\begin{minipage}[t]{0.35\linewidth}
-			\centering
-			\includegraphics[width=1\textwidth]{images/FontecchioLandslide1}
-			\caption{La prima landslide della stazione di Fontecchio.}
-			\label{fontecchiolandslide1}
-		\end{minipage}
-		\hspace{0.1\linewidth}
-		\begin{minipage}[t]{0.35\linewidth}
-			\centering
-			\includegraphics[width=1\textwidth]{images/FontecchioLandslide2}
-			\caption{La seconda landslide della stazione di Fontecchio.}
-			\label{fontecchiolandslide2}
-		\end{minipage}
-	\end{figure}
-	
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/FontecchioFinal}
+	\caption{Stazione di Fontecchio. Partendo dalla prima immagine a sinistra  troviamo la vista dall'alto, di profilo e frontale.}
+	\label{Fontecchio_Final}
+\end{figure}
+
+A differenza di Popoli-Vittorito e Canistro, la stazione di Fontecchio è un falso negativo che il metodo classifica con una classe più bassa rispetto a quella proposta dagli esperti. Le landslides che impattano sulla stazione sono 4 (Figure \ref{fontecchiolandslide1}, \ref{fontecchiolandslide2}, \ref{fontecchiolandslide3}, \ref{fontecchiolandslide4}).
+
 	\begin{figure}[h]
-		\hspace{0.1\linewidth}
-		\begin{minipage}[t]{0.35\linewidth}
-			\centering
-			\includegraphics[width=1\textwidth]{images/FontecchioLandslide3}
-			\caption{La terza landslide della stazione di Fontecchio.}
-			\label{fontecchiolandslide3}
-		\end{minipage}
-		\hspace{0.1\linewidth}
-		\begin{minipage}[t]{0.35\linewidth}
-			\centering
-			\includegraphics[width=1\textwidth]{images/FontecchioLandslide4}
-			\caption{La quarta ed ultima landslide della stazione di Fontecchi.}
-			\label{fontecchiolandslide4}
-		\end{minipage}
-	\end{figure}
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.35\linewidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/FontecchioLandslide1}
+		\caption{La prima landslide della stazione di Fontecchio.}
+		\label{fontecchiolandslide1}
+	\end{minipage}
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.35\linewidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/FontecchioLandslide2}
+		\caption{La seconda landslide della stazione di Fontecchio.}
+		\label{fontecchiolandslide2}
+	\end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.35\linewidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/FontecchioLandslide3}
+		\caption{La terza landslide della stazione di Fontecchio.}
+		\label{fontecchiolandslide3}
+	\end{minipage}
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.35\linewidth}
+		\centering
+		\includegraphics[width=1\textwidth]{images/FontecchioLandslide4}
+		\caption{La quarta ed ultima landslide della stazione di Fontecchi.}
+		\label{fontecchiolandslide4}
+	\end{minipage}
+\end{figure}
+
+In questo caso le landslides hanno una traiettoria corretta. La landslide in figura \ref{fontecchiolandslide4} non contiene per intero la nearest zone da cui ha origine, motivo per cui dovrebbe avere una larghezza maggiore. Ciò nonostante, in questo caso, la landslide copre per intero il $BuildingBuffer_i$ e quindi il suo contributo all'exposure è corretto. A questo punto si può ricondurre la  classificazione errata all'insieme \textit{Z} in quanto gli $sz_k$ associati alle $nz_{i,j}$ hanno dei valori troppo bassi (Tabella \ref{tab:szk_fontecchio}). Infatti il valore medio degli è pari a 0.2949, che paragonato a quello delle  stazioni più ad alto rischio come  Sant'Ilario (0.3946), Aversa (0.4605) e Pettorano sul gizio (0.3739) è di gran lunga inferiore.
+
+\begin{table}[h]
+	\centering
+	\caption{$Sz_k$ delle nearest zones della stazione di Fontecchio.}
+	\label{tab:szk_fontecchio}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		\multicolumn{1}{|c|}{\cellcolor{gray!50} Id zone} & {\cellcolor{gray!50} $Sz_k$} \\ \hline
+		8074 & 0.2081     \\ \hline
+		8222  & 0.2158   \\ \hline
+		2358 &  0.0885  \\ \hline
+		8135  &  0.3689       \\ \hline
+		7952  &  0.5936      \\ \hline
+	\end{tabular}
+\end{table}
