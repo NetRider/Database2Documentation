@@ -146,59 +146,74 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 		\setcounter{enumi}{19}
 		\item Viene restituito l'insieme $\mathcal{ZF}_i$
 \end{enumerate}
-	Per agevolare la comprensione dell'algoritmo viene ora proposto un esempio riassuntivo. Supponiamo 
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo1}
-		\caption{}
-		\label{pseudo1}
-	\end{figure}
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo2}
-		\caption{}
-		\label{pseudo2}
-	\end{figure}
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo3}
-		\caption{}
-		\label{pseudo3}
-	\end{figure}
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo4}
-		\caption{}
-		\label{pseudo4}
-	\end{figure}
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo5}
-		\caption{}
-		\label{pseudo5}
-	\end{figure}
-	
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo6}
-		\caption{}
-		\label{pseudo6}
-	\end{figure}
+
+Per agevolare la comprensione dell'algoritmo viene ora proposto un esempio 
+illustrativo. Supponiamo di avere una nearest zone e delle nearest isoipses come in figura \ref{pseudo1}. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo1}
+	\caption{}
+	\label{pseudo1}
+\end{figure}
+
+Eseguendo la riga 4 dello pseudo codice  all'array $Ti$ verranno aggiunte le $ni_{i,o}$ che intersecano la $nz_{i,j}$ (di colore arancione) $Ti_1$, $Ti_2$, $Ti_3$ (di colore rosso). 
+A questo punto viene eseguita la riga 5 che splitta la $nz_{i,j}$ con la prima isoipse dell'array $Ti$. Il risultato sono due geometrie che chiameremo $Tf_1$ e $Tf_2$ (Figura \ref{pseudo2}) che vengono aggiunte nell'insieme $Tf$. La nearest isoipse $Ti_1$ è stata utilizzata e quindi viene rimossa dall'array.
 	
 \begin{figure}[h]
-		\centering
-		\includegraphics[width=0.7\textwidth]{images/pseudo7}
-		\caption{}
-		\label{pseudo7}
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo2}
+	\caption{}
+	\label{pseudo2}
 \end{figure}
+
+A questo punto si verifica, con la condizione del ciclo while alla riga 7, se l'insieme $Tf$ è non vuoto. In questo esempio la condizione è verificata e quindi si entra nel ciclo. Il primo elemento dell'array $Tf$ è $Tf_1$ che non interseca nessuna $ni_{i,o}$ dell'array $Ti$ (Figura \ref{pseudo3}). Quindi l'array $Ci$ della riga 8 è vuoto. Ciò comporta che nell'istruzione succesiva la condizione $Ci$ "non vuoto" non è verificata. Si esegue quindi il ramo else della riga 14. Il primo elemento di $Tf$ viene spostato dall'insieme $ZF_i$.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo3}
+	\caption{}
+	\label{pseudo3}
+\end{figure}
+
+Si ritorna quindi alla riga 7. La condizione del while è verificata in quanto  $Tf$ contiene $Ti_2$. Quest'ultima viene interseca sia $Ti_2$ e $Ti_3$ è quindi l'array $Ci$ conterrà i due elementi (riga 8). Di conseguenza la condizione sulla riga 9 è verificata e quindi $Tf_2$ viene splittato con il primo elemento di $Ci$ ovvero $Ti_2$. Vengono create quindi due nuove geometrie $Tf_3$ e $Tf_4$ (Figura \ref{pseudo4}) e vengono aggiunte all'array $Tf$. Da quest'ultimo viene tolta $Tf_2$. Da $Ti$ viene rimossa $Ti_2$.
 	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo4}
+	\caption{}
+	\label{pseudo4}
+\end{figure}
+
+Si ritorna alla riga 7. $Tf$ non è vuoto (contiene $Tf_3$ e $Tf_4$). $Tf_3$ non interseca con $Ti_3$ (Figura \ref{pseudo5}) motivo per cui $Ci$ è vuoto. Quindi viene eseguito il ramo else dell'if alla riga 14. $Tf_3$ viene aggiunto all'array $Zf_i$ e all'istruzione successiva rimosso dall'array $Tf$.
 	
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo5}
+	\caption{}
+	\label{pseudo5}
+\end{figure}
+
+Di nuovo si torna alla riga 7. $Tf$ non è vuoto, contiene $Tf_4$ che interseca con la $Ti_3$. Quindi $Ci$ è non vuoto e $Tf_4$ viene splittato con $Ti_3$. Il risultato dell'operazione, le geometrie $Tf_5$ e $Tf_6$, vengono aggiunte all'array $Tf$ (Figura \ref{pseudo6}). $Tf_4$ viene rimosso da $Tf$ e $Ti_3$ da $Ti$. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo6}
+	\caption{}
+	\label{pseudo6}
+\end{figure}
+
+Arrivato a questo punto l'array $Ti$ non ha più elementi. Quindi l'intersezione tra $Tf_5$ ( e successivamente $Tf_6$ ) con $Ti$ alla riga 8 risulterà nulla. Per questo motivo $Ci$ è vuoto e viene eseguita la riga 14 (Figura \ref{pseudo7}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/pseudo7}
+	\caption{}
+	\label{pseudo7}
+\end{figure}
+
+Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non è più verificata. L'algoritmo termina è ritorna l'array $Zf_i$ contenete i zone fragments.
+
 \newpage
 	
 
