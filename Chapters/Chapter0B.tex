@@ -2,16 +2,6 @@
 
 \chapter{UDF}
 
-In seguito al popolamento della base di dati, sono state definite le User Defined Function (da qui in
-avanti indicate con l’acronimo UDF), che eseguono automaticamente il calcolo del valore di
-exposure per le stazioni ferroviarie. Tali UDF sono state realizzate nel linguaggio PL/pgSQL offerto
-da PostgreSQL, sfruttando le funzioni fornite dall’estensione spaziale PostGIS. La logica delle
-UDF, che si andrà a mostrare di seguito, realizza l’implementazione del metodo in (Di Felice et al.,
-2016), già esposto nel paragrafo 3.2. Supponendo che vi siano N stazioni ferroviarie, vengono
-eseguiti N esperimenti, ognuno dei quali calcola il valore di exposure per ogni singola stazione. Al
-termine di tale ciclo, si avrà come risultato la tabella experiment_sb contenente N stazioni, ad
-ognuna delle quali sarà associato il relativo valore di exposure exp_bi. 
-
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -38,104 +28,143 @@ ognuna delle quali sarà associato il relativo valore di exposure exp_bi.
 
 \lstset{style=mystyle}
 
+In seguito sono state definite le User Defined Function (da qui in avanti indicate con l’acronimo UDF), che eseguono automaticamente il calcolo del valore di exposure per le stazioni ferroviarie. Tali UDF sono state realizzate nel linguaggio PL/pgSQL offerto da PostgreSQL, sfruttando le funzioni fornite dall’estensione spaziale PostGIS.
+
+\section{\_\_exposure}
+\textbf{INPUT}: \textit{id\_building} corrisponde all'ID del $b_i$ \newline
+\textbf{OUTPUT}: \textit{void}. \newline
+\textbf{COMMENTO}: Rappresenta la main function. Esegue in successione sulla $b_i$ le UDF necessarie al calcolo dell'exposure. Crea la tabella exposure\_stations dove verranno salvato il valore dell'exposure.   
 
 \begin{lstlisting}[language=SQL]
-CREATE OR REPLACE function "__exposure"(id_point integer) returns void
+create or REPLACE function "__exposure"(id_building integer) returns void
 LANGUAGE plpgsql
 AS $$
 DECLARE
 point RECORD;
+exposure RECORD;
 BEGIN
 
 DROP TABLE IF EXISTS nearestzones;
 DROP TABLE IF EXISTS nearestisoipses;
 DROP TABLE IF EXISTS zonefragments;
 DROP TABLE IF EXISTS linearregression;
-DROP TABLE IF EXISTS hazardzones;
 DROP TABLE IF EXISTS landslide;
-TRUNCATE TABLE centroid_points;
-TRUNCATE TABLE rect;
+DROP TABLE IF EXISTS landslidezones;
+DROP TABLE IF EXISTS exposure_stations;
+
+CREATE TABLE IF NOT EXISTS exposure_stations(
+id SERIAL PRIMARY KEY ,
+Building_gid INTEGER,
+name varchar,
+geom geometry,
+exposure FLOAT
+);
 
 DROP TABLE IF EXISTS points;
 CREATE TABLE points AS (SELECT * FROM railway_stations);
-CREATE TABLE points AS (SELECT * FROM route_points);
 
-FOR point IN SELECT * FROM points where gid=id_point LOOP
+
+FOR point IN SELECT * FROM points where gid=id_building LOOP
 PERFORM __nearestzonefinder(point.gid,800);
 PERFORM __nearestisoipsefinder(point.gid,850);
 PERFORM __zonefragmentsfinder();
-PERFORM __linearregressionfinder(point.gid, 6);
+PERFORM __linearregressionfinder(point.gid,2.5);
 PERFORM __landslidefinder(point.gid,50);
 PERFORM __contributionoflandslide(point.gid,50);
+
+SELECT * FROM exposure LIMIT 1 INTO exposure;
+INSERT INTO exposure_stations (Building_gid, name, geom, exposure) VALUES (exposure.id, exposure.name, exposure.geom, exposure.exposure);
 END LOOP;
 
+PERFORM __cleartables();
 END;
 $$;
 \end{lstlisting}
 
+\section{\_\_NearestZoneFinder}
+\textbf{INPUT}: 
+\begin{enumerate}
+	\item \textit{id\_building} è l'ID del $b_i$;
+	\item \textit{r} è il raggio della $HazardArea_i$.
+\end{enumerate}
+\textbf{OUTPUT}: \textit{void}. \newline
+\textbf{COMMENTO}: trova tutte le zone che si trovano all'interno della $HazardArea_i$ di $b_i$. I risultati vengo salvati all'interno della tabella NearestZones.
 
 \begin{lstlisting}[language=SQL]
-CREATE OR REPLACE FUNCTION __NearestZoneFinder (stationid integer, r integer) RETURNS void
+CREATE OR REPLACE FUNCTION __NearestZoneFinder (id_building integer, r integer) RETURNS void
 LANGUAGE plpgsql
 AS $$
 DECLARE
-station RECORD;
-particella RECORD;
+building RECORD;
+zone RECORD;
 hazardArea geometry;
-
 BEGIN
 
 CREATE TEMP TABLE hotspottmp ( id serial PRIMARY KEY, id_station INTEGER, geom Geometry, szk FLOAT  ) ON COMMIT DROP;
-SELECT * INTO station FROM points where gid = stationid;
+SELECT * INTO building FROM points where gid = id_building;
 
-hazardArea := (SELECT ST_Buffer(station.geom, r));
+hazardArea := (SELECT ST_Buffer(building.geom, r));
 
-FOR particella IN SELECT * FROM dataset LOOP
-IF ST_Intersects(hazardArea, particella.geom) THEN
-INSERT INTO hotspottmp (id_station, geom, szk) VALUES(station.gid, ST_Intersection(hazardArea, particella.geom), particella.szk );
+FOR zone IN SELECT * FROM dataset LOOP
+IF ST_Intersects(hazardArea, zone.geom) THEN
+INSERT INTO hotspottmp (id_station, geom, szk) VALUES(building.gid, ST_Intersection(hazardArea, zone.geom), zone.szk );
 END IF;
 END LOOP;
 CREATE TABLE NearestZones AS SELECT * FROM hotspottmp;
 DROP TABLE hotspottmp;
 END;
 $$
-
 \end{lstlisting}
+
+\section{\_\_NearestIsoipseFinder}
+
+\textbf{INPUT}: 
+\begin{enumerate}
+	\item \textit{id\_building} è l'ID del $b_i$;
+	\item \textit{dr} il raggio leggermente più grande rispetto all'$HazardArea_i$.
+\end{enumerate}
+\textbf{OUTPUT}: \textit{void}. \newline
+\textbf{COMMENTO}: trova tutte le $ni_{i,o}$ e le inserisce nella tabella \textit{NearestIsoipses}. L'$HazardArea_i$ ha, in questo unico caso, un raggio leggermente più grande. Ciò è necessario per ottenere che le $ni_{i,o}$ escano dal perimetro delle $nz_{i,j}$ così che la UDF successiva (\textit{\_\_ZoneFragmentsFinder}) esegua correttamente la funzione ST\_SPLIT(). 
 
 \begin{lstlisting}[language=SQL]
-CREATE OR REPLACE FUNCTION __NearestIsoipseFinder (stationid integer,dr integer) RETURNS void
-LANGUAGE plpgsql
-AS $$
-DECLARE
-station RECORD;
-hazardArea geometry;
-BEGIN
-
-CREATE TEMP TABLE tempIsoipse (
-id SERIAL PRIMARY KEY ,
-geom GEOMETRY,
-elevation INTEGER
-);
-
-SELECT * INTO station FROM points WHERE gid=stationid;
-hazardArea := (SELECT ST_Buffer(station.geom, dr));
-
---- intersezione tra hazardArea e Isoipse
-INSERT INTO tempIsoipse (elevation,geom) (SELECT isoipse_abruzzo_25.elevation,st_intersection(isoipse_abruzzo_25.geom,hazardArea) as geom
-FROM isoipse_abruzzo_25 WHERE st_intersects(isoipse_abruzzo_25.geom,hazardArea));
-
---- estrazione da multilineString a linestring
-
-INSERT INTO tempIsoipse(elevation,geom) (SELECT tempIsoipse.elevation,(st_dump(tempIsoipse.geom)).geom FROM tempIsoipse WHERE st_geometrytype(tempIsoipse.geom) = 'ST_MultiLineString') ;
-INSERT INTO tempIsoipse(elevation,geom) (SELECT tempIsoipse.elevation, st_linemerge(tempIsoipse.geom) FROM tempIsoipse WHERE st_geometrytype(tempIsoipse.geom) = 'ST_MultiLineString');
-DELETE FROM tempIsoipse WHERE st_geometrytype(tempIsoipse.geom) = 'ST_MultiLineString';
-CREATE TABLE NearestIsoipses AS SELECT * FROM tempIsoipse;
-
-DROP TABLE tempIsoipse;
-
-END;
-$$
+	CREATE OR REPLACE FUNCTION __NearestIsoipseFinder (id_building integer, dr integer) RETURNS void
+	LANGUAGE plpgsql
+	AS $$
+	DECLARE
+	building RECORD;
+	hazardArea geometry;
+	BEGIN
+	
+	CREATE TEMP TABLE tempIsoipse (
+	id SERIAL PRIMARY KEY ,
+	geom GEOMETRY,
+	elevation INTEGER
+	);
+	
+	SELECT * INTO building FROM points WHERE gid=id_building;
+	hazardArea := (SELECT ST_Buffer(building.geom, dr));
+	
+	--- intersezione tra hazardArea e Isoipse
+	INSERT INTO tempIsoipse (elevation,geom) (SELECT isoipse_abruzzo_25.elevation,st_intersection(isoipse_abruzzo_25.geom,hazardArea) as geom
+	FROM isoipse_abruzzo_25 WHERE st_intersects(isoipse_abruzzo_25.geom,hazardArea));
+	
+	--- estrazione da multilineString a linestring
+	
+	INSERT INTO tempIsoipse(elevation,geom) (SELECT tempIsoipse.elevation,(st_dump(tempIsoipse.geom)).geom FROM tempIsoipse WHERE st_geometrytype(tempIsoipse.geom) = 'ST_MultiLineString') ;
+	INSERT INTO tempIsoipse(elevation,geom) (SELECT tempIsoipse.elevation, st_linemerge(tempIsoipse.geom) FROM tempIsoipse WHERE st_geometrytype(tempIsoipse.geom) = 'ST_MultiLineString');
+	DELETE FROM tempIsoipse WHERE st_geometrytype(tempIsoipse.geom) = 'ST_MultiLineString';
+	
+	CREATE TABLE NearestIsoipses AS SELECT * FROM tempIsoipse;
+	
+	DROP TABLE tempIsoipse;
+	END;
+	$$
 \end{lstlisting}
+
+\section{\_\_ZoneFragmentsFinder}
+\textbf{INPUT}: non ci sono parametri in ingresso. \newline
+\textbf{OUTPUT}: \textit{void}. \newline
+\textbf{COMMENTO}: suddivide tutti le $nz_{i,j}$ di $b_i$ in zone fragments. I risultati vengono inseriti nella tabella \textit{ZoneFragments}.
 
 \begin{lstlisting}[language=SQL]
 CREATE OR REPLACE FUNCTION __ZoneFragmentsFinder () RETURNS void
@@ -143,80 +172,89 @@ LANGUAGE plpgsql
 AS $$
 
 DECLARE
-NearestZone RECORD;
-PrimaIsoipse RECORD ;
-TempFragment RECORD;
-CurrentIsoipse RECORD;
-zoneCorrente RECORD;
+	NearestZone RECORD;
+	PrimaIsoipse RECORD ;
+	TempFragment RECORD;
+	CurrentIsoipse RECORD;
+	zoneCorrente RECORD;
 
 BEGIN
 
 CREATE TABLE ZoneFragments(
-id SERIAL PRIMARY KEY ,
-geom GEOMETRY,
-id_zone INTEGER
+	id SERIAL PRIMARY KEY ,
+	geom GEOMETRY,
+	id_zone INTEGER
 );
 
 --- Prendo un primo poligono e interseco con le curve di livello (curve risultanti dall'intersezione con il buffer)
 
 FOR NearestZone IN (SELECT * FROM  nearestzones) LOOP
 
-CREATE TEMP TABLE TempIsoipses(
-id INTEGER,
-geom GEOMETRY,
-elevation INTEGER
-);
-CREATE TEMP TABLE TempFragments(
-id SERIAL PRIMARY KEY ,
-geom GEOMETRY,
-id_zone INTEGER
-);
-CREATE TEMP TABLE CurrentIsoipses(
-id INTEGER ,
-geom GEOMETRY,
-elevation INTEGER
-);
+	CREATE TEMP TABLE TempIsoipses(
+		id INTEGER,
+		geom GEOMETRY,
+		elevation INTEGER
+	);
+	CREATE TEMP TABLE TempFragments(
+		id SERIAL PRIMARY KEY ,
+		geom GEOMETRY,
+		id_zone INTEGER
+	);
+	CREATE TEMP TABLE CurrentIsoipses(
+		id INTEGER ,
+		geom GEOMETRY,
+		elevation INTEGER
+	);
 
-SELECT * INTO zoneCorrente FROM nearestzones WHERE id = NearestZone.id;
-INSERT INTO TempIsoipses(id,geom,elevation) (SELECT nearestisoipses.id,(st_dump(st_collectionextract(st_intersection(nearestisoipses.geom,zoneCorrente.geom),2))).geom as geom,nearestisoipses.elevation FROM nearestisoipses);
+	SELECT * INTO zoneCorrente FROM nearestzones WHERE id = NearestZone.id;
+	INSERT INTO TempIsoipses(id,geom,elevation) (SELECT nearestisoipses.id,(st_dump(st_collectionextract(st_intersection(nearestisoipses.geom,zoneCorrente.geom),2))).geom as geom,nearestisoipses.elevation FROM nearestisoipses);
 
---- Prima split (popolamento temp fragment)
-SELECT * INTO PrimaIsoipse FROM (SELECT * FROM nearestisoipses WHERE (SELECT id From TempIsoipses LIMIT 1) = nearestisoipses.id) as prima;
-INSERT INTO TempFragments(geom,id_zone) (SELECT (st_dump(st_collectionextract(st_split(zoneCorrente.geom,PrimaIsoipse.geom),3))).geom , zoneCorrente.id);
---- delete isoipse
-DELETE FROM TempIsoipses WHERE TempIsoipses.id = PrimaIsoipse.id;
+	--- Prima split (popolamento temp fragment)
+	SELECT * INTO PrimaIsoipse FROM (SELECT * FROM nearestisoipses WHERE (SELECT id From TempIsoipses LIMIT 1) = nearestisoipses.id) as prima;
+	
+	INSERT INTO TempFragments(geom,id_zone) (SELECT (st_dump(st_collectionextract(st_split(zoneCorrente.geom,PrimaIsoipse.geom),3))).geom , zoneCorrente.id);
+	
+	--- delete isoipse
+	DELETE FROM TempIsoipses WHERE TempIsoipses.id = PrimaIsoipse.id;
 
-WHILE (SELECT count(*) FROM TempFragments) > 0 LOOP
+	WHILE (SELECT count(*) FROM TempFragments) > 0 LOOP
+		SELECT * INTO TempFragment FROM TempFragments LIMIT 1;
+		
+		INSERT INTO CurrentIsoipses(id,geom,elevation) (SELECT TempIsoipses.id,(st_dump(st_collectionextract(st_intersection(TempIsoipses.geom,TempFragment.geom),2))).geom as geom,TempIsoipses.elevation FROM TempIsoipses);
+		
+			IF (SELECT count(*) FROM CurrentIsoipses) > 0 THEN
+				
+				SELECT * INTO CurrentIsoipse FROM (SELECT * FROM nearestisoipses WHERE (SELECT id From CurrentIsoipses LIMIT 1) = nearestisoipses.id) as currentiso;
+				
+				INSERT INTO TempFragments(geom,id_zone) (SELECT (st_dump(st_collectionextract(st_split(TempFragment.geom,CurrentIsoipse.geom),3))).geom, zoneCorrente.id);
+				
+				DELETE FROM TempIsoipses WHERE TempIsoipses.id = CurrentIsoipse.id;
+				DELETE FROM TempFragments WHERE TempFragments.id = TempFragment.id;
+			ELSE
+				INSERT INTO ZoneFragments(geom,id_zone) VALUES (TempFragment.geom,TempFragment.id_zone);
+				DELETE FROM TempFragments WHERE TempFragments.id = TempFragment.id;
+			END IF;
+		TRUNCATE TABLE CurrentIsoipses;
+	END LOOP;
 
-SELECT * INTO TempFragment FROM TempFragments LIMIT 1;
-INSERT INTO CurrentIsoipses(id,geom,elevation) (SELECT TempIsoipses.id,(st_dump(st_collectionextract(st_intersection(TempIsoipses.geom,TempFragment.geom),2))).geom as geom,TempIsoipses.elevation FROM TempIsoipses);
-IF (SELECT count(*) FROM CurrentIsoipses) > 0 THEN
-SELECT * INTO CurrentIsoipse FROM (SELECT * FROM nearestisoipses WHERE (SELECT id From CurrentIsoipses LIMIT 1) = nearestisoipses.id) as currentiso;
-INSERT INTO TempFragments(geom,id_zone) (SELECT (st_dump(st_collectionextract(st_split(TempFragment.geom,CurrentIsoipse.geom),3))).geom, zoneCorrente.id);
-DELETE FROM TempIsoipses WHERE TempIsoipses.id = CurrentIsoipse.id;
-DELETE FROM TempFragments WHERE TempFragments.id = TempFragment.id;
-ELSE
-INSERT INTO ZoneFragments(geom,id_zone) VALUES (TempFragment.geom,TempFragment.id_zone);
-DELETE FROM TempFragments WHERE TempFragments.id = TempFragment.id;
-END IF;
-TRUNCATE TABLE CurrentIsoipses;
+	DROP TABLE IF EXISTS TempIsoipses;
+	DROP TABLE IF EXISTS TempFragments;
+	DROP TABLE IF EXISTS CurrentIsoipses;
+	
 END LOOP;
 
-DROP TABLE IF EXISTS TempIsoipses;
-DROP TABLE IF EXISTS TempFragments;
-DROP TABLE IF EXISTS CurrentIsoipses;
-
-END LOOP ;
-
 DELETE FROM ZoneFragments WHERE st_area(ZoneFragments.geom) < 100;
-
-
 END;
 $$
 \end{lstlisting}
 
+\section{\_\_linearregressionfinder}
+\textbf{INPUT}: non ci sono parametri in ingresso. \newline
+\textbf{OUTPUT}: \textit{void}. \newline
+\textbf{COMMENTO}: suddivide tutti le $nz_{i,j}$ di $b_i$ in zone fragments. I risultati vengono inseriti nella tabella \textit{ZoneFragments}.
+
 \begin{lstlisting}[language=SQL]
-CREATE OR REPLACE function "__linearregressionfinder"(stationid integer, pdiv double precision) returns void
+create function "__linearregressionfinder"(id_building integer, pdiv double precision) returns void
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -236,7 +274,6 @@ id_zone INTEGER
 );
 
 FOR id_zone_var IN SELECT id FROM nearestzones LOOP
-
 
 DROP TABLE IF EXISTS point;
 DROP TABLE IF EXISTS Centroid_zone;
@@ -265,8 +302,6 @@ centroid_fragments geometry
 );
 
 INSERT INTO centroid_zoneFragments(centroid_fragments) SELECT st_centroid(geom) FROM zonefragments WHERE id_zone = id_zone_var;
-INSERT INTO centroid_points(centroid_fragments, id_zone)  SELECT st_centroid(geom), id_zone FROM zonefragments WHERE id_zone = id_zone_var;
-
 CREATE TABLE slope_table AS (SELECT st_x(centroid_zoneFragments.centroid_fragments) as x_slope , st_y(centroid_zoneFragments.centroid_fragments) AS y_slope FROM centroid_zoneFragments);
 SELECT regr_slope(slope_table.y_slope, slope_table.x_slope) INTO slope FROM slope_table;
 
@@ -286,12 +321,10 @@ INSERT INTO point SELECT st_makepoint(x,y);
 
 IF (SELECT count(centroid_zoneFragments.centroid_fragments) FROM centroid_zoneFragments) > 3 THEN
 INSERT INTO LinearRegression(geom, id_zone) VALUES ((SELECT st_buffer(st_makeline(st_setsrid(point.geom,3004)), line_buffer_size) FROM point), id_zone_var);
-INSERT INTO rect(geom, id_zone) VALUES((SELECT st_makeline(st_setsrid(point.geom,3004)) FROM point), id_zone_var);
 END IF;
 END LOOP;
 END;
 $$;
-
 \end{lstlisting}
 
 \begin{lstlisting}[language=SQL]
