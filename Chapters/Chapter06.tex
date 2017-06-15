@@ -2,48 +2,27 @@
 
 \chapter{Validazione e valutazione del metodo} % Chapter title
 Per poter ritenere che il metodo proposto sia effettivamente valido, i risultati prodotti dovranno essere confrontati con dati noti ed attendibili. Questo confronto ci permetterà attraverso delle metriche ben precise di verificare la conformità dei valori calcolati da quelli preconosciuti.
-I principali metodi di validazione, sfruttano una classificazione dei risultati in classi di appartenenza. Nel caso specifico queste classi rappresentano il livello di pericolosità dei versanti montuosi/collinari rispetto all'edificio preso in esame.
+I principali metodi di validazione sfruttano una classificazione dei risultati in classi di appartenenza. Nel caso specifico queste classi rappresentano il livello di pericolosità dei versanti montuosi/collinari rispetto all'edificio preso in esame.
 Maggiore sarà la pericolosità associata all'edificio, maggiore sarà la possibilità che esso sia coinvolto in un fenomeno franoso.
-
-\begin{table}[h]
-	\centering
-	\renewcommand{\arraystretch}{1.2}
-	\begin{tabular}{|C{8cm}|}
-		\hline
-		
-		\rowcolor[HTML]{FE0000} 
-		{\large Pericolosità alta}                                       \\ \hline 
-		\rowcolor[HTML]{FFFE65} 
-		{\large Pericolosità media} \\ \hline
-		\rowcolor[HTML]{32CB00} 
-		{\large Pericolosità bassa}                                               \\ \hline
-	\end{tabular}
-	\caption{In Tabella sono rappresentate le classi di pericolosità che possono essere associate ad un edificio}
-	\label{tab:FasceRischio}
-\end{table}
-
-
-Essendo i risultati del metodo espressi in un intervallo di valori continui essi andranno mappati all'interno di classi. La problematica nello stabilire il numero di classi necessario a rendere i risultati espressivi non è da sottovalutare in quanto, un'eccessiva divisione in classi, porterebbe a frammentare i risultati in modo sproporzionato, commettendo errori non dovuti al metodo di calcolo ma alla dimensione ridotta degli intervalli su cui sono costruite le classi. Contrariamente, una divisione in poche classi abbasserebbe l'espressività del metodo stesso nel considerare le differenze territoriali importantissime per una valutazione corretta dell'esposizione al rischio.
-Si è deciso quindi che tre classi sarebbero state il giusto compromesso, consentendoci quindi di distinguere le stazioni a più alto rischio con quelle a rischio più basso non dimenticandoci di quelle intermedie. 
 Il dataset su cui il metodo è stato validato è quello delle stazioni ferroviarie della regione Abruzzo.
-Ogni stazione presente nel dataset è stata classificata in modo tale da ricadere in una delle tre classi proposte. Tale classificazione "umana" è da considerarsi corretta per definizione in quanto stabilita da esperti. In definitiva, attraverso questo modo di procedere, si potrà verificare se il metodo di calcolo restituisce valori affidabili confrontando i risultati ottenuti con quelli stabiliti dagli esperti. Ottenendo dati statistici sui risultati ottenuti sul dataset delle stazioni ferroviarie, si potrà stimare come l'algoritmo si comporti con un dataset di input più grande. 
-Avendo tale classificazione si possono usare le metodologie di analisi dei dati che sono fornite nell'ambito del machine learning. Introduciamo quindi una matrice detta matrice di contingenza. Tale strumento mette in relazione le classi di appartenenza reali, con quelle predette dall'algoritmo che si sta esaminando.
+Ogni stazione presente nel dataset è stata classificata in base all'esposizione al rischio frana. Tale classificazione "umana" è da considerarsi corretta per definizione in quanto stabilita da esperti. In definitiva, attraverso questo modo di procedere, si potrà verificare se il metodo di calcolo restituisce valori affidabili confrontando i risultati ottenuti con quelli stabiliti dagli esperti. Ottenendo dati statistici sui risultati ottenuti sul dataset delle stazioni ferroviarie, si potrà stimare come l'algoritmo si comporti con un dataset di input più grande. 
+Avendo tale classificazione si possono usare le metodologie di analisi dei dati che sono fornite nell'ambito del machine learning. Introduciamo quindi una matrice detta \textit{matrice di contingenza multi-classe}. Tale strumento mette in relazione le classi di appartenenza reali, con quelle predette dall'algoritmo che si sta esaminando.
 
 
-La Matrice di contingenza viene calcola nel seguente modo:
+La \textit{matrice di contingenza multi-classe} viene calcola nel seguente modo:
 \begin{enumerate}
-	\item Si stabilisce un dataset di cui si conoscono le classi di appartenenza.
-	\item Attraverso l'algoritmo che si sta studiando, per ogni elemento presente nel dataset, si stima la classe di appartenenza.
+	\item Si usa un insieme di dati di input di cui si conoscono le classi di appartenenza.
+	\item Attraverso l'algoritmo che si sta studiando, per ogni elemento presente nel insieme di input, si stima la classe di appartenenza.
 	\item Dai risultati ottenuti si conta:
 	\begin{enumerate}
-		\item Il numero di predizioni esatte per ogni classe.
-		\item Il numero di predizioni sbagliate per ogni classe organizzate secondo le classi di appartenenza stimate.
+		\item il numero di predizioni esatte per ogni classe.
+		\item il numero di predizioni sbagliate per ogni classe organizzate secondo le classi di appartenenza stimate.
 	\end{enumerate}
 \end{enumerate}
 
 
 
-Questi numeri sono organizzati all'interno di una matrice.
+Questi numeri sono organizzati all'interno di una matrice. La \textit{matrice di contingenza multi-classe} può essere realizzata per un numero di classi arbitrario. 
 \begin{enumerate}
 	\item Ogni riga rappresenta una classe di appartenenza reale.
 	\item Ogni colonna rappresenta una classe di appartenenza stimata.
@@ -62,7 +41,7 @@ Questi numeri sono organizzati all'interno di una matrice.
 		& Classe 3 & N(3,1)                   & N(3,2)                   & N(3,3)                   & $T_{R3}$ \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                   & $T_{C1}$ & $T_{C2}$ & $T_{C3}$ & $TOT$                      \\ \hline
 	\end{tabular}
-	\caption{In Figura è rappresentata una generica matrice di contingenza con tre classi di appartenenza. Con N(i,j) viene indicato il valore in posizione i,j . \\
+	\caption{Rappresentazione di una generica \textit{matrice di contingenza multi-classe} con tre classi. Con N(i,j) viene indicato un intero positivo in posizione i,j . \\
 		$T_{R1}$ = N(1,1) + N(1,2) + N(1,3) \\
 		$T_{R2}$ = N(2,1) + N(2,2) + N(2,3) \\
 		$T_{R3}$ = N(3,1) + N(3,2) + N(3,3) \\
@@ -79,7 +58,7 @@ Tale modo di organizzare la matrice permette di avere sulla diagonale principale
 Sommando per righe i valori della matrice otteniamo il numero totale di elementi afferenti ad una classe di appartenenza reale.
 La somma di tutti i totali corrisponderà al numero di elementi presenti nel dataset.
 \newline
-Esempio: 
+Nel esempio seguente si può osservare una \textit{matrice di contingenza multi-classe} di tre classi.  
 \begin{enumerate}
 	\item N(1,1): Numero elementi predetti in Classe 1 afferenti in Classe 1 reale.
 	\item N(1,2): Numero elementi predetti in Classe 2 afferenti in Classe 1 reale.
@@ -88,7 +67,7 @@ Esempio:
 
 Da questa matrice possiamo ricavare altre matrici di contingenza dette binarie.
 Queste matrici per costruzione hanno dimensione 2x2.
-Ogni classe reale avrà la sua matrice di contingenza binaria. Il perché di questo passaggio ad una rappresentazione binaria è da ricercare nel significato degli elementi della matrice, infatti essi hanno una carica espressiva maggiore rispetto alla tabella di contingenza non binaria, inoltre permettono di analizzare le classi in modo distinto.
+Ogni classe reale avrà la sua \textit{matrice di contingenza binaria}. Il perché di questo passaggio ad una rappresentazione binaria è da ricercare nel significato degli elementi della matrice, infatti essi hanno una carica espressiva maggiore rispetto alla tabella di contingenza non binaria, inoltre permettono di analizzare le classi in modo distinto.
 Tali matrici sono costruite nel seguente modo:
 
 \begin{table}[H]
@@ -96,14 +75,14 @@ Tali matrici sono costruite nel seguente modo:
 	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi Stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
 		\multicolumn{2}{|c|}{}                                                                                & Classe 1                & No classe 1               &                         \\ \hline
-		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di appartenenza\\ reale\end{tabular}}} & Classe 1    & $N_1$                     & $N_2$                        & $T_{R1}$                    \\ \cline{2-5} 
+		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\ Reali\end{tabular}}} & Classe 1    & $N_1$                     & $N_2$                        & $T_{R1}$                    \\ \cline{2-5} 
 		& No classe 1 & $N_3$                      & $N_4$                        & $T_{R2}$                     \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                          & $T_{C1}$                      & $T_{C1}$                         & $TOT$                     \\ \hline
 	\end{tabular}
 	\label{tab:BinariaClasse1}
-	\caption{In tabella è rappresentata la matrice di contingenza binaria della Classe 1. \\
+	\caption{\textit{matrice di contingenza binaria} della Classe 1. \\
 		$N_1$=N(1,1) ;
 		$N_2$=N(1,2)+N(1,3) ;
 		$N_3$=N(2,1)+N(3,1) ; 
@@ -121,16 +100,16 @@ Tali matrici sono costruite nel seguente modo:
 	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi Stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
 		\multicolumn{2}{|c|}{}                                                                                & Classe 2                & No classe 2               &                         \\ \hline
-		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di appartenenza\\ reale\end{tabular}}} & Classe 2    & $N_1$                     & $N_2$                        & $T_{R1}$                    \\ \cline{2-5} 
+		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\ Reali\end{tabular}}} & Classe 2    & $N_1$                     & $N_2$                        & $T_{R1}$                    \\ \cline{2-5} 
 		& No classe 2 & $N_3$                      & $N_4$                        & $T_{R2}$                     \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                          & $T_{C1}$                      & $T_{C1}$                         & $TOT$                     \\ \hline
 	\end{tabular}
 	\label{tab:BinariaClasse2}
-	\caption{In tabella è rappresentata la matrice di contingenza binaria della Classe 2. \\
+	\caption{\textit{matrice di contingenza binaria} della Classe 2. \\
 		$N_1$=N(2,2) ;
-		$N_2$=N(1,1)+N(1,3) ;
+		$N_2$=N(2,1)+N(2,3) ;
 		$N_3$=N(1,2)+N(3,2) ; 
 		$N_4$=N(1,1)+N(1,3)+N(3,1)+ N(3,3) ; \\
 		$T_{C1}$=$N_1$+$N_3$ ;
@@ -146,17 +125,17 @@ Tali matrici sono costruite nel seguente modo:
 	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi di appartenenza stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{2}{*}{}}                                                               & \multicolumn{2}{c|}{\textbf{Classi Stimate}} & \multirow{2}{*}{Totale} \\ \cline{3-4}
 		\multicolumn{2}{|c|}{}                                                                                & Classe 3                & No classe 3               &                         \\ \hline
-		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di appartenenza\\ reale\end{tabular}}} & Classe 3    & $N_1$                     & $N_2$                        & $T_{R1}$                    \\ \cline{2-5} 
+		\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi\\ Reali\end{tabular}}} & Classe 3    & $N_1$                     & $N_2$                        & $T_{R1}$                    \\ \cline{2-5} 
 		& No classe 3 & $N_3$                      & $N_4$                        & $T_{R2}$                     \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                          & $T_{C1}$                      & $T_{C1}$                         & $TOT$                     \\ \hline
 	\end{tabular}
 	\label{tab:BinariaClasse3}
-	\caption{In tabella è rappresentata la matrice di contingenza binaria della Classe 3. \\
+	\caption{\textit{matrice di contingenza binaria} della Classe 3. \\
 		$N_1$=N(3,3) ;
-		$N_2$=N(1,1)+N(1,2) ;
-		$N_3$=N(3,1)+N(3,2) ; 
+		$N_2$=N(3,1)+N(3,2) ;
+		$N_3$=N(1,3)+N(2,3) ; 
 		$N_4$=N(1,1)+N(1,2)+N(2,1)+N(2,2) ; \\
 		$T_{C1}$=$N_1$+$N_3$ ;
 		$T_{C2}$=$N_2$+$N_4$ ; 
@@ -169,11 +148,11 @@ Tali matrici sono costruite nel seguente modo:
 Questo modo di rappresentare i dati sarà molto utile per ricavare delle misure assolute su parametri utili a stabilire l'effettiva bontà dell'algoritmo nel trovare risultati esatti. Definiamo quindi 4 quantità:
 \begin{enumerate}
 	\item Veri Positivi (\textbf{VP}). Tale quantità denota i casi nei quali l’algoritmo ha riconosciuto correttamente la classe di appartenenza.
-	\item Falsi Positivi (\textbf{FP}). Tale quantità denota i casi nei quali l’algoritmo ha riconosciuto erroneamente la classe di appartenenza.
+	\item Falsi Positivi (\textbf{FP}). Tale quantità denota i casi nei quali l’algoritmo ha considerato come appartenenti alla classe, dei casi che non dovrebbero appartenerci. Trattasi di classificazione errata. Più in generale, in qualunque ambito in cui si presenti una decisione predittiva binaria (positivo o negativo), un falso positivo indica un falso allarme. Un esempio in informatica è un antivirus che considera erroneamente dannoso un programma innocuo.
 	\item Veri Negativi (\textbf{VN}). Tale quantità denota i casi nei quali l'algoritmo ha riconosciuto correttamente che un elemento non appartiene ad una certa classe.
-	\item Falsi Negativi (\textbf{FN}). Tale quantità denota i casi nei quali l’algoritmo non ha riconosciuto correttamente la classe di appartenenza di un elemento scambiandola con un altra.
+	\item Falsi Negativi (\textbf{FN}). Tale quantità denota i casi nei quali l’algoritmo non ha riconosciuto correttamente la classe di appartenenza di un elemento scambiandola con un altra. Più in generale, in qualunque ambito in cui si presenti una decisione predittiva binaria (positivo o negativo), un falso negativo indica la scelta sbagliata di classificazione negativa anzichè positiva. Un esempio in informatica è un filtro antispam che lasci erroneamente passare una lettera indesiderata.
 \end{enumerate}
-Tali valori vanno ricercati nella matrice di contingenza binaria. Essi per costruzione della matrice saranno esattamente i quattro elementi di cui e composta. 
+Tali valori vanno ricercati nella \textit{matrice di contingenza binaria}. Essi per costruzione della matrice saranno esattamente i quattro elementi di cui è composta. 
 
 \begin{table}[H]
 	\centering
@@ -186,7 +165,7 @@ Tali valori vanno ricercati nella matrice di contingenza binaria. Essi per costr
 		& No classe Generica & FP                          & VN                             & N = FP + VN             \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                          & VP + FP                     & FN + VN                        & P + N                   \\ \hline
 	\end{tabular}
-	ì\caption{Nella tabella sono rappresentate le quantità sopra definite e le posizioni che occupano all'interno della matrice di contingenza binaria}
+	\caption{Struttura di una \textit{matrice di contingenza binaria}.}
 	\label{tab:quantitaDefinite}
 \end{table}
 
@@ -212,31 +191,42 @@ Definiamo inoltre delle metriche di valutazione.
 
 Avendo introdotto tali strumenti matematici per fare la validazione, di seguito verranno illustrati i risultati ottenuti dall'esecuzione del metodo di calcolo sul dataset delle stazioni ferroviarie abruzzesi.
 Come prima cosa si dovranno definire gli intervalli a cui le classi sono associate.
-Il metodo restituisce valori continui di exposure per cui sono state definite i seguenti intervalli che corrisponderanno alle classi definite in precedenza. Il valore minimo restituito dal metodo è 0. Esso corrisponde ad una situazione per nulla pericolosa. Il valore massimo invece è 1,8. Tale valore corrisponde ad un situazione ad altro rischio.Tali intervalli sono i seguenti:
+Essendo i risultati del metodo espressi in un intervallo di valori continui essi andranno mappati all'interno di classi. Stabilire il numero di classi necessario a rendere i risultati espressivi non è da sottovalutare in quanto, un'eccessiva divisione in classi, porterebbe a frammentare i risultati in modo sproporzionato, commettendo errori non dovuti al metodo di calcolo ma alla dimensione ridotta degli intervalli su cui sono costruite le classi. Contrariamente, una divisione in poche classi abbasserebbe l'espressività del metodo stesso nel considerare le differenze territoriali importantissime per una valutazione corretta dell'esposizione al rischio.
+Si è deciso quindi che tre classi sarebbero state il giusto compromesso, consentendoci quindi di distinguere le stazioni a più alto rischio con quelle a rischio più basso non dimenticandoci di quelle intermedie. Il valore minimo restituito dal metodo è 0. Esso corrisponde ad una situazione per nulla pericolosa. Il valore massimo invece è 1,8. Tale valore corrisponde ad un situazione ad alto rischio. Definiamo quindi le tre classi.
+
+
+
+
+\begin{enumerate}
+	\item Alta: indica una stazione ad altro rischio di pericolosità
+	\item Media: indica una stazione a medio rischio di pericolosità
+	\item Bassa: indica una stazione a basso rischio di pericolosità
+\end{enumerate}
 
 \begin{table}[H]
 	\centering
-	\renewcommand{\arraystretch}{1.5}
-	\begin{tabular}{|C{8cm}|}
+	\renewcommand{\arraystretch}{1.2}
+	
+	\begin{tabular}{|C{4cm}|C{4cm}|}
 		\hline
-		
 		\rowcolor[HTML]{FE0000} 
-		{\large 1,1 <= Exp < 1,8}                           \\ \hline 
+		1,1 \textless= Exp \textless 1,8 & Alta  \\ \hline
 		\rowcolor[HTML]{FFFE65} 
-		{\large 0,2 <= Exp < 1,1} 							\\ \hline
+		0,2 \textless= Exp \textless 1,1 & Media \\ \hline
 		\rowcolor[HTML]{32CB00} 
-		{\large 0 <= Exp < 0,2}                             \\ \hline
+		0 \textless= Exp \textless 0,2   & Bassa \\ \hline
 	\end{tabular}
-	\caption{In Tabella sono rappresentati gli intervalli di pericolosità}
-	\label{tab:FasceRischio}
+	\caption{Classi di pericolosità.}
+	\label{tab:classiPericolosita}
 \end{table}
 
 
-Di seguito verrà fornita una tabella che riassume i risultati ottenuti dall'esecuzione del metodo sul dataset delle stazioni.
-La tabella \ref{tab:StazioniExposure} contiene le seguenti informazioni:
+
+
+La tabella \ref{tab:StazioniExposure} raccoglie i risultati ottenuti dall’esecuzione del metodo sul dataset delle stazioni.:
 \begin{enumerate}
-	\item La colonna "Stazione" rappresenta la lista delle stazioni ordinate secondo il valore di exposure fornito dagli esperti. I colori indicano le classi di appartenenza reali.
-	\item La colonna "Exp" rappresenta la lista dei valori di exposure che l'algoritmo ha calcolato. I colori indicano le classi di appartenenza stimate.
+	\item la colonna "Stazione" elenca la lista delle stazioni ordinate secondo il valore di exposure fornito dagli esperti. I colori indicano le classi di appartenenza reali.
+	\item la colonna "Exp" elenca la lista dei valori di exposure che l'algoritmo ha calcolato. I colori indicano le classi di appartenenza stimate.
 \end{enumerate}
 
 \begin{table}[H] \tiny
@@ -297,45 +287,45 @@ La tabella \ref{tab:StazioniExposure} contiene le seguenti informazioni:
 \newpage
 Partendo da questa rappresentazione tabulare si possono costruire le matrici di contingenza introdotte precedentemente.
 
-Possiamo osservare dalla tabella \ref{tab:MatriceContingenzaStazione} che i valori più alti sono concentrati lungo la diagonale principale della matrice di contingenza. Questo fenomeno si genera perché nella diagonale sono presenti il numero di valori stimati correttamente.  
-Si può anche osservare che l'algoritmo non sbaglia mai assegnando una pericolosità alta ad una stazione a bassa pericolosità, stessa cosa per il viceversa infatti, dalla tabella, sia la classe bassa sia la classe alta, hanno valori nulli in posizione N(1,3) ed N(3,1).
+Possiamo osservare dalla tabella \ref{tab:MatriceContingenzaStazione} che i valori più alti sono concentrati lungo la diagonale principale della \textit{matrice di contingenza multi-classe}. Questo accade in quanto nella diagonale principale sono presenti il numero di valori stimati correttamente.  
+Si può anche osservare che nel calcolo dell'exposure, le classi stimate dall'algoritmo sono sovrastimate o sottostimate di al massimo una classe in positivo o negativo. Dalla \textit{matrice di contingenza multi-classe} si può osservare come in posizione N(1,3) e N(3,1) ci siano dei valori nulli.
 Da tale tabella si possono ricavare le matrici di contingenza binarie.
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|C{2cm}|C{2cm}|c|}
 		\hline
-		\multicolumn{2}{|c|}{}                                                                                                               & \multicolumn{3}{c|}{\textbf{Classi di appartenenza Predette}}                                &                          \\ \cline{3-5}
+		\multicolumn{2}{|c|}{}                                                                                                               & \multicolumn{3}{c|}{\textbf{Classi Stimate}}                                &                          \\ \cline{3-5}
 		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                             & \cellcolor[HTML]{32CB00}Bassa & \cellcolor[HTML]{FFFE65}Media & \cellcolor[HTML]{FE0000}Alta & \multirow{-2}{*}{Totale} \\ \hline
 		& \cellcolor[HTML]{32CB00}Bassa & 39                            & 8                             & 0                            & 47                       \\ \cline{2-6} 
 		& \cellcolor[HTML]{FFFE65}Media & 7                             & 53                            & 1                            & 61                       \\ \cline{2-6} 
-		\multirow{-3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di \\ Appartenenza\\ Reali\end{tabular}}} & \cellcolor[HTML]{FE0000}Alta  & 0                             & 1                             & 5                            & 6                        \\ \hline
+		\multirow{-3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi\\ Reali\end{tabular}}} & \cellcolor[HTML]{FE0000}Alta  & 0                             & 1                             & 5                            & 6                        \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                                         & 46                            & 62                            & 6                            & 114                      \\ \hline
 	\end{tabular}
-	\caption{Nella tabella viene mostrata la matrice di contingenza ricavata a partire dai risultati ottenuti dal metodo di calcolo}
+	\caption{\textit{matrice di contingenza multi-classe} ricavata a partire dai risultati ottenuti dal metodo di calcolo proposto.}
 	\label{tab:MatriceContingenzaStazione}
 \end{table}
  
 Possiamo osservare dalla tabella \ref{tab:BinariaBassa}
-che l'algoritmo riesce a riconoscere 38 stazioni su 47 in fascia di pericolo bassa. Per quanto riguarda i falsi negativi esso restituisce 9 casi.
-L'algoritmo categorizza in modo scorretto 8 stazioni su 67 stimando la classe di appartenenza come più bassa rispetto alla realtà. Infine riesce a riconoscere 59 casi su 67 che la stazione è in fascia più alta.
+che l'algoritmo riesce a riconoscere 39 stazioni su 47 in fascia di pericolo bassa. Per quanto riguarda i falsi negativi esso restituisce 8 casi.
+L'algoritmo categorizza in modo scorretto 7 stazioni su 67 stimando la classe di appartenenza come più bassa rispetto alla realtà. Infine riesce a riconoscere 60 casi su 67 che la stazione è in fascia più alta.
 
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi di appartenenza Predette}}    &                          \\ \cline{3-4}
+		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi Stimate}}    &                          \\ \cline{3-4}
 		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                                & \cellcolor[HTML]{32CB00}Bassa & \cellcolor[HTML]{ECF4FF}No bassa & \multirow{-2}{*}{Totale} \\ \hline
 		& \cellcolor[HTML]{32CB00}Bassa    & 39                            & 8                                & 47                       \\ \cline{2-5} 
-		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di \\ Appartenenza Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No bassa & 7                             & 60                               & 67                       \\ \hline
+		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No bassa & 7                             & 60                               & 67                       \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                                            & 46                            & 68                               & 114                      \\ \hline
 	\end{tabular}
-	\caption{In tabella viene mostrata la matrice di contingenza binaria della classe a bassa pericolosità ricavata a partire dalla tabella di contingenza non binaria}
+	\caption{\textit{matrice di contingenza binaria} della classe a bassa pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
 	\label{tab:BinariaBassa}
 \end{table}
 
-Per la tabella \ref{tab:BinariaMedia} si possono trarre conclusioni simili a quelle viste per la matrice di contingenza binaria descritta in tabella \ref{tab:BinariaBassa}. Si può notare come l'algoritmo categorizza in modo corretto la maggior parte delle stazioni, ben 52  su 61.
+Per la tabella \ref{tab:BinariaMedia} si possono trarre conclusioni simili a quelle della tabella \ref{tab:BinariaBassa}. Si può notare come l'algoritmo categorizza in modo corretto la maggior parte delle stazioni, ben 52  su 61.
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
@@ -347,48 +337,48 @@ Per la tabella \ref{tab:BinariaMedia} si possono trarre conclusioni simili a que
 		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di \\ Appartenenza Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No media & 9                             & 44                               & 53                       \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                                            & 62                            & 52                               & 114                      \\ \hline
 	\end{tabular}
-	\caption{In tabella viene mostrata la matrice di contingenza binaria della classe a media pericolosità ricavata a partire dalla tabella di contingenza non binaria}
+	\caption{\textit{matrice di contingenza binaria} della classe a media pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
 	\label{tab:BinariaMedia}
 \end{table}
 
 
-L'algoritmo, essendo stato pensato per individuare i casi pericolosi, dovrà restituire, a maggior ragione, dei risultati validi per la classi di pericolosità alta. Come possiamo vedere dalla tabella \ref{tab:BinariaAlta} vengono categorizzati correttamente i casi che effettivamente sono pericolosi. Si può notare come in un unico caso l'algoritmo confonde la classe stimata di appartenenza. Tale caso verrà analizzato più approfonditamente in seguito. Si può osservare dalla tabella che l'algoritmo non sbaglia, ad eccezione di un caso, di categorizzare come non altamente pericolosa una stazione (N(2,2)). Ci sono infatti 107 casi su 108 in cui l'algoritmo stima correttamente. 
+E' auspicabile che l'algoritmo, stante gli obiettivi dello studio oggetto del LAB, restituisca dei risultati validi per la classe di pericolosità alta. Come possiamo vedere dalla tabella \ref{tab:BinariaAlta} vengono categorizzati correttamente i casi che effettivamente sono pericolosi. Si può notare come in un unico caso l'algoritmo confonde la classe stimata di appartenenza. Tale caso verrà analizzato più approfonditamente in seguito. L'algoritmo, su 108 casi in classe reale No alta, categorizza in modo corretto 107 casi sbagliandone solo 1. (Tabella \ref{tab:BinariaAlta})
 
 \begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1}
 	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi di appartenenza Predette}}    &                          \\ \cline{3-4}
+		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi Stimate}}    &                          \\ \cline{3-4}
 		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                                & \cellcolor[HTML]{FE0000}Alta & \cellcolor[HTML]{ECF4FF}No alta & \multirow{-2}{*}{Totale} \\ \hline
 		& \cellcolor[HTML]{FE0000}Alta    & 5                           & 1                                & 6                       \\ \cline{2-5} 
-		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi di \\ Appartenenza Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No alta & 1                             & 107                               & 108                       \\ \hline
+		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No alta & 1                             & 107                               & 108                       \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                                            & 6                            & 108                               & 114                      \\ \hline
 	\end{tabular}
-	\caption{In tabella viene mostrata la matrice di contingenza binaria della classe ad alta pericolosità ricavata a partire dalla tabella di contingenza non binaria}
+	\caption{\textit{matrice di contingenza binaria} della classe ad alta pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
 	\label{tab:BinariaAlta}
 \end{table}
 
 \newpage
-Di seguito viene proposta la tabella che riassume i risultati ottenuti dal calcolo delle metriche definite in precedenza.
+La tabella \ref{tab:RisultatiMetriche} riassume i risultati avvalendosi delle metriche definite in precedenza.
 
 \begin{table}[h]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
-	\begin{tabular}{|c|c|c|c|}
+	\begin{tabular}{|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
 		\hline
-		\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFFF}} & \cellcolor[HTML]{32CB00} Classe a rischio basso & \cellcolor[HTML]{FFFE65} Classe a rischio medio & \cellcolor[HTML]{FE0000}Classe a rischio alto \\ \hline
+		\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFFF}} & \cellcolor[HTML]{32CB00}Bassa & \cellcolor[HTML]{FFFE65}Media & \cellcolor[HTML]{FE0000}Alta \\ \hline
 		\textbf{TPR}                                   & 0,83                                                           & 0,87                                                           & 0,83                                                          \\ \hline
 		\textbf{TNR}                                   & 0,90                                                           & 0,83                                                           & 0,99                                                          \\ \hline
 		\textbf{P}                                     & 0,85                                                           & 0,85                                                           & 0,83                                                          \\ \hline
 		\textbf{Acc}                                   & 0,87                                                           & 0,85                                                           & 0,98                                                          \\ \hline
 	\end{tabular}
-	\caption{In tabella, per ogni fascia di pericolo, sono esposti i risultati delle metriche introdotte in precedenza (True Positive Rate, True Negative Rate, Precision, Accuracy).}
+	\caption{ Fasce di pericolo con metriche (True Positive Rate, True Negative Rate, Precision, Accuracy) associate.}
 	\label{tab:RisultatiMetriche}
 \end{table}
-Dai risultati ottenuti e riassunti in tabella \ref{tab:RisultatiMetriche} possiamo trarre alcune conclusioni.
-Il TRN misura la percentuale di positivi che sono correttamente identificati come tali, per cui, possiamo vedere che mediamente l'algoritmo si classificano correttamente per più dell'80\% dei casi le classi di appartenenza corrette.
-Il TNR misura la percentuale di negativi che siano correttamente identificate come tali. Possiamo osservare come anche in questo caso l'algoritmo non scende mai al disotto del 83\%. Sia per quanto riguarda la precisione che l'accuratezza l'algoritmo si comporta in linea agli altri valori. Da notare che la classe di pericolosità più alta a valori molto alti di TNR e Acc. Questo fenomeno è dovuto al fatto che nel dataset ci sono poche stazioni ad alto rischio rispetto al numero associato agli altri rischi di pericolosità.  
+Dai risultati in tabella \ref{tab:RisultatiMetriche} possiamo trarre alcune conclusioni.
+Il TPR misura la percentuale di positivi che sono correttamente identificati come tali quindi l'algoritmo classifica correttamente le classi di appartenenza bassa,media e alta  per più del 80\% dei casi.
+Il TNR misura la percentuale di negativi che siano correttamente identificate come tali. Possiamo osservare come anche in questo caso l'algoritmo non scende mai al disotto del 83\%. Sia per quanto riguarda la precisione che l'accuratezza l'algoritmo si comporta in linea agli altri valori. Da notare che la classe di pericolosità più alta ha valori molto alti di TNR e Acc. Questo risultato è dovuto al fatto che le stazioni ad alto rischio sono in numero minore rispetto a quelle categorizzate in fascia bassa e media.  
 
 I risultati appena discussi confermano la bontà del metodo proposto. Ciò nonostante è stata eseguita indagine approfondita sulle stazioni la cui classificazione risulta errata. L'obiettivo è comprendere se ci sono ulteriori margini di miglioramento del metodo.
 I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Fontecchio. Vengono considerati falsi negativi in quanto la loro classificazione non coincide con quella proposta dagli esperti. Inoltre queste 3 stazioni sono state scelte in quanto i rispettivi valori di exposure  si discostano di più dal valore dell'estremo superiore della classe di appartenenza proposta dagli esperti. Ad esempio la stazione di Popoli - Vittorito risulta di classe bassa secondo il giudizio degli esperti. Il metodo però la classifica come classe media. Per questo motivo è un falso negativo. Inoltre per afferire alla classe bassa il valore di exposure deve essere inferiore a 0.2, mentre il valore restituito dal metodo è pari a 0.42. L'errore è quindi pari a 0.22 e risulta il più elevato tra tutti i falsi negativi della classe bassa. Lo stesso ragionamento è stato applicato alla scelta delle altre 2 stazioni prese in considerazione. 
