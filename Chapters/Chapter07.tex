@@ -1,16 +1,18 @@
 % Chapter X
 
 \chapter{Estensione del metodo alle linee ferroviarie} % Chapter title
-A partire dal metodo precendentemente descritto per gli edifici si è pensato di estendere il medesimo criterio anche sulle rotte. Per rotta si intende una tratta che può essere una semplice strada, autostrata, o anche una linea ferroviaria sul quale bisogna effettuare lo studio di rischio frana alla quale potebbe essere soggetta. Poichè il metodo di base sviluppato per gli edifici calcolava il valore di exposure di determinati asset che erano riducibili a semplici punti geografici, è facilmente deducibile che l'estensione di tale metodo alle rotte richiede il campionamento di tali rotte in modo da approssimarle ad una serie di punti.
+A partire dal metodo precendentemente descritto per gli edifici si è pensato di estendere il medesimo criterio anche alle rotte. Per rotta si intende una tratta che può essere una semplice strada, autostrata, o anche una linea ferroviaria sul quale bisogna effettuare lo studio di rischio frana alla quale potebbe essere soggetta. Il metodo di base sviluppato per gli edifici calcolava il valore di exposure di determinati asset che erano riducibili a semplici punti geografici. Si deduce pertanto che l'estensione di tale metodo alle rotte richiede il campionamento di queste per approssimarle ad una serie di punti. 
 \textcolor{red}{IMMAGINE}
 
 
 Definizioni
 \begin{enumerate}
-	\item \textbf{$ \mathcal{R} $ (routes)} $ = \{r_k(k=1,..,\mathbf{card}(\mathcal{R}) | r_k $ è una \textit{routes} ubicata all'interno dei confini della  GeoArea \}. Per routes si intende una generica tratta (come ad esempio una ferrovia, un'autostrada) descritta dalla tupla < \textit{ID}, \textit{Name}, \textit{geometry}>. Il campo \textit{ID} identifica univocamente la tratta; \textit{Name} una sua etichetta nominale \textit{geometry} rappresenta una geometria che descrive sul territorio la tratta.
+	\item \textbf{$ \mathcal{R} $ (Routes)} $ = \{r_k(k=1,..,\mathbf{card}(\mathcal{R}) | r_k $ è una \textit{Route} ubicata all'interno dei confini della  GeoArea \}. Per \textit{Route} si intende una generica tratta (come ad esempio una ferrovia, un'autostrada) descritta dalla tupla < \textit{ID}, \textit{Name}, \textit{geometry}>. Il campo \textit{ID} identifica univocamente la tratta; \textit{Name} una sua etichetta nominale; \textit{geometry} rappresenta una geometria che descrive la tratta sul territorio.
 	
 	
-	\item \textbf{$ \mathcal{SR} $ (Segmentize Routes)} $ = \{sr_{k,p}$($k=1,..,\mathbf{card}(\mathcal{R}$),$(p = 1, 2, .. $))$  | sr_{k,p} $ è una \textit{segmentize route} ubicata all'interno dei confini della  GeoArea \}. Per segmentize routes si intende una generica sotto-tratta di un elemento $r_k$ dell'insieme $\mathcal{R}$. l'unione di tutti gli $sr_{k,p}$ restituisce l'elemento $r_k$ 
+	\item \textbf{$ \mathcal{RS} $ (Route Segments)} $ = \{rs_{k,s}(k=1,..,\mathbf{card}(\mathcal{R})),(s=1,..,\mathbf{card}(\mathcal{RS}))  | sr_{k,s} $ è una \textit{Route Segment} di una specifica \textit{Route} \}. Per \textit{Route Segment} $rs_{k,s}$ si intende la sotto-tratta $s-esima$ di lunghezza $v$ della \textit{Route} $r_k$. L'unione di tutti gli $rs_{k,s}$ restituisce l'elemento $r_k$.
+		
+	\item \textbf{$ \mathcal{RSP} $ (Route Segment Points)} $ = \{rsp_{k,s,p}(k=1,..,\mathbf{card}(\mathcal{R})),(s=1,..,\mathbf{card}(\mathcal{RS})),(p=1,..,\mathbf{card}(\mathcal{RSP}))  | rsp_{k,s,p} $ è una \textit{Route Segment Point} di una specifica \textit{Route Segment} \}. Per \textit{Route Segment Point} $rsp_{k,s,p}$ si intende il $p-esimo$ punto ottenuto dal campionamento della \textit{Route Segment} $rs_{k,s}$. L'insieme di tutti gli $rsp_{k,s,p}$ con $k$ ed $s$ fissati, equivalgono all'inisieme di tutti i punti risultanti dal campionamento di $rs_{k,s}$
 	
 	\item \textbf{$EXPSR$ (Exposure Segmentize Routes)} $ = \{expsr_{k,p}$($k=1,..,\mathbf{card}(\mathcal{R}$),$(p = 1, 2, .. $))$ | expsr_{k,p} $ è il valore di \textit{exposure} del segmento di tratta della routes k-esima. Per \textit{exposure} si intende il valore numerico che indica quanto il segmento di tratta è esposto al rischio frana.
 \end{enumerate}
