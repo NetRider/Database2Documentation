@@ -45,7 +45,7 @@
 	
 	\item \textbf{$ \mathcal{B} $ (Buildings)} $ = \{b_i(i=1,2,..) | b_i $ è un \textit{building} ubicato all'interno dei confini della  GeoArea \}. Per building si intende un generico edificio (come ad esempio una scuola, un grattacielo, un hotel e strutture simili) descritto dalla tupla < \textit{ID}, \textit{description}, \textit{position}>. Il campo \textit{ID} identifica univocamente l'edificio; \textit{description} una sua descrizione testuale e infine \textit{position} rappresenta la posizione geografica di $ b_i $ espressa da una coppia di coordinate geografiche (Figura \ref{station}). Definiamo con $\mathbf{card}(\mathcal{B})$ la cardinalità dell'insieme $ \mathcal{B} $, ovvero il numero di edifici presenti in \textit{GeoArea}. Dettagli come la planimetria della struttura potrebbero fornire ulteriori dati sensibili ma sono molto difficili da reperire e quindi non verranno presi in considerazione.
 	In seguito verrà usato sempre il pedice $i$ per riferirsi al building $i-esimo$.
-	Nelle notazioni introdotte di seguito l'occorrenza del pedice $i$ viene usata $sempre$ per richiamare che ci si riferisce all'edificio $i-mo$, ovvero all'elemento $b_i$ di $ \mathcal{B} $.
+	Nelle notazioni introdotte di seguito l'occorrenza del pedice $i$ viene usata $sempre$ per richiamare che ci si riferisce all'edificio $i-esimo$, ovvero all'elemento $b_i$ di $ \mathcal{B} $.
 	
 	\item \textbf{$HazardArea_i$} rappresenta l'area a possibile rischio smottamento circostante l'edificio $b_i$, definita come la circonferenza centrata su $b_i$ di raggio $r$ (Figura \ref{buffer}).
 	
@@ -68,7 +68,7 @@
 	
 	\item \textbf{$ \mathcal{NZ}_i $ (Nearest Zones)} $ = \{nz_{i,j}(i=1,..,\mathbf{card}( \mathcal{B} )), (j=1,..,\mathbf{card}(\mathcal{ NZ}_i)) | nz_{i,j} \in  \mathcal{Z}  \cap HazardArea_i $ è una \textit{Nearest Zone}, ovvero 	una \textit{Zone} che si trova all'interno della $HazardArea_i$ di $b_i$\}. Gli $nz_{i,j}$ possono rappresentare le \textit{Zones} nella loro interezza, oppure parte di esse derivante dall'intersezione con la $HazardArea_i$.  (Figura \ref{NearestLand}).
 	In seguito verrà usato sempre il pedice $\mathbf{j}$ accostato al pedice $\mathbf{i}$ per riferirsi alla nearest zone j-esima del building i-esimo.
-	Nelle notazioni introdotte di seguito l'occorrenza del pedice $\{i,j\}$ viene usata $sempre$ per richiamare che ci si riferisce alla nearest zone $j-mo$ dell'edificio $i-mo$, ovvero all'elemento $nz_{i,j}$ di $ \mathcal{NZ}_i $.
+	Nelle notazioni introdotte di seguito l'occorrenza del pedice $\{i,j\}$ viene usata $sempre$ per richiamare che ci si riferisce alla nearest zone $j-esima$ dell'edificio $i-esimo$, ovvero all'elemento $nz_{i,j}$ di $ \mathcal{NZ}_i $.
 	Si noti che $nz_{i,j}$ è una notazione sovraccaricata in quanto rappresenta sia l’\textit{ID} di una \textit{Nearest Zone} che la sua geometria.
 	
 	\item \textbf{$ cnz_{i,j} $ (Centroid of $nz_{i,j})$} corrisponde al centro di massa di $nz_{i,j}$ la cui posizione è descritta dalle sue coordinate geografiche (Figura \ref{cnz}). 
