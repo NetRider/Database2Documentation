@@ -1,7 +1,7 @@
 % Chapter X
 
 \chapter{Validazione e valutazione del metodo} % Chapter title
-Per poter ritenere che il metodo proposto sia effettivamente valido, i risultati prodotti dovranno essere confrontati con dati noti ed attendibili. Questo confronto ci permetterà attraverso delle metriche ben precise di verificare la conformità dei valori calcolati da quelli preconosciuti.
+Per poter ritenere che il metodo proposto sia effettivamente valido, i risultati prodotti dovranno essere confrontati con dati noti ed attendibili. Questo confronto ci permetterà, attraverso delle metriche ben precise, di verificare la conformità dei valori calcolati da quelli preconosciuti.
 I principali metodi di validazione sfruttano una classificazione dei risultati in classi di appartenenza. Nel caso specifico queste classi rappresentano il livello di pericolosità dei versanti montuosi/collinari rispetto all'edificio preso in esame.
 Maggiore sarà la pericolosità associata all'edificio, maggiore sarà la possibilità che esso sia coinvolto in un fenomeno franoso.
 Il dataset su cui il metodo è stato validato è quello delle stazioni ferroviarie della regione Abruzzo.
@@ -11,25 +11,26 @@ Avendo tale classificazione si possono usare le metodologie di analisi dei dati 
 
 La \textit{matrice di contingenza multi-classe} viene calcola nel seguente modo:
 \begin{enumerate}
-	\item Si usa un insieme di dati di input di cui si conoscono le classi di appartenenza.
-	\item Attraverso l'algoritmo che si sta studiando, per ogni elemento presente nel insieme di input, si stima la classe di appartenenza.
-	\item Dai risultati ottenuti si conta:
+	\item si usa un insieme di dati di input di cui si conoscono le classi di appartenenza;
+	\item per ogni elemento presente nel insieme di input l'algoritmo stima la classe di appartenenza;
+	\item dai risultati ottenuti si conta:
 	\begin{enumerate}
-		\item il numero di predizioni esatte per ogni classe.
+		\item il numero di predizioni esatte per ogni classe;
 		\item il numero di predizioni sbagliate per ogni classe organizzate secondo le classi di appartenenza stimate.
 	\end{enumerate}
 \end{enumerate}
 
 
 
-Questi numeri sono organizzati all'interno di una matrice. La \textit{matrice di contingenza multi-classe} può essere realizzata per un numero di classi arbitrario. 
+Questi numeri sono organizzati all'interno di una matrice. La \textit{matrice di contingenza multi-classe} può essere realizzata per un numero di classi arbitrario:
 \begin{enumerate}
-	\item Ogni riga rappresenta una classe di appartenenza reale.
-	\item Ogni colonna rappresenta una classe di appartenenza stimata.
+	\item ogni riga rappresenta una classe di appartenenza reale;
+	\item ogni colonna rappresenta una classe di appartenenza stimata.
 \end{enumerate}
 
+La \textit{matrice di contingenza multi-classe} con tre classi ha una struttura come quella in tabella \ref{tab:MatriceContingenza}. 
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|c|c|c|c|c|c|}
@@ -58,7 +59,7 @@ Tale modo di organizzare la matrice permette di avere sulla diagonale principale
 Sommando per righe i valori della matrice otteniamo il numero totale di elementi afferenti ad una classe di appartenenza reale.
 La somma di tutti i totali corrisponderà al numero di elementi presenti nel dataset.
 \newline
-Nel esempio seguente si può osservare una \textit{matrice di contingenza multi-classe} di tre classi.  
+ 
 \begin{enumerate}
 	\item N(1,1): Numero elementi predetti in Classe 1 afferenti in Classe 1 reale.
 	\item N(1,2): Numero elementi predetti in Classe 2 afferenti in Classe 1 reale.
@@ -67,8 +68,7 @@ Nel esempio seguente si può osservare una \textit{matrice di contingenza multi-
 
 Da questa matrice possiamo ricavare altre matrici di contingenza dette binarie.
 Queste matrici per costruzione hanno dimensione 2x2.
-Ogni classe reale avrà la sua \textit{matrice di contingenza binaria}. Il perché di questo passaggio ad una rappresentazione binaria è da ricercare nel significato degli elementi della matrice, infatti essi hanno una carica espressiva maggiore rispetto alla tabella di contingenza non binaria, inoltre permettono di analizzare le classi in modo distinto.
-Tali matrici sono costruite nel seguente modo:
+Ogni classe reale avrà la sua \textit{matrice di contingenza binaria} (Tabelle \ref{tab:BinariaClasse1}, \ref{tab:BinariaClasse2}, \ref{tab:BinariaClasse3}). Il perché di questo passaggio ad una rappresentazione binaria è da ricercare nel significato degli elementi della matrice, infatti essi hanno una carica espressiva maggiore rispetto alla tabella di contingenza non binaria, inoltre permettono di analizzare le classi in modo distinto.
 
 \begin{table}[H]
 	\centering
@@ -81,7 +81,6 @@ Tali matrici sono costruite nel seguente modo:
 		& No classe 1 & $N_3$                      & $N_4$                        & $T_{R2}$                     \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                          & $T_{C1}$                      & $T_{C1}$                         & $TOT$                     \\ \hline
 	\end{tabular}
-	\label{tab:BinariaClasse1}
 	\caption{\textit{matrice di contingenza binaria} della Classe 1. \\
 		$N_1$=N(1,1) ;
 		$N_2$=N(1,2)+N(1,3) ;
@@ -93,6 +92,7 @@ Tali matrici sono costruite nel seguente modo:
 		$T_{R2}$=$N_3$+$N_4$ ; 
 		$TOT$=$T_{C1}$+$T_{C2}$=$T_{R1}$+$T_{R2}$
 	}
+	\label{tab:BinariaClasse1}
 \end{table}
 
 \begin{table}[H]
@@ -106,7 +106,6 @@ Tali matrici sono costruite nel seguente modo:
 		& No classe 2 & $N_3$                      & $N_4$                        & $T_{R2}$                     \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                          & $T_{C1}$                      & $T_{C1}$                         & $TOT$                     \\ \hline
 	\end{tabular}
-	\label{tab:BinariaClasse2}
 	\caption{\textit{matrice di contingenza binaria} della Classe 2. \\
 		$N_1$=N(2,2) ;
 		$N_2$=N(2,1)+N(2,3) ;
@@ -118,6 +117,7 @@ Tali matrici sono costruite nel seguente modo:
 		$T_{R2}$=$N_3$+$N_4$ ; 
 		$TOT$=$T_{C1}$+$T_{C2}$=$T_{R1}$+$T_{R2}$
 	}
+	\label{tab:BinariaClasse2}
 \end{table}
 
 \begin{table}[H]
@@ -131,7 +131,6 @@ Tali matrici sono costruite nel seguente modo:
 		& No classe 3 & $N_3$                      & $N_4$                        & $T_{R2}$                     \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                          & $T_{C1}$                      & $T_{C1}$                         & $TOT$                     \\ \hline
 	\end{tabular}
-	\label{tab:BinariaClasse3}
 	\caption{\textit{matrice di contingenza binaria} della Classe 3. \\
 		$N_1$=N(3,3) ;
 		$N_2$=N(3,1)+N(3,2) ;
@@ -143,6 +142,7 @@ Tali matrici sono costruite nel seguente modo:
 		$T_{R2}$=$N_3$+$N_4$ ; 
 		$TOT$=$T_{C1}$+$T_{C2}$=$T_{R1}$+$T_{R2}$
 	}
+	\label{tab:BinariaClasse3}
 \end{table}
 
 Questo modo di rappresentare i dati sarà molto utile per ricavare delle misure assolute su parametri utili a stabilire l'effettiva bontà dell'algoritmo nel trovare risultati esatti. Definiamo quindi 4 quantità:
@@ -152,7 +152,7 @@ Questo modo di rappresentare i dati sarà molto utile per ricavare delle misure 
 	\item Veri Negativi (\textbf{VN}). Tale quantità denota i casi nei quali l'algoritmo ha riconosciuto correttamente che un elemento non appartiene ad una certa classe.
 	\item Falsi Negativi (\textbf{FN}). Tale quantità denota i casi nei quali l’algoritmo non ha riconosciuto correttamente la classe di appartenenza di un elemento scambiandola con un altra. Più in generale, in qualunque ambito in cui si presenti una decisione predittiva binaria (positivo o negativo), un falso negativo indica la scelta sbagliata di classificazione negativa anzichè positiva. Un esempio in informatica è un filtro antispam che lasci erroneamente passare una lettera indesiderata.
 \end{enumerate}
-Tali valori vanno ricercati nella \textit{matrice di contingenza binaria}. Essi per costruzione della matrice saranno esattamente i quattro elementi di cui è composta. 
+Tali valori vanno ricercati nella \textit{matrice di contingenza binaria}. Essi per costruzione della matrice saranno esattamente i quattro elementi di cui è composta (Tabella \ref{tab:quantitaDefinite}). 
 
 \begin{table}[H]
 	\centering
@@ -192,15 +192,13 @@ Definiamo inoltre delle metriche di valutazione.
 Avendo introdotto tali strumenti matematici per fare la validazione, di seguito verranno illustrati i risultati ottenuti dall'esecuzione del metodo di calcolo sul dataset delle stazioni ferroviarie abruzzesi.
 Come prima cosa si dovranno definire gli intervalli a cui le classi sono associate.
 Essendo i risultati del metodo espressi in un intervallo di valori continui essi andranno mappati all'interno di classi. Stabilire il numero di classi necessario a rendere i risultati espressivi non è da sottovalutare in quanto, un'eccessiva divisione in classi, porterebbe a frammentare i risultati in modo sproporzionato, commettendo errori non dovuti al metodo di calcolo ma alla dimensione ridotta degli intervalli su cui sono costruite le classi. Contrariamente, una divisione in poche classi abbasserebbe l'espressività del metodo stesso nel considerare le differenze territoriali importantissime per una valutazione corretta dell'esposizione al rischio.
-Si è deciso quindi che tre classi sarebbero state il giusto compromesso, consentendoci quindi di distinguere le stazioni a più alto rischio con quelle a rischio più basso non dimenticandoci di quelle intermedie. Il valore minimo restituito dal metodo è 0. Esso corrisponde ad una situazione per nulla pericolosa. Il valore massimo invece è 1,8. Tale valore corrisponde ad un situazione ad alto rischio. Definiamo quindi le tre classi.
-
-
+Si è deciso quindi che tre classi sarebbero state il giusto compromesso, consentendoci quindi di distinguere le stazioni a più alto rischio con quelle a rischio più basso non dimenticandoci di quelle intermedie. Il valore minimo restituito dal metodo è 0. Esso corrisponde ad una situazione per nulla pericolosa. Il valore massimo invece è 1,8. Tale valore corrisponde ad un situazione ad alto rischio. Definiamo quindi le tre classi (Tabella \ref{tab:classiPericolosita}):
 
 
 \begin{enumerate}
-	\item Alta: indica una stazione ad altro rischio di pericolosità
-	\item Media: indica una stazione a medio rischio di pericolosità
-	\item Bassa: indica una stazione a basso rischio di pericolosità
+	\item \textbf{Alta}: indica una stazione ad altro rischio di pericolosità;
+	\item \textbf{Media}: indica una stazione a medio rischio di pericolosità;
+	\item \textbf{Bassa}: indica una stazione a basso rischio di pericolosità.
 \end{enumerate}
 
 \begin{table}[H]
@@ -223,7 +221,7 @@ Si è deciso quindi che tre classi sarebbero state il giusto compromesso, consen
 
 
 
-La tabella \ref{tab:StazioniExposure} raccoglie i risultati ottenuti dall’esecuzione del metodo sul dataset delle stazioni.:
+La tabella \ref{tab:StazioniExposure} raccoglie i risultati ottenuti dall’esecuzione del metodo sul dataset delle stazioni:
 \begin{enumerate}
 	\item la colonna "Stazione" elenca la lista delle stazioni ordinate secondo il valore di exposure fornito dagli esperti. I colori indicano le classi di appartenenza reali.
 	\item la colonna "Exp" elenca la lista dei valori di exposure che l'algoritmo ha calcolato. I colori indicano le classi di appartenenza stimate.
@@ -380,8 +378,8 @@ Dai risultati in tabella \ref{tab:RisultatiMetriche} possiamo trarre alcune conc
 Il TPR misura la percentuale di positivi che sono correttamente identificati come tali quindi l'algoritmo classifica correttamente le classi di appartenenza bassa,media e alta  per più del 80\% dei casi.
 Il TNR misura la percentuale di negativi che siano correttamente identificate come tali. Possiamo osservare come anche in questo caso l'algoritmo non scende mai al disotto del 83\%. Sia per quanto riguarda la precisione che l'accuratezza l'algoritmo si comporta in linea agli altri valori. Da notare che la classe di pericolosità più alta ha valori molto alti di TNR e Acc. Questo risultato è dovuto al fatto che le stazioni ad alto rischio sono in numero minore rispetto a quelle categorizzate in fascia bassa e media.  
 
-I risultati appena discussi confermano la bontà del metodo proposto. Ciò nonostante è stata eseguita indagine approfondita sulle stazioni la cui classificazione risulta errata. L'obiettivo è comprendere se ci sono ulteriori margini di miglioramento del metodo.
-I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Fontecchio. Vengono considerati falsi negativi in quanto la loro classificazione non coincide con quella proposta dagli esperti. Inoltre queste 3 stazioni sono state scelte in quanto i rispettivi valori di exposure  si discostano di più dal valore dell'estremo superiore della classe di appartenenza proposta dagli esperti. Ad esempio la stazione di Popoli - Vittorito risulta di classe bassa secondo il giudizio degli esperti. Il metodo però la classifica come classe media. Per questo motivo è un falso negativo. Inoltre per afferire alla classe bassa il valore di exposure deve essere inferiore a 0.2, mentre il valore restituito dal metodo è pari a 0.42. L'errore è quindi pari a 0.22 e risulta il più elevato tra tutti i falsi negativi della classe bassa. Lo stesso ragionamento è stato applicato alla scelta delle altre 2 stazioni prese in considerazione. 
+I risultati appena discussi confermano la bontà del metodo proposto. Ciò nonostante è stata eseguita un'indagine approfondita sulle stazioni la cui classificazione risulta errata. L'obiettivo è comprendere se ci sono ulteriori margini di miglioramento del metodo.
+I falsi negativi analizzati sono i seguenti: Popoli - Vittorito, Canistro e Fontecchio. Vengono considerati falsi negativi in quanto la loro classificazione non coincide con quella proposta dagli esperti. Inoltre queste tre stazioni sono state scelte in quanto i rispettivi valori di exposure  si discostano maggiormente dal valore dell'estremo superiore della classe di appartenenza reali. Ad esempio la stazione di Popoli - Vittorito risulta di classe bassa secondo il giudizio degli esperti. Il metodo però la classifica come classe media. Per questo motivo è un falso negativo. Inoltre per afferire alla classe bassa il valore di exposure deve essere inferiore a 0.2, mentre il valore restituito dal metodo è pari a 0.42. L'errore è quindi pari a 0.22 e risulta il più elevato tra tutti i falsi negativi della classe bassa. Lo stesso ragionamento è stato applicato alla scelta delle altre due stazioni prese in considerazione. 
 
 \newpage
 \section{Stazione di Popoli - Vittorito}
@@ -425,7 +423,7 @@ Apparentemente il metodo sembra funzionare correttamente, ma in realtà la lands
 \end{figure}
 
 
-In altre parole da questa nearest zone possono avere origine più landslides, come si evince dalla figura \ref{popolimultilandslide}. Dall'immagine ci si accorge che sulla stessa nearest zone ci sono diversi versanti di frana (almeno 4) evidenziati dalle frecce in rosso. Il metodo proposto non tiene conto di questo caso particolare e si comporta come se esistesse una sola frana. 
+In altre parole da questa nearest zone possono avere origine più landslides, come si evince dalla figura \ref{popolimultilandslide}. Dall'immagine ci si accorge che sulla stessa nearest zone ci sono diversi versanti di frana (almeno 4) evidenziati dalle frecce in rosso. Il metodo proposto non tiene conto di questo caso particolare e si comporta come se esistesse una sola possibile frana. 
 
 \begin{figure}[h]
 	\centering
@@ -434,7 +432,7 @@ In altre parole da questa nearest zone possono avere origine più landslides, co
 	\label{popolimultilandslide}
 \end{figure}
 
-Per finire la landslide interseca il $BuildingBuffer_i$ e quindi contribuisce all'aumento dell'exposure della stazione. Ciò comporta il passaggio dalla classe bassa alla media e quindi ad una valutazione errata.
+Infine la landslide interseca il $BuildingBuffer_i$ e quindi contribuisce all'aumento dell'exposure della stazione. Ciò comporta il passaggio dalla classe bassa alla media e quindi ad una valutazione errata.
 
 Il caso della stazione di Popoli - Vittorito evidenzia che il metodo proposto ha una limitazione che va presa in considerazione. Non è in grado di gestire più landslides che hanno origine dalla stessa nearest zone, ma per evitare questo inconveniente è sufficiente diminuire l'area delle zones.
 
@@ -496,9 +494,9 @@ Due delle quali però non sono corrette. La landslide di colore verde è affetta
 	\label{wrongperimeter}
 \end{figure}
 
-Ciò accade perché la larghezza della landslide è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della landslide rispetto alla $nz_{i,j}$. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. 
+Ciò accade perché la larghezza della landslide è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della $nz_{i,j}$ rispetto alla landslide. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. 
 
-Ruotandola la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.
+Ruotando la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.
 
 \begin{figure}[h]
 	\centering
@@ -559,7 +557,7 @@ A differenza di Popoli-Vittorito e Canistro, la stazione di Fontecchio è un fal
 	\end{minipage}
 \end{figure}
 
-In questo caso le landslides hanno una traiettoria corretta. La landslide in figura \ref{fontecchiolandslide4} non contiene per intero la nearest zone da cui ha origine, motivo per cui dovrebbe avere una larghezza maggiore. Ciò nonostante, in questo caso, la landslide copre per intero il $BuildingBuffer_i$ e quindi il suo contributo all'exposure è corretto. A questo punto si può ricondurre la  classificazione errata all'insieme \textit{Z} in quanto gli $sz_k$ associati alle $nz_{i,j}$ hanno dei valori troppo bassi (Tabella \ref{tab:szk_fontecchio}). Infatti il valore medio degli è pari a 0.2949, che paragonato a quello delle  stazioni più ad alto rischio come  Sant'Ilario (0.3946), Aversa (0.4605) e Pettorano sul gizio (0.3739) è di gran lunga inferiore.
+In questo caso le landslides hanno una traiettoria corretta. La landslide in figura \ref{fontecchiolandslide4} non contiene per intero la nearest zone da cui ha origine, motivo per cui dovrebbe avere una larghezza maggiore. Ciò nonostante, in questo caso, la landslide copre per intero il $BuildingBuffer_i$ e quindi il suo contributo all'exposure è corretto. A questo punto si può ricondurre la  classificazione errata all'insieme \textit{Z} in quanto gli $sz_k$ associati alle $nz_{i,j}$ hanno dei valori troppo bassi (Tabella \ref{tab:szk_fontecchio}). Infatti il valore medio degli $Sz_k$ è pari a 0.2949, che paragonato a quello delle  stazioni più ad alto rischio come  Sant'Ilario (0.3946), Aversa (0.4605) e Pettorano sul gizio (0.3739) è di gran lunga inferiore.
 
 \begin{table}[h]
 	\centering
