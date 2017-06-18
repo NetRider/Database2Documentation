@@ -6,7 +6,7 @@ Prima di proseguire nel metodo bisogna definire alcune notazioni:
 
 \begin{enumerate}
 	\setcounter{enumi}{18}
-	\item \textbf{$ \mathcal{R} $ (Routes)} $ = \{r_k(k=1,..,\mathbf{card}(\mathcal{R}) | r_k $ è una \textit{Route} ubicata all'interno dei confini della  GeoArea \}. Per \textit{Route} si intende una generica tratta (come ad esempio una ferrovia, un'autostrada) (Immagine \ref{img:route}) descritta dalla tupla < \textit{ID}, \textit{Name}, \textit{geometry}>. Il campo \textit{ID} identifica univocamente la tratta; \textit{Name} una sua etichetta nominale; \textit{geometry} rappresenta una geometria che descrive la tratta sul territorio. Nelle notazioni introdotte di seguito l'occorrenza del pedice $\{k\}$ viene usata $sempre$ per richiamare la \textit{Route} $k-esima$, ovvero alla tratta $r_k$ di $ \mathcal{R} $.
+	\item \textbf{$ \mathcal{R} $ (Routes)} $ = \{r_k(k=1,..,\mathbf{card}(\mathcal{R}) | r_k $ è una \textit{Route} ubicata all'interno dei confini della  GeoArea \}. Per \textit{Route} si intende una generica tratta (come ad esempio una ferrovia, un'autostrada) descritta dalla tupla < \textit{ID}, \textit{Name}, \textit{geometry}>. Il campo \textit{ID} identifica univocamente la tratta; \textit{Name} una sua etichetta nominale; \textit{geometry} rappresenta una geometria che descrive la tratta sul territorio. Nelle notazioni introdotte di seguito l'occorrenza del pedice $\{k\}$ viene usata $sempre$ per richiamare la \textit{Route} $k-esima$, ovvero alla tratta $r_k$ di $ \mathcal{R} $.
 	
 		\begin{figure}[h]
 		\centering
@@ -34,8 +34,8 @@ Il numero $m_{k}$ di sotto-tratte è pari all'arrotondamento in eccesso tra il r
 
 	\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/routes2}
-	\caption{}
+	\includegraphics[width=0.4\textwidth]{images/routes2_new}
+	\caption{Nella figura viene mostrata la procedura di segmentazione di una \textit{Route} in sotto-tratte di lunghezza $v$. Si può notare in questo caso che  l'ultima sotto-tratta $rs_{1,{m_1}}$ ha lunghezza inferiore a $v$}
 	\label{img:segment}
 	\end{figure}
 
@@ -45,16 +45,24 @@ Il numero $m_{k}$ di sotto-tratte è pari all'arrotondamento in eccesso tra il r
 n_{k,s}=\left\lceil\left(\frac{Lunghezza(rs_{k,s})}{q}\right)\right\rceil
 \end{equation}
 \\
-Al termine del campionamento, tutti i punti avranno una distanza dagli adiacenti pari al passo di campionamento ad eccezione dell'ultimo che avrà una distanza $\le q$. Pertanto si consiglia un passo di campionamento $q$ che sia divisibile per $v$ (in questo modo l'unico punto ad avere distanza $\le q$ dai vicini sarà l'ultimo punto della ultima sotto-tratta di $r_k$ ) Il valore di $n_{k,s}$ corrisponde alla $\mathbf{card}(\mathcal{RSP}_{k,s})$
+Al termine del campionamento, tutti i punti avranno una distanza dagli adiacenti pari al passo di campionamento ad eccezione dell'ultimo che avrà una distanza $\le q$ (Figura \ref{img:campionamento} e \ref{img:campionamento_2}). Pertanto si consiglia un passo di campionamento $q$ che sia divisibile per $v$ (in questo modo l'unico punto ad avere distanza $\le q$ dai vicini sarà l'ultimo punto della ultima sotto-tratta di $r_k$ ) Il valore di $n_{k,s}$ corrisponde alla $\mathbf{card}(\mathcal{RSP}_{k,s})$
 \\
 
-	\begin{figure}[h]
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/routes3}
-	\caption{}
-	\label{img:campionamento}
-	\end{figure}
+\includegraphics[width=0.6\textwidth]{images/routes3}
+\caption{Esempio di campionamento di una \textit{Route Segment} con passo di campionamento $q$ (Caso con $v$ divisibile per $q$) }
+\label{img:campionamento}
+\end{figure}
 
+\begin{figure}[h]
+	\centering
+\includegraphics[width=0.6\textwidth]{images/routes4}
+\caption{Esempio di campionamento di una \textit{Route Segment} con passo di campionamento $q$ (Caso con $v$ non divisibile per $q$). Si nota in questo caso l'ultimo punto di colore blue si trova a distanza <$q$ dall'adiacente }
+\label{img:campionamento_2}
+\end{figure}
+
+\newpage
 \noindent Una volta ottenuti i punti $rsp_{k,s,p}$ che approssimano la sotto-tratta $rs_{k,s}$, è possibile applicare il metodo base di calcolo per l'exposure. Per il metodo esteso alle tratte, si è deciso di lavorare su due sistemi diversi per la rappresentazione della exposure. Le definiamo con le seguenti notazioni:
 
 \begin{enumerate}
@@ -70,7 +78,8 @@ $ \{exprsp_{k,s,p} (k=1,..,\mathbf{card}(\mathcal{R})),(s=1,..,\mathbf{card}(\ma
 \noindent Il secondo sistema invece parte dai risultati ottenuti dal primo ma ha l'obettivo di rappresentare l'exposure non per i singoli punti ma per le specifiche sotto-tratte $rs_{k,s}$. Il valore di exposure per singola sotto-tratta è data dalla seguente equazione:
 
 \begin{equation}\label{eq:exprs}
-exprs_{k,s}=\sum_{p=1}^{n_{k,s}} exprsp_{k,s,p}
+exprs_{k,s}=\frac{1}{n_{k,s}}\left(\sum_{p=1}^{n_{k,s}} exprsp_{k,s,p}\right)
 \end{equation}
 
-\noindent Con parole esplicite, l'exposure di una sotto-tratta $rs_{k,s}$ equivale alla somma delle exposure di tutti i punti $rsp_{k,s,p}$ ottenuti dal suo campionamento. Il risultato sarà rappresentato secondo la notazione \ref{ERS}.
+
+\noindent Con parole esplicite, l'exposure di una sotto-tratta $rs_{k,s}$ equivale alla media delle exposure di tutti i punti $rsp_{k,s,p}$ ottenuti dal suo campionamento. Il risultato sarà rappresentato secondo la notazione \ref{ERS}.
