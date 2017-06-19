@@ -1,3 +1,85 @@
 % Chapter X
 
 \chapter{Estensione della Base di dati alle linee ferroviarie} 
+Avendo esteso il metodo sulle linee ferroviarie si deve estendere la base di dati 
+progettata in precedenza. Tale operazione è molto semplice in quanto il metodo sulle stazioni e indipendente dal metodo esteso sulle linee ferroviarie.
+Seguendo lo stesso modo di procedere della sezione \ref{ProgettazioneBasiDati} 
+individuiamo un associazione tra le definizioni della sezione \ref{metodoLinee}
+e le entità.
+\begin{enumerate}
+	\item railway\_routes $\leftarrow$ $\mathcal{R}$
+	\item railway\_routes\_segment $\leftarrow$ $\mathcal{RS}_k$
+	\item railway\_routes\_points $\leftarrow$ $\mathcal{RSP}_{k,s}$
+	\item exposure\_segments\_points $\leftarrow$ $ExpRSP$
+	\item exposure\_route\_segment $\leftarrow$ $ExpRS$
+	
+\end{enumerate}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[node distance=2cm]
+	
+	%GeoArea
+	\node (GeoArea) [process1, yshift = 1cm] {GeoArea};
+	\node (IdGeoArea) [idEntita, below of= GeoArea,yshift = 1cm,xshift= -1cm] {};
+	\node (GeomGeoArea) [attributo, below of= GeoArea,yshift = 1cm,xshift= 1cm] {};
+	
+	%Zones
+	\node (Zones) [process1, right of= GeoArea, xshift= 3cm] {Zones};
+	\node (IdZones) [idEntita, below of= Zones,yshift = 1cm,xshift= -1cm] {};
+	\node (SZK) [attributo, below of= Zones,yshift = 1cm,xshift= 1cm] {};
+	\node (GeomZones) [attributo, right of = Zones,xshift = 0.5cm] {};
+	
+	%Isoipse
+	\node (Isoipse) [process1, right of= Zones, xshift= 3cm] {Isoipse};
+	\node (IdIsoipse) [idEntita, below of= Isoipse,yshift = 1cm,xshift= -1cm] {};
+	\node (Elevation) [attributo, below of= Isoipse,yshift = 1cm,xshift= 1cm] {};
+	\node (GeomIsoipse) [attributo, right of = Isoipse,xshift = 0.5cm] {};
+	
+	%RaylwayStation
+	\node (RailwayStation) [process1, below of= GeoArea,yshift= -2cm] {railway\_station};
+	\node (IdRailway) [idEntita, below of= RailwayStation,yshift = 1cm,xshift= -1cm] {};
+	\node (NameRailwayStation) [attributo, below of= RailwayStation,yshift = 1cm,xshift= 1cm] {};
+	\node (GeomRailway) [attributo, left of = RailwayStation,xshift = -0.5cm] {};
+	
+	%relazione
+	\node (Relazione) [relazione,right of=RailwayStation,xshift=3cm]{Ha associato};
+	
+	%station_exposure	
+	\node (StationExposure) [process1, right of= Relazione, xshift= 3cm] {station\_exposure};
+	\node (IdStationExposure) [idEntita, below of= StationExposure,yshift = 1cm,xshift= -1cm] {};
+	\node (StationID) [attributo, below of= StationExposure,yshift = 1cm,xshift= 1cm] {};
+	\node (Exposure) [attributo, right of = StationExposure,xshift = 0.5cm] {};
+	
+	
+	
+	%GeoArea
+	\draw [line] (GeoArea.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {id} (IdGeoArea.north);
+	\draw [line] (GeoArea.south) -| node[anchor=east,yshift = -0.6cm,xshift= -0.2cm] {geom}(GeomGeoArea.north);
+	%Zones
+	\draw [line] (Zones.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdZones.north);
+	\draw [line] (Zones.south) -| node[anchor=east,yshift = -0.5cm,xshift= -0.2cm] {Szk}(SZK.north);
+	\draw [line] (Zones.east) -| node[anchor=south,yshift= -0.8cm] {geom}(GeomZones.west);
+	%Isoipse
+	\draw [line] (Isoipse.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdIsoipse.north);
+	\draw [line] (Isoipse.south) -| node[anchor=west,yshift = -0.5cm,xshift= 0.3cm] {Elevation}(Elevation.north);
+	\draw [line] (Isoipse.east) -| node[anchor=north,yshift= 0.7cm] {geom}(GeomIsoipse.west);
+	%RaylwayStation
+	\draw [line] (RailwayStation.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdRailway.north);
+	\draw [line] (RailwayStation.south) -| node[anchor=east,yshift = -0.5cm,xshift= -0.2cm] {Name}(NameRailwayStation.north);
+	\draw [line] (RailwayStation.west) -| node[anchor=north,yshift= 0.7cm] {geom}(GeomRailway.east);
+	%relazione
+	\draw [line] (RailwayStation.east) -| node[anchor=east,yshift = 0.3cm, xshift= -0.9cm] {(0,1)} (Relazione.west);
+	\draw [line] (Relazione.west) -| node[anchor=west,yshift = 0.3cm, xshift= 1cm] {(1,1)} (RailwayStation);
+	\draw [line] (Relazione.east) -| node[anchor=east,yshift = 0.3cm, xshift= -1cm] {(0,1)} (StationExposure.west);
+	\draw [line] (StationExposure.west) -| node[anchor=west,yshift = 0.3cm, xshift= 0.9cm] {(1,1)} (Relazione.east);
+	%station_exposure
+	\draw [line] (StationExposure.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdStationExposure.north);
+	\draw [line] (StationExposure.south) -| node[anchor=west,yshift = -0.5cm,xshift= 0.3cm] {station\_id}(StationID.north);
+	\draw [line] (StationExposure.east) -| node[anchor=north,yshift= 0.7cm,xshift= 0.3cm] {exposure}(Exposure.west);
+	
+	
+	\end{tikzpicture}
+	\caption{rappresentazione diagramma Er della base di dati. sono presenti 1 associazioni ed 5 entità.} 
+	\label{fig:diagrammaEREsteso}
+\end{figure}
