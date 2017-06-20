@@ -17,15 +17,10 @@ Ciascuna di esse è stata suddivisa in sotto-tratte di 1500 metri, campionata su
 I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{tabella-risultati-rotte}. La colorazione delle classi di appartenenza è la stessa di quella vista per le stazioni (rosso classe alta, giallo classe media e verde classe bassa).
 
 \section{Bologna - Bari}
-
+La tratta Bologna - Bari non ha sotto-tratte con exposure elevate. Infatti nessuna rientra nella classe alta (Tabella \ref{exposure_sotto_tratte_bologna_bari}).
 \tiny
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
 	\begin{tabular}{|
 			>{\columncolor[HTML]{32CB00}}l |
 			>{\columncolor[HTML]{32CB00}}l |l|
@@ -69,34 +64,37 @@ I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{t
 		88.5                                                      & 0.116672291                                                    &                                & 30                                                       & 0.009969652                                                    &                                              &                                                          &                                                                \\ \cline{1-2} \cline{4-5}
 		79.5                                                      & 0.108806841                                                    &                                & 108                                                      & 0.007064843                                                    &                                              &                                                          &                                                                \\ \cline{1-2} \cline{4-5}
 	\end{tabular}
+	\caption{Exposure sotto-tratte Bologna - Bari.}
+	\label{exposure_sotto_tratte_bologna_bari}
 \end{table}
 
 \normalsize
 
+Ad ulteriore conferma nessuno dei punti analizzati lungo le sotto-tratte è stato valutato di classe alta mentre l'85.5\% appartiene alla classe bassa (\ref{classi_bologna_bari}).
+
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{risultati_bologna_bari}
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
 		Classe Alta       & 0                   & 0                                   \\ \hline
-		Classe Media      & 9                  & 10.84                               \\ \hline
-		Classe Bassa      & 74                 & 89.16                               \\ \hline
-		Tot. Hotspot      & 83                 & 100                                 \\ \hline
+		Classe Media      & 48                 & 14.50                               \\ \hline
+		Classe Bassa      & 283                 & 85.50                              \\ \hline
+		Tot. Hotspot      & 331                 & 100                                 \\ \hline
 	\end{tabular}
+	\caption{Classi di exposure dei punti della tratta Bologna - Bari.}
+	\label{classi_bologna_bari}
 \end{table}
 
-
+L'algoritmo quindi valuta la tratta come non pericolosa.
 
 \section{Roma - Pescara}
+La tratta Roma - Pescara ha undici sotto-tratte con exposure elevate che rientrano nella classe alta (Tabella \ref{exposure_roma_pescara}).
 
 \tiny
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
 	\begin{tabular}{|
 			>{\columncolor[HTML]{F8FF00}}l |
 			>{\columncolor[HTML]{F8FF00}}l |l|
@@ -142,32 +140,35 @@ I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{t
 		124.5                                                     & 0.580918957                                                    &                                & 57                                                       & 0.223474249                                                    &                                & 166.5                                                    & 0.024317257                                                    &                                &                                                          &                                                                \\ \cline{1-2} \cline{4-5} \cline{7-8}
 		148.5                                                     & 0.578028267                                                    &                                & 28.5                                                     & 0.213933431                                                    &                                & 67.5                                                     & 0.022698642                                                    &                                &                                                          &                                                                \\ \cline{1-2} \cline{4-5} \cline{7-8}
 	\end{tabular}
+	\caption{Exposure sotto-tratte Roma-Pescara.}
+	\label{exposure_roma_pescara}
 \end{table}
 \normalsize
 
+Analizzando i punti campionati sulle sotto-tratte si ottiene che l'11.06\% è di classe alta e il 50\% di classe media (Tabella \ref{risultati_roma_pescara}). 
 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{risultati_roma_pescara}
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
-		Classe Alta       & 14                  & 12.39                                   \\ \hline
-		Classe Media      & 57                  & 50.44                               \\ \hline
-		Classe Bassa      & 42                & 37.17                               \\ \hline
-		Tot. Hotspot      & 113                & 100                                 \\ \hline
+		Classe Alta       & 50                  & 11.06                                   \\ \hline
+		Classe Media      & 226                  & 50                              \\ \hline
+		Classe Bassa      & 176                & 38.97                               \\ \hline
+		Tot. Hotspot      & 452                & 100                                 \\ \hline
 	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Roma-Pescara.}
+	\label{risultati_roma_pescara}
 \end{table}
 
+L'algoritmo valuta quindi la stazione come mediamente pericolosa.
 
 
 \section{Ortona - Crocetta}
+La tratta Ortona - Crocetta non ha sotto-tratte classificate in classe alta (Tabella \ref{exposure_ortona_crocetta}). 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
 	\begin{tabular}{|l|l|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
@@ -221,30 +222,34 @@ I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{t
 		\rowcolor[HTML]{32CB00} 
 		6                                                         & 0.029224383                                                    \\ \hline
 	\end{tabular}
+	\caption{Exposure sotto-tratte Ortona - Crocetta.}
+	\label{exposure_ortona_crocetta}
 \end{table}
 
+Cioè deriva dal fatto che nessuno dei punti campionati sulle sotto-tratte appartiene alla classe alta (Tabella \ref{risultati_ortona_crocetta}).
 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{risultati_roma_pescara}
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
 		Classe Alta       & 0                  & 0                                   \\ \hline
-		Classe Media      & 14                  & 58.34                            \\ \hline
-		Classe Bassa      & 10                & 41.66                               \\ \hline
-		Tot. Hotspot      & 24               & 100                                 \\ \hline
+		Classe Media      & 53                  & 55.20                           \\ \hline
+		Classe Bassa      & 43                & 44.80                               \\ \hline
+		Tot. Hotspot      & 96               & 100                                 \\ \hline
 	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Ortona - Crocetta. }
+	\label{risultati_ortona_crocetta}
 \end{table}
 
+Per l'algoritmo quindi la tratta non è pericolosa.
 
 \section{Marina di San Vito - Castel di Sangro}
+La tratta Marina di San Vito - Castel di Sangro non ha sotto-tratte classificate in classe alta (Tabella \ref{exposure_marina_sangro}). 
+
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
 	\begin{tabular}{|
 			>{\columncolor[HTML]{F8FF00}}l |
 			>{\columncolor[HTML]{F8FF00}}l |lll}
@@ -286,28 +291,34 @@ I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{t
 		36                                                        & 0.387477716                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}85.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0}                 \\ \cline{1-2} \cline{4-5} 
 		99                                                        & 0.384702231                                                    &                                &                                                          &                                                                \\ \cline{1-2}
 	\end{tabular}
+	\caption{Exposure sotto-tratte Marina Di San Vito - Castel di Sangro. }
+	\label{exposure_marina_sangro}
 \end{table}
+
+Non ci sono punti campionati sulle sotto-tratte appartenenti alla classe alta (Tabella \ref{risultati_marina_sangro}). 
 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{risultati_roma_pescara}
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
 		Classe Alta       & 0                  & 0                                   \\ \hline
-		Classe Media      & 55                 & 79.72                             \\ \hline
-		Classe Bassa      & 14              & 22.28                             \\ \hline
-		Tot. Hotspot      & 69                & 100                                 \\ \hline
+		Classe Media      & 215                 & 77.90                             \\ \hline
+		Classe Bassa      & 61              & 22.10                             \\ \hline
+		Tot. Hotspot      & 276                & 100                                 \\ \hline
 	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Marina Di San Vito - Castel di Sangro.}
+	\label{risultati_marina_sangro}
 \end{table}
 
+L'algoritmo classifica la tratta Marina Di San Vito - Castel di Sangro come non pericolosa. 
+
 \section{Teramo - Giulianova}
+La tratta Teramo - Giulianova non ha sotto-tratte classificate in classe alta (Tabella \ref{exposure_teramo_giulianova}).
+
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
 	\begin{tabular}{|l|l|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
@@ -320,57 +331,62 @@ I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{t
 		24                                                        & 0.286300225                                                    \\ \hline
 		\rowcolor[HTML]{F8FF00} 
 		13.5                                                      & 0.216881683                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		15                                                        & 0.194890878                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		19.5                                                      & 0.171522129                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		12                                                        & 0.119305203                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		16.5                                                      & 0.108754075                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		18                                                        & 0.096372297                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		10.5                                                      & 0.060016442                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		9                                                         & 0.052141622                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		0                                                         & 0.032399322                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		4.5                                                       & 0.011101809                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		7.5                                                       & 0.008940119                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		6                                                         & 0                                                              \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		1.5                                                       & 0                                                              \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		3                                                         & 0                                                              \\ \hline
 	\end{tabular}
+	\caption{Exposure sotto-tratte Teramo - Giulianova.}
+	\label{exposure_teramo_giulianova}
 \end{table}
+
+Non ci sono punti campionati sulle sotto-tratte appartenenti alla classe alta mentre l'82.09\% appartiene alla classe bassa. (Tabella \ref{risultati_teramo_giulianova})
 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{risultati_roma_pescara}
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
 		Classe Alta       & 0                  & 0                                   \\ \hline
-		Classe Media      & 4                 & 23.53                           \\ \hline
-		Classe Bassa      & 13              & 76.47                               \\ \hline
-		Tot. Hotspot      & 17               & 100                                 \\ \hline
+		Classe Media      & 12                 & 17.92                           \\ \hline
+		Classe Bassa      & 55              & 82.09                               \\ \hline
+		Tot. Hotspot      & 67               & 100                                 \\ \hline
 	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Teramo - Giulianova.}
+	\label{risultati_teramo_giulianova}
 \end{table}
 
+Per l'algoritmo la tratta non è pericolosa.
 
 \section{Avezzano - Roccasecca}
 
+La tratta Avezzano - Roccasecca ha tre sotto-tratte in classe alta, tre in classe bassa e tutte le altre in classe media (Tabella \ref{exposure_avezzano_roccasecca}).
+
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{my-label}
 	\begin{tabular}{|l|l|}
 		\hline
 		\rowcolor[HTML]{9B9B9B} 
@@ -431,32 +447,221 @@ I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{t
 		39                                                        & 0.436818703                                                    \\ \hline
 		\rowcolor[HTML]{F8FF00} 
 		9                                                         & 0.370730657                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		1.5                                                       & 0.116870341                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		45                                                        & 0.088777059                                                    \\ \hline
-		\rowcolor[HTML]{009901} 
+		\rowcolor[HTML]{32CB00} 
 		0                                                         & 0                                                              \\ \hline
 	\end{tabular}
+	\caption{Exposure sotto-tratte Avezzano - Roccasecca.}
+	\label{exposure_avezzano_roccasecca}
 \end{table}
+
+La motivazione dietro questi risultati è che l'82.93\% dei punti campionati sulle sotto-tratte appartiene alla classe media.
 
 \begin{table}[H]
 	\centering
-	\caption{My caption}
-	\label{risultati_roma_pescara}
 	\begin{tabular}{|c|c|c|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
-		Classe Alta       & 3                  & 9.68                                   \\ \hline
-		Classe Media      & 25                 & 80.64                          \\ \hline
-		Classe Bassa      & 3              & 9.68                               \\ \hline
-		Tot. Hotspot      & 31               & 100                                 \\ \hline
+		Classe Alta       & 8                  & 6.50                                   \\ \hline
+		Classe Media      & 102                 & 82.93                         \\ \hline
+		Classe Bassa      & 13              & 10.57                              \\ \hline
+		Tot. Hotspot      & 123               & 100                                 \\ \hline
 	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Avezzano - Roccasecca.}
+	\label{risultati_avezzano_roccasecca}
 \end{table}
 
+Per l'algoritmo la tratta è mediamente pericolosa.  
+
 \section{Sulmona - Carpinone}
+Per quanto riguarda la tratta Sulmona - Carpinone diciassette sotto-tratte appartengono alla classe alta (Tabella \ref{exposure_sulmona_carpinone}).
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|
+			>{\columncolor[HTML]{F8FF00}}l |
+			>{\columncolor[HTML]{F8FF00}}l |lll}
+		\cline{1-2} \cline{4-5}
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Km}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Exposure}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Km}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Exposure}} \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}55.5                              & \cellcolor[HTML]{FE0000}1.759633728                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}27}          & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.518053768}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}57                                & \cellcolor[HTML]{FE0000}1.754272095                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}69}          & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.482942662}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}37.5                              & \cellcolor[HTML]{FE0000}1.678067196                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}30}          & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.466487315}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}9                                 & \cellcolor[HTML]{FE0000}1.650047875                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}4.5}         & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.462147399}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}39                                & \cellcolor[HTML]{FE0000}1.590083906                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}6}           & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.418597137}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}16.5                              & \cellcolor[HTML]{FE0000}1.56693633                             & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}67.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.396732547}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}15                                & \cellcolor[HTML]{FE0000}1.547530146                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}43.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.381704399}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}58.5                              & \cellcolor[HTML]{FE0000}1.542372773                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}84}          & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.363615909}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}54                                & \cellcolor[HTML]{FE0000}1.538790594                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}49.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.325745599}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}36                                & \cellcolor[HTML]{FE0000}1.510824035                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}79.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.28030311}        \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}34.5                              & \cellcolor[HTML]{FE0000}1.456617669                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}76.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.227916949}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}10.5                              & \cellcolor[HTML]{FE0000}1.454595908                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}78}          & \multicolumn{1}{l|}{\cellcolor[HTML]{F8FF00}0.201184676}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}60                                & \cellcolor[HTML]{FE0000}1.434038542                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}70.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.194361897}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}13.5                              & \cellcolor[HTML]{FE0000}1.34134417                             & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}48}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.173660125}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}18                                & \cellcolor[HTML]{FE0000}1.227515383                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}75}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.165235501}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}12                                & \cellcolor[HTML]{FE0000}1.184822081                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}3}           & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.164181538}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}40.5                              & \cellcolor[HTML]{FE0000}1.166387944                            & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}72}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.077441117}       \\ \cline{1-2} \cline{4-5} 
+		61.5                                                      & 1.043963677                                                    & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}1.5}         & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.07724574}        \\ \cline{1-2} \cline{4-5} 
+		52.5                                                      & 0.983277379                                                    & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}45}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.066298031}       \\ \cline{1-2} \cline{4-5} 
+		63                                                        & 0.980895127                                                    & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0}           & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.066161534}       \\ \cline{1-2} \cline{4-5} 
+		33                                                        & 0.936976535                                                    & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}46.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.034980178}       \\ \cline{1-2} \cline{4-5} 
+		7.5                                                       & 0.86267222                                                     & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}73.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.032806692}       \\ \cline{1-2} \cline{4-5} 
+		82.5                                                      & 0.827341989                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		42                                                        & 0.784043431                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		19.5                                                      & 0.757912504                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		81                                                        & 0.75441755                                                     &                       &                                                          &                                                                \\ \cline{1-2}
+		64.5                                                      & 0.742951633                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		21                                                        & 0.711540095                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		22.5                                                      & 0.710543899                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		51                                                        & 0.706803297                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		24                                                        & 0.677138541                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		66                                                        & 0.617583347                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		28.5                                                      & 0.592770385                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+		31.5                                                      & 0.58197369                                                     &                       &                                                          &                                                                \\ \cline{1-2}
+		25.5                                                      & 0.539166924                                                    &                       &                                                          &                                                                \\ \cline{1-2}
+	\end{tabular}
+	\caption{Exposure sotto-tratte Sulmona - Carpinone.}
+	\label{exposure_sulmona_carpinone}
+\end{table}
+
+A conferma di tali risultati il 29.95\% dei punti campionati sulle sotto-tratte cade nella classe alta (Tabella \ref{risultati_sulmona_carpinone}). Questa risulta la percentuale in assoluto più elevata di tutte le tratte prese in considerazione.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} 
+		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
+		Classe Alta       & 68                  & 29.95                                   \\ \hline
+		Classe Media      & 121                 & 53.30                         \\ \hline
+		Classe Bassa      & 38              & 16.75                             \\ \hline
+		Tot. Hotspot      & 227               & 100                                 \\ \hline
+	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Sulmona - Carpinone.}
+	\label{risultati_sulmona_carpinone}
+\end{table}
+
+Da questi risultati si conclude che per l'algoritmo alcune sotto-tratte di Sulmona - Carpinone sono molto pericolose. 
 
 \section{Rieti - L'Aquila - Sulmona}
+La tratta Rieti - L'Aquila - Sulmona ha tredici sotto-tratte che ricadono nella classe alta (Tabella \ref{exposure_rieti_aquila_sulmona}).
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|
+			>{\columncolor[HTML]{F8FF00}}l |
+			>{\columncolor[HTML]{F8FF00}}l |lll}
+		\cline{1-2} \cline{4-5}
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{9B9B9B}\textbf{Km}} & \multicolumn{1}{c|}{\cellcolor[HTML]{9B9B9B}\textbf{Exposure}} & \multicolumn{1}{c|}{\textbf{}} & \multicolumn{1}{c|}{\cellcolor[HTML]{9B9B9B}\textbf{Km}} & \multicolumn{1}{c|}{\cellcolor[HTML]{9B9B9B}\textbf{Exposure}} \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}13.5                              & \cellcolor[HTML]{FE0000}2.434528834                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}55.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.182829169}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}15                                & \cellcolor[HTML]{FE0000}2.368290901                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}54}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.16212414}        \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}12                                & \cellcolor[HTML]{FE0000}2.059848231                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}39}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.143065723}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}31.5                              & \cellcolor[HTML]{FE0000}1.457299075                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}64.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.133817341}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}73.5                              & \cellcolor[HTML]{FE0000}1.457179622                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}43.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.106001465}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}16.5                              & \cellcolor[HTML]{FE0000}1.345973408                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}45}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.094912636}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}75                                & \cellcolor[HTML]{FE0000}1.287062607                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}48}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.090027779}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}22.5                              & \cellcolor[HTML]{FE0000}1.22481572                             & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}69}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.087499001}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}34.5                              & \cellcolor[HTML]{FE0000}1.195829758                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}49.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.082726646}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}30                                & \cellcolor[HTML]{FE0000}1.195693437                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}67.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.080431501}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}33                                & \cellcolor[HTML]{FE0000}1.183634531                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}4.5}         & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.06375405}        \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}10.5                              & \cellcolor[HTML]{FE0000}1.177867184                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}3}           & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.057773791}       \\ \cline{1-2} \cline{4-5} 
+		\cellcolor[HTML]{FE0000}21                                & \cellcolor[HTML]{FE0000}1.150190759                            & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}1.5}         & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.056122065}       \\ \cline{1-2} \cline{4-5} 
+		24                                                        & 1.056500291                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}40.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.023851895}       \\ \cline{1-2} \cline{4-5} 
+		72                                                        & 1.054883241                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}51}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.020748832}       \\ \cline{1-2} \cline{4-5} 
+		36                                                        & 0.920718897                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}42}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.014399407}       \\ \cline{1-2} \cline{4-5} 
+		76.5                                                      & 0.917869673                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}46.5}        & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0.009864687}       \\ \cline{1-2} \cline{4-5} 
+		25.5                                                      & 0.891820014                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}66}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0}                 \\ \cline{1-2} \cline{4-5} 
+		27                                                        & 0.777824276                                                    & \multicolumn{1}{l|}{}          & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}6}           & \multicolumn{1}{l|}{\cellcolor[HTML]{32CB00}0}                 \\ \cline{1-2} \cline{4-5} 
+		79.5                                                      & 0.718088634                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		28.5                                                      & 0.703795282                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		78                                                        & 0.700371978                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		58.5                                                      & 0.500090089                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		18                                                        & 0.454574816                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		57                                                        & 0.442772022                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		19.5                                                      & 0.441437565                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		37.5                                                      & 0.420893266                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		9                                                         & 0.398355493                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		70.5                                                      & 0.37434166                                                     &                                &                                                          &                                                                \\ \cline{1-2}
+		60                                                        & 0.354569332                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		63                                                        & 0.289646437                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		7.5                                                       & 0.287209999                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		61.5                                                      & 0.243278254                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		52.5                                                      & 0.215526822                                                    &                                &                                                          &                                                                \\ \cline{1-2}
+		\cellcolor[HTML]{32CB00}0                                 & \cellcolor[HTML]{32CB00}0.198317061                            &                                &                                                          &                                                                \\ \cline{1-2}
+	\end{tabular}
+	\caption{Exposure sotto-tratte Rieti - L'Aquila - Sulmona.}
+	\label{exposure_rieti_aquila_sulmona}
+\end{table}
 
-\section{Archi stazione - Atessa}
+Quarantesi punti delle sotto-tratte appartengono alla classe alta, ovvero il 21.29\% (Tabella \ref{risultati_rieti_aquila_sulmona}) Soltanto la tratta Sulmona - Carpinone ha una percentuale maggiore. 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} 
+		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
+		Classe Alta       & 46                  & 21.29                                   \\ \hline
+		Classe Media      & 92                 & 42.59                         \\ \hline
+		Classe Bassa      & 78              & 36.12                            \\ \hline
+		Tot. Hotspot      & 216               & 100                                 \\ \hline
+	\end{tabular}
+	\caption{Classi di exposure dei punti delle sotto-tratte Rieti - L'Aquila - Sulmona.}
+	\label{risultati_rieti_aquila_sulmona}
+\end{table}
+
+Da questi risultati si conclude che per l'algoritmo alcune sotto-tratte di Rieti - L'Aquila - Sulmona sono molto pericolose.
+
+\section{Archi Stazione - Atessa}
+Nessuna delle tratte di Archi Stazione - Atessa appartene alla classe alta (Tabella \ref{exposure_archi_atessa}).
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\rowcolor[HTML]{9B9B9B} 
+		\multicolumn{1}{|c|}{\cellcolor[HTML]{9B9B9B}\textbf{Km}} & \multicolumn{1}{c|}{\cellcolor[HTML]{9B9B9B}\textbf{Exposure}} \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		13.5                                                      & 0.496843113                                                    \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		12                                                        & 0.440692262                                                    \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		9                                                         & 0.363006806                                                    \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		10.5                                                      & 0.354543437                                                    \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		7.5                                                       & 0.274951265                                                    \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		0                                                         & 0.273656919                                                    \\ \hline
+		\rowcolor[HTML]{F8FF00} 
+		1.5                                                       & 0.269139503                                                    \\ \hline
+		\rowcolor[HTML]{32CB00} 
+		6                                                         & 0.172300475                                                    \\ \hline
+		\rowcolor[HTML]{32CB00} 
+		3                                                         & 0.136815565                                                    \\ \hline
+		\rowcolor[HTML]{32CB00} 
+		4.5                                                       & 0.128632086                                                    \\ \hline
+	\end{tabular}
+	\caption{Exposure sotto-tratte Archi Stazione - Atessa.}
+	\label{exposure_archi_atessa}
+\end{table}
+Nessun punto delle sotto-tratte appartiene alla classe alta (Tabella \ref{risultati_archi_atessa}).
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} 
+		\textbf{Exposure} & \textbf{\# hotspot} & \textbf{\% di hotspot per exposure} \\ \hline
+		Classe Alta       & 0                  & 0                                  \\ \hline
+		Classe Media      & 26                 & 65                        \\ \hline
+		Classe Bassa      & 14              & 35                            \\ \hline
+		Tot. Hotspot      & 40               & 100                                 \\ \hline
+	\end{tabular}
+	\caption{Classi di expsure dei punti delle sotto-tratte Archi Stazione - Atessa.}
+	\label{risultati_archi_atessa}
+\end{table}
+
+Risulta quindi che per l'algoritmo la tratta non è pericolosa. 
