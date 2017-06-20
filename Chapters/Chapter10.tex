@@ -1,7 +1,7 @@
 % Chapter X
 
-\chapter{Valutazione del metodo rispetto alle linee ferroviarie} r
-Le rotte della regione Abruzzo sono le seguenti:
+\chapter{Valutazione del metodo rispetto alle linee ferroviarie} 
+Le tratte della regione Abruzzo sono le seguenti:
 \begin{enumerate}
 	\item Bologna - Bari
 	\item Roma - Pescara
@@ -13,8 +13,7 @@ Le rotte della regione Abruzzo sono le seguenti:
 	\item Rieti - L'Aquila - Sulmona
 	\item Archi stazione - Atessa
 \end{enumerate}
-Ciascuna di esse è stata suddivisa in sotto-tratte di 1500 metri, campionata successivamente con un passo di 300 metri. 
-I risultati dell'exposure sulle sotto-tratte sono riportati nella tabella \ref{tabella-risultati-rotte}. La colorazione delle classi di appartenenza è la stessa di quella vista per le stazioni (rosso classe alta, giallo classe media e verde classe bassa).
+Ciascuna di esse è stata suddivisa in sotto-tratte lunghe 1500 metri. Ogni sotto-tratta è stata ulteriormente campionata con un passo di 300 metri. Sia le sotto-tratte che i punti derivanti dal campionamento sono stati fatti afferire alle classi alta, medio e basa introdotte nel capitolo 6 ed è stata mantenuta lo stessa colorazione. Nelle prossime sezioni verranno esposti i risultati di ciascuna tratta con un analisi approfondita della Rieti - L'Aquila - Sulmona.
 
 \section{Bologna - Bari}
 La tratta Bologna - Bari non ha sotto-tratte con exposure elevate. Infatti nessuna rientra nella classe alta (Tabella \ref{exposure_sotto_tratte_bologna_bari}).
@@ -611,8 +610,93 @@ Quarantesi punti delle sotto-tratte appartengono alla classe alta, ovvero il 21.
 	\caption{Classi di exposure dei punti delle sotto-tratte Rieti - L'Aquila - Sulmona.}
 	\label{risultati_rieti_aquila_sulmona}
 \end{table}
-
 Da questi risultati si conclude che per l'algoritmo alcune sotto-tratte di Rieti - L'Aquila - Sulmona sono molto pericolose.
+In particolare le prime tre sotto-tratte della tabella \ref{exposure_rieti_aquila_sulmona} hanno i valori di exposure più alti in assoluto tra tutte quelle analizzate. 
+
+E' stata quindi calcolata la matrice di contingenza multi-classe (Tabella \ref{tab:MatriceContingenzaRoute}) e risulta che i valori più alti sono concentrati lungo la diagonale principale. Per questo motivo l'algoritmo ha eseguito una valutazione molto buona.
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1}
+	\begin{tabular}{|c|C{2cm}|C{2cm}|C{2cm}|C{2cm}|c|}
+		\hline
+		\multicolumn{2}{|c|}{}                                                                                               & \multicolumn{3}{c|}{\textbf{Classi Stimate}}                                &                          \\ \cline{3-5}
+		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                             & \cellcolor[HTML]{32CB00}Bassa & \cellcolor[HTML]{FFFE65}Media & \cellcolor[HTML]{FE0000}Alta & \multirow{-2}{*}{Totale} \\ \hline
+		& \cellcolor[HTML]{32CB00}Bassa & 18                            & 2                             & 0                            & 20                       \\ \cline{2-6} 
+		& \cellcolor[HTML]{FFFE65}Media & 2                             & 19                            & 0                            & 21                       \\ \cline{2-6} 
+		\multirow{-3}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi\\ Reali\end{tabular}}} & \cellcolor[HTML]{FE0000}Alta  & 0                             & 0                            & 13                            & 13                        \\ \hline
+		\multicolumn{2}{|c|}{Totale}                                                                                                         & 20                            & 21                            & 13                            & 54                      \\ \hline
+	\end{tabular}
+	\caption{\textit{matrice di contingenza multi-classe} delle sotto-tratte di Rieti - L'Aquila - Sulmona}
+	\label{tab:MatriceContingenzaRoute}
+\end{table} 
+
+In particolare, per quanto riguarda la classe bassa, l’algoritmo riesce a valutare correttamente 18 sotto-tratte su 20. (Tabella \ref{tab:BinariaBassaRoute}).
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1}
+	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
+		\hline
+		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi Stimate}}    &                          \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                                & \cellcolor[HTML]{32CB00}Bassa & \cellcolor[HTML]{ECF4FF}No bassa & \multirow{-2}{*}{Totale} \\ \hline
+		& \cellcolor[HTML]{32CB00}Bassa    & 18                            & 2                                & 20                       \\ \cline{2-5} 
+		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No bassa & 2                            & 32                               & 34                       \\ \hline
+		\multicolumn{2}{|c|}{Totale}                                                 & 20                            & 34                               & 54                      \\ \hline
+	\end{tabular}
+	\caption{\textit{matrice di contingenza binaria} della classe a bassa pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
+	\label{tab:BinariaBassaRoute}
+\end{table}
+
+Per la classe media i risultati continuano ad essere molto buoni. L'algoritmo valuta correttamente 19 sotto-tratte su 21 (Tabella \ref{tab:BinariaMediaRoute}).
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
+		\hline
+		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi Stimate}}    &                          \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                                & \cellcolor[HTML]{FFFE65}Media & \cellcolor[HTML]{ECF4FF}No Media & \multirow{-2}{*}{Totale} \\ \hline
+		& \cellcolor[HTML]{FFFE65}Media    & 19                            & 2                                & 21                       \\ \cline{2-5} 
+		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\ Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No media & 2                             & 31                               & 33                       \\ \hline
+		\multicolumn{2}{|c|}{Totale}                                                                                                            & 21                            & 33                               & 54                      \\ \hline
+	\end{tabular}
+	\caption{\textit{matrice di contingenza binaria} della classe a media pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
+	\label{tab:BinariaMediaRoute}
+\end{table}
+
+I risultati migliori si ottengono però per la classe alta. L'algoritmo valuta correttamente tutte e 13 le sotto-tratte (Tabella \ref{tab:BinariaAltaRoute}).
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1}
+	\begin{tabular}{|c|C{2cm}|C{2cm}|c|c|}
+		\hline
+		\multicolumn{2}{|c|}{}                                                                                                                  & \multicolumn{2}{c|}{\textbf{Classi Stimate}}    &                          \\ \cline{3-4}
+		\multicolumn{2}{|c|}{\multirow{-2}{*}{}}                                                                                                & \cellcolor[HTML]{FE0000}Alta & \cellcolor[HTML]{ECF4FF}No alta & \multirow{-2}{*}{Totale} \\ \hline
+		& \cellcolor[HTML]{FE0000}Alta    & 13                           & 0                                & 13                       \\ \cline{2-5} 
+		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No alta & 0                             & 41                               & 41                       \\ \hline
+		\multicolumn{2}{|c|}{Totale}                                                                                                            & 13                            & 41                               & 54                      \\ \hline
+	\end{tabular}
+	\caption{\textit{matrice di contingenza binaria} della classe ad alta pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
+	\label{tab:BinariaAltaRoute}
+\end{table}
+In tabella \ref{tab:RisultatiMetricheRoute} sono riassunti i risultati con le metriche già illustrate nel capitolo sei. 
+In particolare per la classe alta si ottiene una precisione (P) e una accuratezza (ACC) entrambi massimi (pari a uno).
+\begin{table}[h]
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{|C{3cm}|C{3cm}|C{3cm}|C{3cm}|}
+		\hline
+		\multicolumn{1}{|l|}{\cellcolor[HTML]{FFFFFF}} & \cellcolor[HTML]{32CB00}Bassa & \cellcolor[HTML]{FFFE65}Media & \cellcolor[HTML]{FE0000}Alta \\ \hline
+		\textbf{TPR}                                   & 0,9                                                           & 0,9                                                           & 1                                                          \\ \hline
+		\textbf{TNR}                                   & 0,94                                                           & 0,93                                                           & 1                                                          \\ \hline
+		\textbf{P}                                     & 0,9                                                           & 0,9                                                           & 1                                                          \\ \hline
+		\textbf{Acc}                                   & 0,92                                                           & 0,92                                                           & 1                                                          \\ \hline
+	\end{tabular}
+	\caption{ Fasce di pericolo con metriche (True Positive Rate, True Negative Rate, Precision, Accuracy) associate.}
+	\label{tab:RisultatiMetricheRoute}
+	\end{table}
 
 \section{Archi Stazione - Atessa}
 Nessuna delle tratte di Archi Stazione - Atessa appartene alla classe alta (Tabella \ref{exposure_archi_atessa}).
