@@ -1,7 +1,17 @@
 % Chapter X
 
 \chapter{Valutazione del metodo rispetto alle linee ferroviarie} 
-Ciascuna delle tratte è stata suddivisa in sotto-tratte lunghe 1500 metri. Ogni sotto-tratta è stata ulteriormente campionata con un passo di 300 metri. Sia le sotto-tratte che i punti derivanti dal campionamento sono stati fatti afferire alle classi alta, medio e basa introdotte nel capitolo 6 ed è stata mantenuta lo stessa colorazione. Nelle prossime sezioni verranno esposti i risultati di ciascuna tratta con un analisi approfondita della Rieti - L'Aquila - Sulmona.
+Ciascuna delle tratte è stata suddivisa in sotto-tratte lunghe 1500 metri. Ogni sotto-tratta è stata ulteriormente campionata con un passo di 300 metri. Sia le sotto-tratte che i punti derivanti dal campionamento sono stati fatti afferire alle classi alta, medio e basa introdotte nel capitolo \ref{ch:validazione_stazioni}.
+Una visione d'insieme dei risultati sull'exposure delle tratte è data in figura \ref{tratte_exposure}. La colorazione delle tratte rispecchia le classi di exposure. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/completo}
+	\caption{Exposure tratte regione Abruzzo.}
+	\label{tratte_exposure}
+\end{figure}
+
+Nelle prossime sezioni verranno esposti i risultati di ciascuna tratta con un analisi approfondita della Rieti - L'Aquila - Sulmona.
 
 \section{Bologna - Bari}
 La tratta Bologna - Bari non ha sotto-tratte con exposure elevate. Infatti nessuna rientra nella classe alta (Tabella \ref{exposure_sotto_tratte_bologna_bari}).
@@ -599,7 +609,22 @@ Quarantesi punti delle sotto-tratte appartengono alla classe alta, ovvero il 21.
 	\label{risultati_rieti_aquila_sulmona}
 \end{table}
 Da questi risultati si conclude che per l'algoritmo alcune sotto-tratte di Rieti - L'Aquila - Sulmona sono molto pericolose.
-In particolare le prime tre sotto-tratte della tabella \ref{exposure_rieti_aquila_sulmona} hanno i valori di exposure più alti in assoluto tra tutte quelle analizzate. 
+In particolare le prime tre sotto-tratte della tabella \ref{exposure_rieti_aquila_sulmona} hanno i valori di exposure più alti in assoluto tra tutte quelle analizzate, in particolar modo il $Km$ 13.5 (Figure \ref{km_13}, \ref{km_13d}). 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/rietizoom}
+	\caption{$Km$ 13.5 della tratta Rieti - L'Aquila - Sulmona.}
+	\label{km_13}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/rieti3d}
+	\caption{Rendering 3D del $Km$ 13.5 della tratta Rieti - L'Aquila - Sulmona.}
+	\label{km_13d}
+\end{figure}
+
 
 E' stata quindi calcolata la matrice di contingenza multi-classe (Tabella \ref{tab:MatriceContingenzaRoute}) e risulta che i valori più alti sono concentrati lungo la diagonale principale. Per questo motivo l'algoritmo ha eseguito una valutazione molto buona.
 
