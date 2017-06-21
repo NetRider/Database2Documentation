@@ -312,13 +312,13 @@ Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non
 	}
 	return $exp_i;$
 \end{algorithm}
-La funzione ContributionOfLandSlide($b_i , \mathcal{LS}_i, \mathcal{LSZ}_i, l $) somma tutti i contributi delle \textbf{Landslide} che impattano sull'edificio.
+La funzione ContributionOfLandSlide($b_i , \mathcal{LS}_i, \mathcal{LSZ}_i, l $) somma tutti i contributi delle \textbf{LandSlide} che impattano sull'edificio.
 \begin{enumerate}
 	\item Si inizializza la variabile $exp_i$ 
 	\item Si calcola il buffer di raggio $l$ intorno al building $i$-esimo
 	\item Per ogni elemento $ls_{i,j}$ contenuto in $\mathcal{LS}_i $ si avvia il ciclo for.
-	\item Se l'intersezione tra ($ls_{i,j}$ con $b_i$)$\not=\emptyset$, allora la $ls_{i,j}$ del corrente ciclo corrisponde alla	\textit{LandSlide} ove è ubicato il building.\\
-	Altrimenti la $ls_{i,j}$ corrisponde ad una \textit{LandSlide} che non contiene il building. 
+	\item Se l'intersezione tra ($lsz_{i,j}$ con $b_i$)$\not=\emptyset$, allora la $ls_{i,j}$ del corrente ciclo corrisponde alla	\textit{LandSlide} della \textit{LandSlideZone} ove è ubicato il building.\\
+	Altrimenti $ls_{i,j}$ corrisponde ad una \textit{LandSlide} di una \textit{LandSlideZone} che non contiene il building. 
 	\item Si calcola il valore di \textit{Partial Exposure} con l'equazione \ref{eq:exposure3}) a ed il risultato viene sommato a $exp_i$.
 \end{enumerate}
 \begin{enumerate}
