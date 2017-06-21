@@ -22,14 +22,14 @@ Come detto in precedenza, elemento fondamentale alla base del metodo è la  trai
 	\begin{minipage}[t]{0.4\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{images/landslide0}
-		\caption{Da scrivere}
+		\caption{textcolor{red}{Da scrivere}}
 		\label{landslide0}
 	\end{minipage}
 	\hspace{0.05\linewidth}
 	\begin{minipage}[t]{0.4\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{images/landslide1}
-		\caption{Da scrivere}
+		\caption{textcolor{red}{Da scrivere}}
 		\label{landslide1}
 	\end{minipage}
 \end{figure}
@@ -41,7 +41,7 @@ A questo punto, ricavata la retta che stima la traiettoria di frana $lr_{i,j}$ d
 
 \begin{enumerate}
 	\setcounter{enumi}{13}
-	\item \textbf{$ \mathcal{BLR}_i $} (\textbf{Buffered Linear Regressions}) $= \{blr_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{NZ}_i)\}$ | $\forall lr_{i,j} \in $ \textbf{$ \mathcal{LR}_i $} si ha che $blr_{i,j}$ è la geometria risultante dalla \textit{LineBuffering} di $lr_{i,j}$. $blr_{i,j}$ rappresenta quella che potrebbe essere la scia della frana della particella $nz_{i,j}$ alla quale ci si riferisce. Ovvero identifica l'area che tale frana mette a rischio. 
+	\item \textbf{$ \mathcal{BLR}_i $} (\textbf{Buffered Linear Regressions}) $= \{blr_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{NZ}_i)\}$ | $\forall lr_{i,j} \in $ \textbf{$ \mathcal{LR}_i $} si ha che $blr_{i,j}$ è la geometria risultante dalla \textit{LineBuffering} di $lr_{i,j}$. $blr_{i,j}$ rappresenta quella che potrebbe essere la scia della frana di $nz_{i,j}$ alla quale ci si riferisce. Ovvero identifica l'area che tale frana mette a rischio. 
 	Per una migliore comprensione riferirsi alla (Figura \ref{buffer_regression})
 	
 	\begin{figure}[h]
@@ -67,14 +67,14 @@ A questo punto, ricavata la retta che stima la traiettoria di frana $lr_{i,j}$ d
 	\begin{minipage}[t]{0.4\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{images/landslide2}
-		\caption{Da Scrivere}
+		\caption{textcolor{red}{Modificare immagne cn landslide che pasa affianco alla stazione. Da scrivere}}
 		\label{landslide2}
 	\end{minipage}
 	\hspace{0.05\linewidth}
 	\begin{minipage}[t]{0.4\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{images/landslide3}
-		\caption{Da Scrivere }
+			\caption{textcolor{red}{Da scrivere}}
 		\label{landslide3}
 	\end{minipage}
 \end{figure}
@@ -86,7 +86,7 @@ Avendo definito la nozione di frana che "impatta" sull'edificio $b_i$, rimane da
 \begin{enumerate}
 	\setcounter{enumi}{15}
 	
-	\item \textbf{$IFls_{i,j}$} (\textbf{Impact Factor}) è un valore percentuale $\in(0,1]$ che esprime l'entità dell'impatto della $ls_{i,j}$ sull'edificio $b_i$. Essa corrisponde al rapporto tra l'area della $ls_{i,j} \cap BuildingBuffer_i$ e l'area del $BuildingBuffer_i$ (Equazione \ref{eq:impactfactor}). Un valore di $IFls_{i,j}=1$ equivale a dire che la frana impatta in modo totale sull'edificio. Da tenere conto che un valore pari a 0 non è possibile essendo l'insieme $LS_{i}$ quello delle sole frane che impattano su $b_i$.
+	\item \textbf{$IFls_{i,j}$} (\textbf{Impact Factor}) è un valore percentuale $\in(0,1]$ che esprime l'entità dell'impatto della $ls_{i,j}$ sull'edificio $b_i$. Essa corrisponde al rapporto tra l'area della $ls_{i,j} \cap BuildingBuffer_i$ e l'area del $BuildingBuffer_i$ (Equazione \ref{eq:impactfactor}). Un valore di $IFls_{i,j}=1$ equivale a dire che la frana impatta in modo totale sull'edificio. Da tenere conto che un valore pari a 0 non è possibile essendo l'insieme $ \mathcal{LS}_i $ quello delle sole frane che impattano su $b_i$.
 	
 	\begin{equation}\label{eq:impactfactor}
 	ImpactFactor=\frac{Area(BuildingBuffer_i \cap ls_{i,j})}{Area(BuildingBuffer_i)}
@@ -110,20 +110,20 @@ Definiamo tali zone come \textit{LandSlideZones} (Definizione \ref{LSZ})
 \begin{enumerate}
 	\setcounter{enumi}{16}
 
-	\item \label{LSZ} \textbf{$ \mathcal{LSZ}_i $ (LandSlideZones)} $ = \{lsz_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ con $\mathcal{LSZ}_i \subseteq \mathcal{NZ}_i$  sottoinsieme | $\mathcal{LSZ}_i$ 
-	è l'insieme delle sole $nz_{i,j}$ aventi $ls_{i,j}$ che impatano sull'edificio $b_i$. 
+	\item \label{LSZ} \textbf{$ \mathcal{LSZ}_i $ (LandSlideZones)} $ = \{lsz_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ con $\mathcal{LSZ}_i \subseteq \mathcal{NZ}_i$ | $\mathcal{LSZ}_i$ 
+	è l'insieme delle sole $nz_{i,j}$ aventi $ls_{i,j}$ che impattano sull'edificio $b_i$. 
 	Con parole più esplicite, $lsz_{i,j}$ è la Zone relativa alla \textit{LandSlide} $ls_{i,j}$. 
 	Tenendo presente che $\mathcal{LSZ}_i$ è un sottoinsieme di $\mathcal{NZ}_i$, l'elemento $lsz_{i,j}$  è descritto dalla medesima tupla <\textit{ID}, \textit{boundary}, \textit{$Sz_k$}> di $nz_{i,j}$ . 
 	
-	\item \label{Pexp} $Pexp_i$ \textbf{(Partial Exposures)} $ = \{pexp_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)\}$ |$pexp_{i,j}$ è il valore di exposure parziale con cui la \textit{LandSlideZone} $lsz_{i,j}$ influisce sull'edificio $b_i$. Tale valore dipende dal valore di $Sz_k$ della $lsz_{i,j}$ , dall'area della zone stessa, e dal \textit{Impact Factor} $IFls_{i,j}$ della relativa \textit{LandSlide} sull'edificio $b_i$. Matematicamente $pexp_{i,j}$ è descritta dalla (Equazione \ref{eq:exposure2}). Nel singolare caso in cui ($b_i \cap lsz_{i,j} \not=\emptyset$), ovvero quando si sta calcolando la  \textit{Partial Exposure} della specifica \textit{LandSlideZone} che contiene $b_i$, la relativa $pexp_{i,j}$ viene calcolata imponendo la $IFls_{i,j}=1$ (Equazione \ref{eq:exposure3})  
+	\item \label{Pexp} $pexp_{i,j}$ \textbf{(Partial Exposure)} | $ pexp_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{LSZ}_i)$ è il valore di exposure parziale con cui la \textit{LandSlideZone} $lsz_{i,j}$ influisce sull'edificio $b_i$. Tale valore dipende dal valore di $Sz_k$ della $lsz_{i,j}$ , dall'area della zone stessa, e dal \textit{Impact Factor} $IFls_{i,j}$ della relativa \textit{LandSlide} sull'edificio $b_i$. Matematicamente $pexp_{i,j}$ è descritta dalla (Equazione \ref{eq:exposure2}). Nel caso singolare in cui ($lsz_{i,j}$ contiene $b_i==true$), ovvero quando si sta calcolando la \textit{Partial Exposure} della specifica \textit{LandSlideZone} che contiene $b_i$, la relativa $pexp_{i,j}$ viene calcolata imponendo la $IFls_{i,j}=1$ (Equazione \ref{eq:exposure3})  
 	\\
 	\begin{enumerate}
-		\item[$\bullet$] Caso $b_i \cap lsz_{i,j}=\emptyset$
+		\item[$\bullet$] Se $lsz_{i,j}$ contiene $b_i$
 		\begin{equation}\label{eq:exposure2}
-		pexp_{i,j} =[(Area)*(Sz_{k})] * IFls_{i,j}
+		pexp_{i,j} =(Area)*(Sz_{k}) * IFls_{i,j}
 		\end{equation}
 		
-		\item[$\bullet$] Caso $b_i \cap lsz_{i,j} \not=\emptyset$
+		\item[$\bullet$] Altrimenti
 		\begin{equation}\label{eq:exposure3}
 		pexp_{i,j} =(Area)*(Sz_{k})
 		\end{equation}
@@ -142,7 +142,7 @@ exp_i =\sum_{j=1}^n pexp_{i,j}
 ove n=$\mathbf{card}(\mathcal{LSZ}_i)$
 \bigbreak
 
-Al Termine del metodo avremo un valore di exposure $exp_i$ per ogni edificio $b_i$ della \textit{GeoArea}
+Infine il metodo restituirà per ogni edificio $b_i$ della \textit{GeoArea} un valore di exposure $exp_i$.
 
 
 
