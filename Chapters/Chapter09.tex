@@ -1,0 +1,170 @@
+% Chapter X
+
+\chapter{Estensione della Base di dati alle linee ferroviarie} 
+Avendo esteso il metodo sulle linee ferroviarie si deve estendere la base di dati 
+progettata in precedenza. Tale operazione è molto semplice in quanto il metodo sulle stazioni e indipendente dal metodo esteso sulle linee ferroviarie.
+Seguendo lo stesso modo di procedere della sezione \ref{ProgettazioneBasiDati} 
+individuiamo un associazione tra le definizioni della sezione \ref{metodoLinee}
+e le entità.
+\begin{enumerate}
+	\item railway\_routes $\leftarrow$ $\mathcal{R}$
+	\item railway\_routes\_segment $\leftarrow$ $\mathcal{RS}_k$
+	\item railway\_routes\_points $\leftarrow$ $\mathcal{RSP}_{k,s}$
+	\item exposure\_segments\_points $\leftarrow$ $ExpRSP$
+	\item exposure\_route\_segment $\leftarrow$ $ExpRS$
+	
+\end{enumerate}
+
+\begin{table}[H]
+	\centering
+	\renewcommand{\arraystretch}{1.2} \small
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} 
+		Entità                   & Descrizione                                                                                                                                                 & Attributi                                                           & Attributi Identificanti \\ \hline
+		\multicolumn{1}{|l|}{}   & \multicolumn{1}{l|}{}                                                                                                                                       & \multicolumn{1}{l|}{}                                               & \multicolumn{1}{l|}{}   \\ \hline
+		railway\_routes                  & \begin{tabular}[c]{@{}c@{}}Entità relativa alle linee ferroviarie della\\ regione di interesse\end{tabular}                                & \begin{tabular}[c]{@{}c@{}}gid\\ geom \\ name\end{tabular}                   & gid                      \\ \hline
+		tratte                  & \begin{tabular}[c]{@{}c@{}}Entità relativa ai vari segmenti che \\ compongono le linee ferroviarie\end{tabular}                                                 & \begin{tabular}[c]{@{}c@{}}gid \\ id\_route\\ geom\end{tabular}           & gid                     \\ \hline
+		points    & \begin{tabular}[c]{@{}c@{}}Entità relativa ai punti che \\ costituiscono le tratte.\end{tabular}                                     & \begin{tabular}[c]{@{}c@{}}gid \\ tratta\_id\\ geom\end{tabular}     & gid                     \\ \hline
+		exposure\_tratte         & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ di frana da parte di un segmento che \\ compone una linea ferroviaria \end{tabular}  & \begin{tabular}[c]{@{}c@{}}gid \\ id\_tratta\\ exposure\end{tabular}          & gid                     \\ \hline
+		exposure\_points       & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana dei punti che compongono le tratte\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}gid\\ id\_point\\ exposure\end{tabular} & id                      \\ \hline
+		
+	\end{tabular}
+		
+	\caption{Descrizioni entità}
+	\label{tab:entita}
+\end{table}
+
+\begin{table}[h] \scriptsize
+	\centering
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\rowcolor[HTML]{C0C0C0} 
+		Associazione           & Descrizione                                                                                                                                                                                 & Entità coinvolte                                                                                                                                                    & Attributi             \\ \hline
+		\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{}                                                                                                                                                                       & \multicolumn{1}{l|}{}                                                                                                                                               & \multicolumn{1}{l|}{} \\ \hline
+		hanno associati           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che\\ un punto o una tratta può avere associato un valore\\ di exposure. \end{tabular} & \begin{tabular}[c]{@{}c@{}}exposure\_points\textless\textgreater      points\\ tratte\textless\textgreater exposure\_tratte\end{tabular} & nessuno               \\ \hline
+		Sono costituiti           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che una route \\ può essere associata con N tratte. Una tratta\\ può appartenere ad una sola route.\\ Una tratta può essere costituita da \\ n punti, un punto appartiene ad \\ una sola tratta\end{tabular} & \begin{tabular}[c]{@{}c@{}}  railway\_routes\textless\textgreater tratte \\ points \textless\textgreater tratte      \end{tabular}                                                                                               & nessuno               \\ \hline
+	\end{tabular}
+	
+	\caption{descrizioni associazioni in modo dettagliato}
+	\label{tab:associazioniLinee}
+\end{table}
+
+
+
+
+
+\begin{figure}[H]
+	\centering
+
+	\begin{tikzpicture}[,node distance=2cm]
+	%ExposurePoints
+	\node (ExposurePoints) [process1] {exposure\_points};
+	\node (IdExposurePoint) [idEntita, below of= ExposurePoints,yshift = 1cm,xshift= -1cm] {};
+	\node (IdPoint) [attributo, below of= ExposurePoints,yshift = 1cm,xshift= 1cm] {};
+	\node (Exposure) [attributo, left of = ExposurePoints,xshift = -0.5cm] {};
+	
+	%relazione
+	\node (Relazione) [relazione,right of=ExposurePoints,xshift=2.5cm]{hanno associati};
+	
+	%Point	
+	\node (Points) [process1, right of= Relazione, xshift= 2.5cm] {points};
+	\node (IdPoints) [idEntita, above of= Points,yshift = -1cm,xshift= -1cm] {};
+	\node (IDTratte) [attributo, above of= Points,yshift = -1cm,xshift= 1cm] {};
+	\node (GeomPoints) [attributo, right of = Points,xshift = 0.5cm] {};
+	
+	%Relazione2
+	\node (Relazione2) [relazione,below of=Points,yshift=-1cm]{Sono Costituiti};
+	%Tratte
+	\node (Tratte) [process1, below of= Relazione2, yshift=-1cm] {tratte};
+	\node (IdTratta) [idEntita, below of= Tratte,yshift = 1cm,xshift= -1cm] {};
+	\node (IdRoute) [attributo, below of= Tratte,yshift = 1cm,xshift= 1cm] {};
+	\node (geom) [attributo, right of = Tratte,xshift = 0.5cm] {};
+	
+	%Relazione 3
+	\node (Relazione3) [relazione,left of=Tratte,xshift=-2.5cm]{Sono Costituiti};
+	
+	%RailwayRoutes
+	\node (RailwayRoutes) [process1 , left of = Relazione3,xshift=-2.5cm] {railway\_routes};
+	\node (IdRailwayRoutes) [idEntita, below of= RailwayRoutes,yshift = 1cm,xshift= -1cm] {};
+	\node (geomRailwayRoutes) [attributo, below of= RailwayRoutes,yshift = 1cm,xshift= 1cm] {};
+	\node (NameRailwayRoutes) [attributo, left of = RailwayRoutes,xshift = -0.5cm] {};
+	
+	%relazione 4
+	\node (Relazione4) [relazione,below of=Tratte,yshift=-2cm]{hanno associati};
+	
+	%ExposureTratte
+	\node (RailwayRoutesExposure) [process1 , left of = Relazione4,xshift=-2.5cm] {exposure\_tratte};
+	\node (IdRailwayRoutesExposure) [idEntita, below of= RailwayRoutesExposure,yshift = 1cm,xshift= -1cm] {};
+	\node (idTratte) [attributo, below of= RailwayRoutesExposure,yshift = 1cm,xshift= 1cm] {};
+	\node (ExposureRailwayRoutes) [attributo, left of = RailwayRoutesExposure,xshift = -0.5cm] {};
+	
+	
+
+	%ExposurePoint
+	\draw [line] (ExposurePoints.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdExposurePoint.north);
+	\draw [line] (ExposurePoints.south) -| node[anchor=east,yshift = -0.5cm] {id\_point}(IdPoint.north);
+	\draw [line] (ExposurePoints.west) -| node[anchor=north,yshift= 0.7cm,xshift=-0.2cm] {exposure}(Exposure.east);
+	%relazione
+	\draw [line] (Relazione.west) -| node[anchor=west,yshift = 0.3cm, xshift= 0.2cm] {(1,1)} (ExposurePoints);
+	\draw [line] (Relazione.east) -| node[anchor=east,yshift = 0.3cm, xshift= -0.2cm] {(0,1)} (Points.west);
+
+	%Point
+	\draw [line] (Points.north) -| node[anchor=east,yshift = 0.5cm, xshift= -0.2cm] {gid} (IdPoints.south);
+	\draw [line] (Points.north) -| node[anchor=west,yshift = 0.5cm,xshift= 0.3cm] {id\_tratta}(IDTratte.south);
+	\draw [line] (Points.east) -| node[anchor=south,yshift= -0.7cm,xshift= 0.3cm] {geom}(GeomPoints.west);
+	
+	%relazione2
+	\draw [line] (Points.south) -| node[anchor=west,yshift = -0.5cm, xshift= 0.1cm] {(1,1)} (Relazione2);
+	\draw [line] (Relazione2.south) -| node[anchor=east,yshift = -0.5cm,xshift=0.1cm]{(1,n)}(Tratte.north) ;
+	
+	%Tratte
+	\draw [line] (Tratte.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdTratta.north);
+	\draw [line] (Tratte.south) -| node[anchor=west,yshift = -0.5cm,xshift=0.1cm] {id\_route}(IdRoute.north);
+	\draw [line] (Tratte.east) -| node[anchor=north,yshift= 0.7cm,xshift=0.2cm] {geom}(geom.west);
+	
+	%relazione3
+	\draw [line] (Tratte.west) -| node[anchor=north,yshift = 0.5cm, xshift= 0.6cm] {(1,1)} (Relazione3.east);
+	\draw [line] (Relazione3.west) -| node[anchor=north,yshift = 0.5cm, xshift= 0.6cm] {(1,n)} (RailwayRoutes.east);
+	%railwayRoutes
+	\draw [line] (RailwayRoutes.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdRailwayRoutes.north);
+	\draw [line] (RailwayRoutes.south) -| node[anchor=east,yshift = -0.5cm] {geom}(geomRailwayRoutes.north);
+	\draw [line] (RailwayRoutes.west) -| node[anchor=north,yshift= 0.7cm,xshift=-0.2cm] {name}(NameRailwayRoutes.east);
+	
+	%relazione4
+	\draw [line] (Relazione4.west) -| node[anchor=north,yshift = 0.5cm, xshift= 0.6cm] {(1,1)} (RailwayRoutesExposure.east);
+	\draw [line] (Tratte.south) -| node[anchor=north,yshift = -0.5cm, xshift= 0.4cm] {(0,1)} (Relazione4.north);
+
+	
+	%exposureRoutes
+	\draw [line] (RailwayRoutesExposure.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdRailwayRoutesExposure.north);
+	\draw [line] (RailwayRoutesExposure.south) -| node[anchor=east,yshift = -0.5cm] {id\_tratta}(idTratte.north);
+	\draw [line] (RailwayRoutesExposure.west) -| node[anchor=north,yshift= 0.7cm,xshift=-0.2cm] {exposure}(ExposureRailwayRoutes.east);
+	
+	
+	\end{tikzpicture}
+	\caption{rappresentazione diagramma Er della base di dati estesa. sono presenti 4 associazioni ed 5 entità.} 
+	\label{fig:diagrammaEREsteso}
+	
+	
+\end{figure}
+	\begin{enumerate}
+	\item railway\_routes(\underline{gid},geom,name)
+	\item tratte(\underline{gid},id\_route,geom)
+	\begin{enumerate}
+		\item FK: id\_route REFERENCES railway\_routes  
+	\end{enumerate} 
+	\item points(\underline{gid},id\_tratta,geom)
+	\begin{enumerate}
+		\item FK: id\_tratta REFERENCES tratta  
+	\end{enumerate}
+	\item exposure\_tratte(\underline{gid},id\_tratta,exposure)
+	\begin{enumerate}
+		\item FK: id\_tratta REFERENCES tratte 
+	\end{enumerate}
+	\item exposure\_points(\underline{gid},id\_point,exposure)
+	\begin{enumerate}
+		\item FK: id\_point REFERENCES points  
+	\end{enumerate}
+\end{enumerate}
