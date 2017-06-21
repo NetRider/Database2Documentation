@@ -41,10 +41,9 @@ I dati su cui si è lavorato sono i seguenti:
 \begin{enumerate}
 	\item geo\_area: rappresenta la GEOAREA, ovvero la porzione di territorio di interesse;
 	\item railway\_stations: concerne le stazioni appartenenti alla rete ferroviaria abruzzese;
-	\item railway\_routes: riguarda le linee ferroviarie abruzzesi;
 	\item abruzzo\_raster: i dati raster del territorio abruzzese.
 \end{enumerate}
-I files geo\_area, railway\_stations e railway\_routes sono degli shapefile. Il file raster abruzzo\_raster è stato utilizzato al fine di ricavarsi le curve di livello dell'intera geo\_area. Nell'appendice A è possibile leggere una descrizione dettaglia delle procedura della creazione del dataset, ovvero il modo in cui gli shapefile sono stati importati all'interno della base di dati e poi utilizzati.
+I files geo\_area e railway\_stations  sono degli shapefile. Il file raster abruzzo\_raster è stato utilizzato al fine di ricavarsi le curve di livello dell'intera geo\_area. Nell'appendice A è possibile leggere una descrizione dettaglia delle procedura della creazione del dataset, ovvero il modo in cui gli shapefile sono stati importati all'interno della base di dati e poi utilizzati.
 Per tutta la fase di sperimentazione del metodo è stato utilizzato il software \textbf{PostgresSQL} con l’estensione spaziale \textbf{PostGIS}. In questo ambiente sono stati creati la base di dati, le viste le user defined function (UDF) e sono stati importati gli shapefile. Il software \textbf{QGIS} è stato utilizzato per visualizzare i dati dalle tabelle della basi dati. Il programma è in grado di visualizzare contemporaneamente, su più layers, i dati provenienti da diverse tabelle. In figura \ref{qgis} si possono vedere i dati importati visualizzati all'interno del software QGSIS. E' possibile riconoscere i confini dell'Abruzzo e le stazioni ferroviarie (pari a 114) rappresentate con dei pallini di colore rosso.
 
 \begin{figure}[h]
