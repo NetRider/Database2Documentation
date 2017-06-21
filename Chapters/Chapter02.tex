@@ -100,14 +100,14 @@
 	
 	\begin{figure}[h]
 		\hspace{0.05\linewidth}
-		\begin{minipage}[t]{0.40\linewidth}
+		\begin{minipage}[t]{0.45\linewidth}
 			\centering
 			\includegraphics[width=1\textwidth]{images/ni}
 			\caption{Le linee in blu tratteggiate rappresentano le nearest isoipse $ni_{1,o}$.}
 			\label{NearestIso}
 		\end{minipage}
 		\hspace{0.05\linewidth}
-		\begin{minipage}[t]{0.40\linewidth}
+		\begin{minipage}[t]{0.45\linewidth}
 			\centering
 			\includegraphics[width=1\textwidth]{images/zf}
 			\caption{ 
@@ -120,7 +120,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=0.40\textwidth]{images/czf}
+		\includegraphics[width=0.45\textwidth]{images/czf}
 		\caption{
 			I pallini bianchi rappresentano i $czf_{1,1,t}$ ovvero i centri di massa delle zone fragments $zf_{1,1,t}$ della (Figura \ref{zf}) .}
 		\label{czf}
@@ -141,15 +141,8 @@
 		\textnormal{ove}\: q = cnzy_{i,j} - m*cnzx_{i,j}
 	\end{equation}
 	Questo concetto matematico sarà utilizzato per stimare la direzione di caduta della frana relativa alla $nz_{i,j}$ Figura \ref{linear_regression}.
-	
-	
-	\begin{figure}[h]
-		\centering
-		\includegraphics[width=0.8\textwidth]{images/linear_regression}
-		\caption{La retta di regressione lineare $lr_{i,j}$ di colore celeste, minimizza la distanza (rappresentata con la linea verde chiaro) tra i punti (in questo caso gli $czf_{i,j,t}$) e la retta stessa.}
-		\label{linear_regression}
-	\end{figure}
-	
+		
+	\newpage
 	\item \textit{$BuildingBuffer_i$} rappresenta l'area circostante l'edificio $b_i$ e ne approssima l'estensione. E' definita come la circonferenza centrata su $b_i$ di raggio $l$ dove $l<<r $ con $r$ raggio del \textit{$HazardArea_i$} (Figura \ref{buildingimpactfactor}).
 	
 	\begin{figure}[h]
@@ -161,5 +154,19 @@
 	
 	\item \label{last_enum} \textbf{$EXP$ (Exposure)} $ = \{exp_i(i=1,..,\mathbf{card}(\mathcal{B})) | exp_i $ è il valore di \textit{exposure} del building i-esimo. Per \textit{exposure} si intende il valore numerico che indica quanto il building è esposto al rischio frana, 
 	rappresentato dalla tupla <\textit{ID}, \textit{description}, \textit{position}, \textit{exposure}> 
+	
+			\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.6\textwidth]{images/linear_regression1}
+		\caption{La retta di regressione lineare $lr_{i,j}$ di colore celeste, minimizza la distanza (rappresentata con la linea verde chiaro) tra i punti (in questo caso gli $czf_{i,j,t}$) e la retta stessa.}
+		\label{linear_regression1}
+	\end{figure}
+	\newpage
+	\begin{figure}[t!]
+		\centering
+		\includegraphics[width=0.45\textwidth]{images/linear_regression2}
+		\caption{\textcolor{red}{L'immagine ha bisogno del testo specifico alla caption} Rappresentazione della retta di regressione lineare di $nz_{1,1}$. Si nota in figura che $lr_{1,1}$ passa per il centro di massa della \textit{Nearest Zone}}.
+		\label{linear_regression}
+	\end{figure}
 	
 \end{enumerate}

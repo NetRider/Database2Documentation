@@ -16,17 +16,17 @@ Di seguito verrà proposto lo pseudo-codice dell'algoritmo per il calcolo dell'e
 	\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
 	
 	\IncMargin{1em}
-	\Input{$b_i$,$\mathcal{Z}$,$\mathcal{I}$,r,d,l}
+	\Input{$b_i$,$\mathcal{Z}$,$\mathcal{I}$,$r$,$d$,$l$}
 	\Output{$exp_i$} 
-	\caption{Exposure ($b_i$,$\mathcal{Z}$,$\mathcal{I}$,r,d,l)}
+	\caption{Exposure ($b_i$,$\mathcal{Z}$,$\mathcal{I}$,$r$,$d$,$l$)}
 	\label{alg:0}
 	\BlankLine
 	
 	\SetAlgoNoLine
-	$ \mathcal{NZ}_i \leftarrow$ NearestZonesFinder($\mathcal{Z},b_i$,r); \\
+	$ \mathcal{NZ}_i \leftarrow$ NearestZonesFinder($\mathcal{Z},b_i$,$r$); \\
 	$ \mathcal{NI}_i \leftarrow$ NearestIsoipseFinder($\mathcal{I},b_i,r$); \\
 	$ \mathcal{ZF}_i \leftarrow$ ZoneFragmentFinder($b_i , \mathcal{NZ}_i, \mathcal{NI}_i $);  \\
-	$ \mathcal{BLR}_i \leftarrow $ BufferedLinearRegressionFinder($b_i,\mathcal{ZF}_i,\mathcal{NZ}_i$,d); \\
+	$ \mathcal{BLR}_i \leftarrow $ BufferedLinearRegressionFinder($b_i,\mathcal{ZF}_i,\mathcal{NZ}_i,d$); \\
 	$ \mathcal{LS}_i \leftarrow $ LandSlideFinder($b_i , \mathcal{BLR}_i, l$); \\
 	$ exp_i \leftarrow$ ContributionOfLandSlide($b_i, \mathcal{LS}_i, l$);\\
 	return $ exp_i $;
@@ -45,13 +45,13 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 	\SetKwInOut{Input}{Input}
 	\SetKwInOut{Output}{Output}
 	\IncMargin{1em}
-	\Input{$\mathcal{Z}$,$b_i$,r}
+	\Input{$\mathcal{Z}$,$b_i$,$r$}
 	\Output{$\mathcal{NZ}_i $} 
-	\caption{NearestZonesFinder($\mathcal{Z},b_i$,r)}
+	\caption{NearestZonesFinder($\mathcal{Z},b_i$,$r$)}
 	\label{alg:1}
 	\BlankLine
 	\SetAlgoNoLine
-	$ HazardArea_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,r)} ; \\ 
+	$ HazardArea_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,$r$)} ; \\ 
 	$ \mathcal{NZ}_i  \leftarrow $ $HazardArea_i \cap \mathcal{Z}$; \\
 	return $\mathcal{NZ}_i$;
 	
@@ -75,12 +75,12 @@ La funzione Exposure ($b_i$) elenca i passi fondamentali per poter calcolare il 
 	\label{alg:two}
 	\BlankLine
 	\SetAlgoNoLine
-	$  HazardArea_i   \leftarrow $ \textbf{ST\_Buffer($b_i$,r)}; \\
+	$  HazardArea_i   \leftarrow $ \textbf{ST\_Buffer($b_i$,$r$)}; \\
 	$ \mathcal{NI}_i \leftarrow $ $HazardArea_i \cap \mathcal{I} $; \\
 	return $\mathcal{NI}_i;$
 \end{algorithm}
 \begin{enumerate}
-	\item Crea un buffer ($ HazardArea_i $) di raggio r intorno all'edificio $b_i$
+	\item Crea un buffer ($ HazardArea_i $) di raggio $r$ intorno all'edificio $b_i$
 	\item Interseca tale buffer con le isoipse dell’insieme $\mathcal{I}$. Il risultato è l’insieme contenente le sole isoipse con intersezione non vuota con il buffer costruito, ovvero l’insieme  $\mathcal{NI}_i$
 \end{enumerate}
 
@@ -248,8 +248,8 @@ Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non
 	\item Si inizializza l'insieme $\mathcal{BLR}_i$.
 	\item Per ogni elemento all'interno dell'insieme $\mathcal{NZ}_i$ si attiva il ciclo for. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
 	\item Calcolo del centroide $cnz_{i,j}$.
-	\item Per ogni $zf_{i,j,t}$ contenuto in $nz_i$ si attiva il secondo ciclo for (figura \ref{zf}) 
-	\item Calcolo dei centroidi di $zf_{i,j,t}$ ed inserimento dei punti risultanti in un insieme chiamato Cp(Centroid\_point) (Figura \ref{czf})
+	\item Per ogni $zf_{i,j,t}$ contenuto in $nz_i$ si attiva il secondo ciclo for. 
+	\item Calcolo dei centroidi di $zf_{i,j,t}$ ed inserimento dei punti risultanti in un insieme chiamato Cp(Centroid\_point)
 \end{enumerate}
 \begin{enumerate}
 	\setcounter{enumi}{6}
@@ -275,13 +275,13 @@ Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non
 	\label{alg:four}
 	\BlankLine
 	\SetAlgoNoLine
-	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,l)} ;\\
+	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$,$l$)} ;\\
 	$ \mathcal{LS}_i \leftarrow $ \textbf{ST\_intersection}($BuildingBuffer_i,\mathcal{BLR}_i $) ;\\
 	return $\mathcal{LS}_i;$
 \end{algorithm}
 
 \begin{enumerate}
-	\item Si crea un buffer di raggio $d$ intorno all'edificio $b_i$
+	\item Si crea un buffer di raggio $l$ intorno all'edificio $b_i$
 	\item Si interseca il buffer appena creato con l'insieme  $\mathcal{BLR}_i$
 	\item Ne Risulta un insieme contenente le sole $\mathcal{BLR}_i$ intersecate al buffer.(figura \ref{landslides}) 
 \end{enumerate}
@@ -300,7 +300,7 @@ Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non
 	\SetAlgoNoLine
 	
 	$ exp_i \leftarrow$ \O ;\\
-	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$, l)} ;\\
+	$ BuildingBuffer_i  \leftarrow $ \textbf{ST\_Buffer($b_i$, $l$)} ;\\
 	\For { each $  ls_{i,j} \in \mathcal{LS}_i $ }{
 		\If{\textbf{ST\_intersects($b_i, lsz_{i,j}$)}}{
 			$exp_i \leftarrow $ $exp_i$ + $pexp_{i,j}$ ($equation$ \ref{eq:exposure3}) ;\\
