@@ -423,7 +423,7 @@ Apparentemente il metodo sembra funzionare correttamente, ma in realtà la lands
 \end{figure}
 
 
-In altre parole da questa nearest zone possono avere origine più landslides, come si evince dalla figura \ref{popolimultilandslide}. Dall'immagine ci si accorge che sulla stessa nearest zone ci sono diversi versanti di frana (almeno 4) evidenziati dalle frecce in rosso. Il metodo proposto non tiene conto di questo caso particolare e si comporta come se esistesse una sola possibile frana. 
+In altre parole da questa nearest zone possono avere origine più landslides, come si evince dalla figura \ref{popolimultilandslide}. Dall'immagine ci si accorge che sulla stessa nearest zone ci sono diversi versanti di frana (almeno 4) evidenziati dalle frecce in rosso. Il metodo proposto non è in grado di tener conto di più di un versante per volta, per cui per esso esiste una sola frana per volta. 
 
 \begin{figure}[h]
 	\centering
@@ -494,7 +494,8 @@ Due delle quali però non sono corrette. La landslide di colore verde è affetta
 	\label{wrongperimeter}
 \end{figure}
 
-Ciò accade perché la larghezza della landslide è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza. Per questo motivo bisognerebbe fare attenzione all'orientamento della $nz_{i,j}$ rispetto alla landslide. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. 
+Ciò accade perché la larghezza della landslide è proporzionata al perimetro della $nz_{i,j}$. Quest'ultima non è però di forma quadrata, ovvero non ha i lati tutti della stessa lunghezza.
+Dall'analisi di questo caso emerge chiaramente che è necessario fare attenzione all'orientamento della $nz_{i,j}$ rispetto alla landslide. In questo caso la landslide è  perpendicolare ai lati "corti" della $nz_{i,j}$. 
 
 Ruotando la landslide di 90 gradi in senso orario risulterebbe perpendicolare rispetto ai lati più lunghi e quindi la larghezza sarebbe corretta.
 

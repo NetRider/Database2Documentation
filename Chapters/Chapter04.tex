@@ -147,8 +147,7 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 		\item Viene restituito l'insieme $\mathcal{ZF}_i$
 \end{enumerate}
 
-Per agevolare la comprensione dell'algoritmo viene ora proposto un esempio 
-illustrativo. Supponiamo di avere una nearest zone e delle nearest isoipses come in figura \ref{pseudo1}. 
+Per agevolare la comprensione dell'algoritmo viene ora proposto un esempio che illustra come variano,per ogni istruzione, gli insiemi $Zf_i$, $Tf$, $Ti$ e $Ci$. In più vengono fornite delle immagini a corredo che mostrano a livello visivo ciò che praticamente l'algoritmo sta calcolando. In queste figure, di volta in volta, vengono evidenziati esclusivamente gli elementi dei quattro insiemi effettivamente utilizzati nella riga di codice a cui ci si sta riferendo. Supponiamo di avere una nearest zone e delle nearest isoipses. Eseguendo la riga 4 dello pseudo codice  all'array $Ti$ verranno aggiunte le $ni_{i,o}$ che intersecano la $nz_{i,j}$ (di colore arancione) $Ti_1$, $Ti_2$, $Ti_3$ (di colore rosso). Il passaggio è rappresentato in figura \ref{pseudo1}. 
 
 \begin{figure}[h]
 	\centering
@@ -157,8 +156,7 @@ illustrativo. Supponiamo di avere una nearest zone e delle nearest isoipses come
 	\label{pseudo1}
 \end{figure}
 
-Eseguendo la riga 4 dello pseudo codice  all'array $Ti$ verranno aggiunte le $ni_{i,o}$ che intersecano la $nz_{i,j}$ (di colore arancione) $Ti_1$, $Ti_2$, $Ti_3$ (di colore rosso). 
-A questo punto viene eseguita la riga 5 che splitta la $nz_{i,j}$ con la prima isoipse dell'array $Ti$. Il risultato sono due geometrie che chiameremo $Tf_1$ e $Tf_2$ (Figura \ref{pseudo2}) che vengono aggiunte nell'insieme $Tf$. La nearest isoipse $Ti_1$ è stata utilizzata e quindi viene rimossa dall'array.
+A questo punto viene eseguita la riga 5 che splitta la $nz_{i,j}$ con la prima isoipse dell'insieme $Ti$. Il risultato sono due geometrie che chiameremo $Tf_1$ e $Tf_2$ (Figura \ref{pseudo2}) che vengono aggiunte nell'insieme $Tf$. La nearest isoipse $Ti_1$ è stata utilizzata e quindi viene rimossa dall'insieme (istruzione 6).
 	
 \begin{figure}[h]
 	\centering
@@ -167,7 +165,7 @@ A questo punto viene eseguita la riga 5 che splitta la $nz_{i,j}$ con la prima i
 	\label{pseudo2}
 \end{figure}
 
-A questo punto si verifica, con la condizione del ciclo while alla riga 7, se l'insieme $Tf$ è non vuoto. In questo esempio la condizione è verificata e quindi si entra nel ciclo. Il primo elemento dell'array $Tf$ è $Tf_1$ che non interseca nessuna $ni_{i,o}$ dell'array $Ti$ (Figura \ref{pseudo3}). Quindi l'array $Ci$ della riga 8 è vuoto. Ciò comporta che nell'istruzione succesiva la condizione $Ci$ "non vuoto" non è verificata. Si esegue quindi il ramo else della riga 14. Il primo elemento di $Tf$ viene spostato dall'insieme $ZF_i$.
+A questo punto si verifica, con la condizione del ciclo while alla riga 7, se l'insieme $Tf$ è non vuoto. In questo esempio la condizione è verificata e quindi si entra nel ciclo. Il primo elemento dell'insieme $Tf$ è $Tf_1$ che non interseca nessuna $ni_{i,o}$ di $Ti$ (Figura \ref{pseudo3}). Quindi l'insieme $Ci$ della riga 8 è vuoto. Ciò comporta che nell'istruzione succesiva la condizione $Ci$ "non vuoto" non è verificata. Si esegue quindi il ramo else della riga 14. Il primo elemento di $Tf$ viene spostato dall'insieme $ZF_i$.
 
 \begin{figure}[h]
 	\centering
@@ -176,7 +174,7 @@ A questo punto si verifica, con la condizione del ciclo while alla riga 7, se l'
 	\label{pseudo3}
 \end{figure}
 
-Si ritorna quindi alla riga 7. La condizione del while è verificata in quanto  $Tf$ contiene $Ti_2$. Quest'ultima viene interseca sia $Ti_2$ e $Ti_3$ è quindi l'array $Ci$ conterrà i due elementi (riga 8). Di conseguenza la condizione sulla riga 9 è verificata e quindi $Tf_2$ viene splittato con il primo elemento di $Ci$ ovvero $Ti_2$. Vengono create quindi due nuove geometrie $Tf_3$ e $Tf_4$ (Figura \ref{pseudo4}) e vengono aggiunte all'array $Tf$. Da quest'ultimo viene tolta $Tf_2$. Da $Ti$ viene rimossa $Ti_2$.
+Si ritorna quindi alla riga 7. La condizione del while è verificata in quanto  $Tf$ contiene $Tf_2$. Quest'ultima interseca sia $Ti_2$ e $Ti_3$ è quindi l'insieme $Ci$ conterrà i due elementi (riga 8). Di conseguenza la condizione sulla riga 9 è verificata e quindi $Tf_2$ viene splittato con il primo elemento di $Ci$ ovvero $Ti_2$. Vengono create quindi due nuove geometrie $Tf_3$ e $Tf_4$ (Figura \ref{pseudo4}) e vengono aggiunte all'insieme $Tf$. Da quest'ultimo viene tolta $Tf_2$. Da $Ti$ viene rimossa $Ti_2$.
 	
 \begin{figure}[h]
 	\centering
@@ -185,7 +183,7 @@ Si ritorna quindi alla riga 7. La condizione del while è verificata in quanto  
 	\label{pseudo4}
 \end{figure}
 
-Si ritorna alla riga 7. $Tf$ non è vuoto (contiene $Tf_3$ e $Tf_4$). $Tf_3$ non interseca con $Ti_3$ (Figura \ref{pseudo5}) motivo per cui $Ci$ è vuoto. Quindi viene eseguito il ramo else dell'if alla riga 14. $Tf_3$ viene aggiunto all'array $Zf_i$ e all'istruzione successiva rimosso dall'array $Tf$.
+Si ritorna alla riga 7. $Tf$ non è vuoto (contiene $Tf_3$ e $Tf_4$). $Tf_3$ non interseca $Ti_3$ (Figura \ref{pseudo5}) motivo per cui $Ci$ è vuoto. Quindi viene eseguito il ramo else dell'if alla riga 14. $Tf_3$ viene aggiunto all'insieme $Zf_i$ e all'istruzione successiva rimosso da $Tf$.
 	
 \begin{figure}[h]
 	\centering
@@ -194,7 +192,7 @@ Si ritorna alla riga 7. $Tf$ non è vuoto (contiene $Tf_3$ e $Tf_4$). $Tf_3$ non
 	\label{pseudo5}
 \end{figure}
 
-Di nuovo si torna alla riga 7. $Tf$ non è vuoto, contiene $Tf_4$ che interseca con la $Ti_3$. Quindi $Ci$ è non vuoto e $Tf_4$ viene splittato con $Ti_3$. Il risultato dell'operazione, le geometrie $Tf_5$ e $Tf_6$, vengono aggiunte all'array $Tf$ (Figura \ref{pseudo6}). $Tf_4$ viene rimosso da $Tf$ e $Ti_3$ da $Ti$. 
+Di nuovo si torna alla riga 7. $Tf$ non è vuoto, contiene $Tf_4$ che interseca la $Ti_3$. Quindi $Ci$ è non vuoto e $Tf_4$ viene splittato con $Ti_3$. Il risultato dell'operazione, le geometrie $Tf_5$ e $Tf_6$, vengono aggiunte a $Tf$ (Figura \ref{pseudo6}). $Tf_4$ viene rimosso da $Tf$ e $Ti_3$ da $Ti$. 
 
 \begin{figure}[h]
 	\centering
@@ -203,7 +201,7 @@ Di nuovo si torna alla riga 7. $Tf$ non è vuoto, contiene $Tf_4$ che interseca 
 	\label{pseudo6}
 \end{figure}
 
-Arrivato a questo punto l'array $Ti$ non ha più elementi. Quindi l'intersezione tra $Tf_5$ ( e successivamente $Tf_6$ ) con $Ti$ alla riga 8 risulterà nulla. Per questo motivo $Ci$ è vuoto e viene eseguita la riga 14 (Figura \ref{pseudo7}).
+Arrivato a questo punto l'insieme $Ti$ non ha più elementi. Quindi l'intersezione tra $Tf_5$ ( e successivamente $Tf_6$ ) con $Ti$ alla riga 8 risulterà nulla. Per questo motivo $Ci$ è vuoto e viene eseguita la riga 14 (Figura \ref{pseudo7}).
 
 \begin{figure}[h]
 	\centering
@@ -319,11 +317,11 @@ La funzione ContributionOfLandSlide($b_i , \mathcal{LS}_i, \mathcal{LSZ}_i, l $)
 	\item Per ogni elemento $ls_{i,j}$ contenuto in $\mathcal{LS}_i $ si avvia il ciclo for.
 	\item Se l'intersezione tra ($lsz_{i,j}$ con $b_i$)$\not=\emptyset$, allora la $ls_{i,j}$ del corrente ciclo corrisponde alla	\textit{LandSlide} della \textit{LandSlideZone} ove è ubicato il building.\\
 	Altrimenti $ls_{i,j}$ corrisponde ad una \textit{LandSlide} di una \textit{LandSlideZone} che non contiene il building. 
-	\item Si calcola il valore di \textit{Partial Exposure} con l'equazione \ref{eq:exposure3}) a ed il risultato viene sommato a $exp_i$.
+	\item Si calcola il valore di $pexp_{i,j}$ con l'equazione \ref{eq:exposure3} a ed il risultato viene sommato a $exp_i$.
 \end{enumerate}
 \begin{enumerate}
 	\setcounter{enumi}{7}
-	\item Si calcola il valore di \textit{Partial Exposure} con l'equazione \ref{eq:exposure2} ed il risultato viene sommato a $exp_i$. 
+	\item Si calcola il valore di $pexp_{i,j}$ con l'equazione \ref{eq:exposure2} ed il risultato viene sommato a $exp_i$. 
 \end{enumerate}
 \begin{enumerate}
 	\setcounter{enumi}{10}
