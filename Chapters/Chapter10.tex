@@ -1,7 +1,7 @@
 % Chapter X
 
 \chapter{Valutazione del metodo rispetto alle linee ferroviarie} 
-Ciascuna delle tratte è stata suddivisa in sotto-tratte lunghe 1500 metri. Ogni sotto-tratta è stata ulteriormente campionata con un passo di 300 metri. Sia le sotto-tratte che i punti derivanti dal campionamento sono stati fatti afferire alle classi alta, medio e basa introdotte nel capitolo \ref{ch:validazione_stazioni}.
+Ciascuna delle tratte è stata suddivisa in sotto-tratte lunghe 1500 metri. Ogni sotto-tratta è stata campionata con un passo di 300 metri. Sia le sotto-tratte che i punti derivanti dal campionamento sono stati fatti afferire alle classi alta, medio e bassa introdotte nel capitolo \ref{ch:validazione_stazioni}.
 Una visione d'insieme dei risultati sull'exposure delle tratte è data in figura \ref{tratte_exposure}. La colorazione delle tratte rispecchia le classi di exposure. 
 
 \begin{figure}[h]
@@ -72,11 +72,6 @@ Ad ulteriore conferma nessuno dei punti analizzati lungo le sotto-tratte è stat
 
 \end{table}
 
-
-
-
-L'algoritmo quindi valuta la tratta come non pericolosa.
-
 \section{Roma - Pescara}
 La tratta Roma - Pescara ha quattordici sotto-tratte con exposure elevata che rientrano nella classe alta (Tabella \ref{exposure_roma_pescara}).
 
@@ -143,7 +138,6 @@ Analizzando i punti campionati sulle sotto-tratte si ottiene che l'11.06\% è di
 	\label{risultati_roma_pescara}
 \end{table}
 
-L'algoritmo valuta quindi la tratta come mediamente pericolosa.
 
 \section{Ortona - Crocetta}
 La tratta Ortona - Crocetta non ha sotto-tratte classificate in classe alta (Tabella \ref{exposure_ortona_crocetta}). 
@@ -187,7 +181,6 @@ Cioè deriva dal fatto che nessuno dei punti campionati sulle sotto-tratte appar
 	\label{risultati_ortona_crocetta}
 \end{table}
 
-Per l'algoritmo quindi la tratta non è pericolosa.
 
 \section{Marina di San Vito - Castel di Sangro}
 La tratta Marina di San Vito - Castel di Sangro non ha sotto-tratte classificate in classe alta (Tabella \ref{exposure_marina_sangro}). 
@@ -245,8 +238,6 @@ Non ci sono punti campionati sulle sotto-tratte appartenenti alla classe alta (T
 	\label{risultati_marina_sangro}
 \end{table}
 
-L'algoritmo classifica la tratta Marina Di San Vito - Castel di Sangro come non pericolosa. 
-
 \section{Teramo - Giulianova}
 La tratta Teramo - Giulianova non ha sotto-tratte classificate in classe alta (Tabella \ref{exposure_teramo_giulianova}).
 
@@ -290,8 +281,6 @@ Non ci sono punti campionati sulle sotto-tratte appartenenti alla classe alta me
 	\caption{Classi di exposure dei punti delle sotto-tratte Teramo - Giulianova.}
 	\label{risultati_teramo_giulianova}
 \end{table}
-
-Per l'algoritmo la tratta non è pericolosa.
 
 \section{Avezzano - Roccasecca}
 
@@ -391,8 +380,6 @@ A conferma di tali risultati il 29.95\% dei punti campionati sulle sotto-tratte 
 	\label{risultati_sulmona_carpinone}
 \end{table}
 
-Da questi risultati si conclude che per l'algoritmo alcune sotto-tratte di Sulmona - Carpinone sono molto pericolose. 
-
 \section{Rieti - L'Aquila - Sulmona}
 La tratta Rieti - L'Aquila - Sulmona ha tredici sotto-tratte che ricadono nella classe alta (Tabella \ref{exposure_rieti_aquila_sulmona}).
 \begin{table}[H]
@@ -425,7 +412,7 @@ La tratta Rieti - L'Aquila - Sulmona ha tredici sotto-tratte che ricadono nella 
 	\label{exposure_rieti_aquila_sulmona}
 \end{table}
 
-Quarantesi punti delle sotto-tratte appartengono alla classe alta, ovvero il 21.29\% (Tabella \ref{risultati_rieti_aquila_sulmona}) Soltanto la tratta Sulmona - Carpinone ha una percentuale maggiore. 
+Quarantasei punti delle sotto-tratte appartengono alla classe alta, ovvero il 21.29\% (Tabella \ref{risultati_rieti_aquila_sulmona}) Soltanto la tratta Sulmona - Carpinone ha una percentuale maggiore. 
 
 \begin{table}[H]
 	\centering
@@ -459,7 +446,7 @@ In particolare le prime tre sotto-tratte della tabella \ref{exposure_rieti_aquil
 \end{figure}
 
 
-E' stata quindi calcolata la matrice di contingenza multi-classe (Tabella \ref{tab:MatriceContingenzaRoute}) e risulta che i valori più alti sono concentrati lungo la diagonale principale. Per questo motivo l'algoritmo ha eseguito una valutazione molto buona.
+E' stata quindi calcolata la matrice di contingenza multi-classe (Tabella \ref{tab:MatriceContingenzaRoute}) e risulta che i valori più alti sono concentrati lungo la diagonale principale.
 
 \begin{table}[H]
 	\centering
@@ -490,7 +477,7 @@ In particolare, per quanto riguarda la classe bassa, l’algoritmo riesce a valu
 		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No bassa & 2                            & 32                               & 34                       \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                 & 20                            & 34                               & 54                      \\ \hline
 	\end{tabular}
-	\caption{\textit{matrice di contingenza binaria} della classe a bassa pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
+	\caption{\textit{matrice di contingenza binaria} della classe a bassa pericolosità ricavata a partire dalla tabella di contingenza multi-classe.}
 	\label{tab:BinariaBassaRoute}
 \end{table}
 
@@ -507,7 +494,7 @@ Per la classe media i risultati continuano ad essere molto buoni. L'algoritmo va
 		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\ Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No media & 2                             & 31                               & 33                       \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                                            & 21                            & 33                               & 54                      \\ \hline
 	\end{tabular}
-	\caption{\textit{matrice di contingenza binaria} della classe a media pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
+	\caption{\textit{matrice di contingenza binaria} della classe a media pericolosità ricavata a partire dalla tabella di contingenza multi-classe.}
 	\label{tab:BinariaMediaRoute}
 \end{table}
 
@@ -524,7 +511,7 @@ I risultati migliori si ottengono però per la classe alta. L'algoritmo valuta c
 		\multirow{-2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}Classi \\Reali\end{tabular}}} & \cellcolor[HTML]{ECF4FF}No alta & 0                             & 41                               & 41                       \\ \hline
 		\multicolumn{2}{|c|}{Totale}                                                                                                            & 13                            & 41                               & 54                      \\ \hline
 	\end{tabular}
-	\caption{\textit{matrice di contingenza binaria} della classe ad alta pericolosità ricavata a partire dalla tabella di contingenza non binaria.}
+	\caption{\textit{matrice di contingenza binaria} della classe ad alta pericolosità ricavata a partire dalla tabella di contingenza multi-classe.}
 	\label{tab:BinariaAltaRoute}
 \end{table}
 In tabella \ref{tab:RisultatiMetricheRoute} sono riassunti i risultati con le metriche già illustrate nel capitolo sei. 
@@ -590,8 +577,6 @@ Nessun punto delle sotto-tratte appartiene alla classe alta (Tabella \ref{risult
 		Classe Bassa      & 14              & 35                            \\ \hline
 		Tot. Hotspot      & 40               & 100                                 \\ \hline
 	\end{tabular}
-	\caption{Classi di expsure dei punti delle sotto-tratte Archi Stazione - Atessa.}
+	\caption{Classi di exposure dei punti delle sotto-tratte Archi Stazione - Atessa.}
 	\label{risultati_archi_atessa}
 \end{table}
-
-Risulta quindi che per l'algoritmo la tratta non è pericolosa. 

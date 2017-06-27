@@ -124,12 +124,12 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 	\item Si inizializza l'insieme $\mathcal{ZF}_i$.
 	\item Per ogni $nz_i$ contenuto nell'insieme $\mathcal{NZ}_i$ si attiva l'esecuzione del ciclo. L'indice $i$ è bloccato sul building $i$-esimo mentre la $j$ si muove nell'intervalo (1,..,$\mathbf{card}(\mathcal{NZ}_i)$).
 	\item Si inizializza l'insieme $Tf$ (Temp\_fragment) che conterrà i frammenti intermedi prossimi candidati ad essere delle \textit{Zone Fragment} nel caso non ci siano ulteriori split possibili con esse.
-	\item Assegnazione all'insieme $Ti$(Temp\_isoipse) del risultato dell'intersezione tra la $nz_{i,j}$ corrente con gli elementi $\mathcal{NI}_i$. Dal punto di vista geometrico ciò equivale a depositare nell'insieme $Ti$ le sole isoipse che interessano la specifica \textit{Nearest Zone}. 
+	\item Assegnazione all'insieme $Ti$ (Temp\_isoipse) del risultato dell'intersezione tra la $nz_{i,j}$ corrente con gli elementi $\mathcal{NI}_i$. Dal punto di vista geometrico ciò equivale a depositare nell'insieme $Ti$ le sole isoipse che interessano la specifica \textit{Nearest Zone}. 
 	\item Si esegue lo split della $nz_{i,j}$ con la prima isoipse contenuta nell'insieme $Ti$ che per comodità denoteremo come $Ti$ [1].
-	\item Rimozione dell'isoipse $Ti$ [ 1 ] usata nella split precedente, poichè essendo già stata usata per una split non potrà produrne altre.
+	\item Rimozione dell'isoipse $Ti$ [1] usata nella split precedente, poichè essendo già stata usata per una split non potrà produrne altre.
 	\item Se $Tf \not=\emptyset$ allora esistono ancora frammenti intermedi che potrebbero essere splittati dalle rimanenti isoipse.
-	\item Si interseca il primo frammento di $Tf$, che per comodità denoteremo con $Tf$ [ 1 ], con le rimanenti isoipse $Ti$. Il risultato genera un nuovo insieme chiamato $Ci$(Current\_isoipses).
-	\item Se l'insieme $Ci \not=\emptyset$, vuol dire che il frammento $Tf$ [ 1 ] è ulteriormente splittabile in quanto intersecato da almeno una isoipse.
+	\item Si interseca il primo frammento di $Tf$, che per comodità denoteremo con $Tf$ [1], con le rimanenti isoipse $Ti$. Il risultato genera un nuovo insieme chiamato $Ci$ (Current\_isoipses).
+	\item Se l'insieme $Ci \not=\emptyset$, vuol dire che il frammento $Tf$ [1] è ulteriormente splittabile in quanto intersecato da almeno una isoipse.
 	\\
 	Se invece $Ci =\emptyset$, risulta che il frammento non è attraversato da nessuna isoipse, per cui non sarà più splittabile.
 	\item Viene eseguito lo split di $Tf$ [1] con il (frammento) di isoipse $Ci$[1] ed il risultato viene aggiunto all'insieme $Tf$.
@@ -138,15 +138,15 @@ Il risultato di detta operazione è descritto in figura \ref{zf}.
 \end{enumerate}
 \begin{enumerate}
 	\setcounter{enumi}{14}
-	\item Aggiunta del framento $Tf$ [ 1 ] all'insieme $\mathcal{ZF}_i$  poichè non risulta più splittabile.
-	\item Rimozione del frammento $Tf$ [ 1 ] dall'insieme $Tf$ essendo ormai elemento dell'insieme dei frammenti atomici non più splittabili.
+	\item Aggiunta del framento $Tf$ [1] all'insieme $\mathcal{ZF}_i$  poichè non risulta più splittabile.
+	\item Rimozione del frammento $Tf$ [1] dall'insieme $Tf$ essendo ormai elemento dell'insieme dei frammenti atomici non più splittabili.
 \end{enumerate}
 \begin{enumerate}
 		\setcounter{enumi}{19}
 		\item Viene restituito l'insieme $\mathcal{ZF}_i$
 \end{enumerate}
 
-Per agevolare la comprensione dell'algoritmo viene ora proposto un esempio che illustra come variano,per ogni istruzione, gli insiemi $Zf_i$, $Tf$, $Ti$ e $Ci$. In più vengono fornite delle immagini a corredo che mostrano a livello visivo ciò che praticamente l'algoritmo sta calcolando. In queste figure, di volta in volta, vengono evidenziati esclusivamente gli elementi dei quattro insiemi effettivamente utilizzati nella riga di codice a cui ci si sta riferendo. Supponiamo di avere una nearest zone e delle nearest isoipses. Eseguendo la riga 4 dello pseudo codice  all'array $Ti$ verranno aggiunte le $ni_{i,o}$ che intersecano la $nz_{i,j}$ (di colore arancione) $Ti_1$, $Ti_2$, $Ti_3$ (di colore rosso). Il passaggio è rappresentato in figura \ref{pseudo1}. 
+Per agevolare la comprensione dell'algoritmo viene ora proposto un esempio che illustra come variano, per ogni istruzione, gli insiemi $Zf_i$, $Tf$, $Ti$ e $Ci$. In più vengono fornite delle immagini a corredo che mostrano a livello visivo ciò che l'algoritmo sta calcolando. In queste figure, di volta in volta, vengono evidenziati esclusivamente gli elementi dei quattro insiemi effettivamente utilizzati nella riga di codice a cui ci si sta riferendo. Supponiamo di avere una nearest zone e delle nearest isoipses. Eseguendo la riga 4 dello pseudo codice  all'insieme $Ti$ verranno aggiunte le $ni_{i,o}$ che intersecano la $nz_{i,j}$ (di colore arancione) $Ti_1$, $Ti_2$, $Ti_3$ (di colore rosso). Il passaggio è rappresentato in figura \ref{pseudo1}. 
 
 \begin{figure}[h]
 	\centering
@@ -209,7 +209,7 @@ Arrivato a questo punto l'insieme $Ti$ non ha più elementi. Quindi l'intersezio
 	\label{pseudo7}
 \end{figure}
 
-Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non è più verificata. L'algoritmo termina è ritorna l'array $Zf_i$ contenete i zone fragments.
+Per finire $Tf$ è un array vuoto quindi la condizione del while alla riga 7 non è più verificata. L'algoritmo termina è ritorna l'array $Zf_i$ contenente gli zone fragments.
 
 \newpage
 	
