@@ -40,19 +40,19 @@ Il numero $m_{k}$ di sotto-tratte è pari all'arrotondamento in eccesso tra il r
 	\label{img:segment}
 	\end{figure}
 
-\noindent A questo punto, ogni sotto-tratta $rs_{k,s}$ dovrà essere campionata ed approssimata ad una serie di punti. Si definisce pertanto un passo di campionamento $q << v$ che rappresenta la distanza massima tra i punti. Il numero di punti risultanti dal campionamento della sotto-tratta $rs_{k,s}$ sarà:
+\noindent A questo punto, ogni sotto-tratta $rs_{k,s}$ dovrà essere campionata ed approssimata ad una serie di punti. Si definisce pertanto un passo di campionamento $q << v$ che rappresenta la distanza massima tra due punti consecutivi della medesima sotto-tratta. Il numero di punti risultanti dal campionamento della sotto-tratta $rs_{k,s}$ sarà:
 
 \begin{equation}\label{eq:numerotratte}
 n_{k,s}=\left\lceil\left(\frac{Lunghezza(rs_{k,s})}{q}\right)\right\rceil
 \end{equation}
 \\
-Al termine del campionamento, tutti i punti avranno una distanza dagli adiacenti pari al passo di campionamento ad eccezione dell'ultimo che avrà una distanza $\le q$ (Figura \ref{img:campionamento} e \ref{img:campionamento_2}). Pertanto si consiglia un passo di campionamento $q$ che sia divisibile per $v$ (in questo modo l'unico punto ad avere distanza $\le q$ dai vicini sarà l'ultimo punto della ultima sotto-tratta di $r_k$ ) Il valore di $n_{k,s}$ corrisponde alla $\mathbf{card}(\mathcal{RSP}_{k,s})$
+Al termine del campionamento, ogni punto avrà una distanza da quello successivo pari al passo di campionamento ad eccezione del penultimo punto che avrà una distanza $\le q$ dall'ultimo (Figura \ref{img:campionamento} e \ref{img:campionamento_2}). Pertanto si consiglia un passo di campionamento $q$ che sia divisibile per $v$ (in questo modo l'unico punto ad avere distanza $\le q$ dai vicini sarà l'ultimo punto della ultima sotto-tratta di $r_k$ ) Il valore di $n_{k,s}$ corrisponde alla $\mathbf{card}(\mathcal{RSP}_{k,s})$
 \\
 
 \begin{figure}[h]
 	\centering
 \includegraphics[width=0.6\textwidth]{images/routes3}
-\caption{Esempio di campionamento di una \textit{Route Segment} con passo di campionamento $q$ (Caso con $v$ divisibile per $q$) }
+\caption{Esempio di campionamento di un \textit{Route Segment} con passo di campionamento $q$ (Caso con $v$ divisibile per $q$) }
 \label{img:campionamento}
 \end{figure}
 
@@ -64,7 +64,7 @@ Al termine del campionamento, tutti i punti avranno una distanza dagli adiacenti
 \end{figure}
 
 \newpage
-\noindent Una volta ottenuti i punti $rsp_{k,s,p}$ che approssimano la sotto-tratta $rs_{k,s}$, è possibile applicare il metodo base di calcolo per l'exposure. Per il metodo esteso alle tratte, si è deciso di lavorare su due sistemi diversi per la rappresentazione della exposure. Le definiamo con le seguenti notazioni:
+\noindent Una volta ottenuti i punti $rsp_{k,s,p}$ risultati del camponamento della sotto-tratta $rs_{k,s}$, è possibile applicare il metodo base di calcolo per l'exposure. Per il metodo esteso alle tratte, si è deciso di descrivere l'exposure tramite due rappresentazioni diverse che definiamo con le seguenti notazioni:
 
 \begin{enumerate}
 \setcounter{enumi}{21}
@@ -74,13 +74,13 @@ $ \{exprsp_{k,s,p} (k=1,..,\mathbf{card}(\mathcal{R})),(s=1,..,\mathbf{card}(\ma
 \item \label{ERS} \textbf{$ExpRS$ (Exposure Route Segment)} =\\$ \{Exprs_{k,s} (k=1,..,\mathbf{card}(\mathcal{R})),(s=1,..,\mathbf{card}(\mathcal{RS}_k)) | exprs_{k,s} $ è il valore di \textit{exposure} della sotto-tratta $s-esima$ della tratta $r_k$. Esso è descritto dalla tupla \textit{<km,name,geometry,exposure>} ove \textit{km} identifica a quale sotto-tratta di $r_k$ ci si riferisce; \textit{name} rappresenta il nome della $r_k$ di appartenenza; \textit{geometry} rappresenta la geometria di $rs_{k,s}$, \textit{exposure} indica il valore di exposure della relativa sotto-tratta, intesa come sommatoria delle exposure dei punti $rsp_{k,s,p}$ della medesima. Ogni tupla è univocamente identificabile dalla coppia [km,name].
 
 \end{enumerate}
-\noindent Il primo sistema, rappresenta l'exposure per i singoli punti $rsp_{k,s,p}$ trattandoli come se fossero edifici $b_i$. Pertanto si applica lo stesso metodo del \textit{Capitolo 3} così da cacolare i valori di exposure per ogni punto. Infine tale risultato sarà rappresentato secondo la notazione \ref{ERSP}.
+\noindent La prima rappresentazione (Notazione \ref{ERS}), descrive l'exposure per i singoli punti $rsp_{k,s,p}$ trattandoli come se fossero edifici $b_i$. Pertanto si applica lo stesso metodo del \textit{Capitolo 3} così da calcolare i valori di exposure per ogni punto.
 \bigbreak
-\noindent Il secondo sistema invece parte dai risultati ottenuti dal primo ma ha l'obettivo di rappresentare l'exposure non per i singoli punti ma per le specifiche sotto-tratte $rs_{k,s}$. Il valore di exposure per singola sotto-tratta è data dalla seguente equazione:
+\noindent La seconda invece (Notazione \ref{ERSP}), parte dai risultati ottenuti dalla prima ma ha l'obettivo di descrivere l'exposure non per i singoli punti ma per le specifiche sotto-tratte $rs_{k,s}$. Il valore di exposure per singola sotto-tratta è data dalla seguente equazione:
 
 \begin{equation}\label{eq:exprs}
 exprs_{k,s}=\frac{1}{n_{k,s}}\left(\sum_{p=1}^{n_{k,s}} exprsp_{k,s,p}\right)
 \end{equation}
 
 
-\noindent Con parole esplicite, l'exposure di una sotto-tratta $rs_{k,s}$ equivale alla media delle exposure di tutti i punti $rsp_{k,s,p}$ ottenuti dal suo campionamento. Il risultato sarà rappresentato secondo la notazione \ref{ERS}.
+\noindent Con parole esplicite, l'exposure di una sotto-tratta $rs_{k,s}$ equivale alla media delle exposure di tutti i punti $rsp_{k,s,p}$ ottenuti dal suo campionamento.
