@@ -1,74 +1,78 @@
 % Appendix A
 
-\chapter{Costruzione del dataset}
-Nel ambito dei sistemi informatici geografici hanno una rilevanza importantissima i dataset. Su di essi infatti possono essere fatte le elaborazioni utili alla risoluzione e all'analisi di problematiche territoriali. Tali dati geografici purtroppo sono difficili da reperire e molto spesso non esistono. Questa difficoltà si traduce nel doverli costruire. La costruzione può essere fatta in due modalità:
-\begin{enumerate}
-	\item Studio sul campo. Esso prevede di andare effettivamente sul territorio a campionare i dati. Tale metodo risulta molto costoso e lento.
-	\item Costruzione sintetica del dataset. Questo modo di realizzazione usa dei dati preesistenti e attraverso elaborazioni restituisce un dataset conforme alle specifiche.
-\end{enumerate}
-Nel caso in esame non esistendo un dataset contenente i dati relativi all'esposizione al pericolo frane della regione Abruzzo, si è deciso di costruirne uno. Tale costruzione è stata fatta tenendo conto di diverse specifiche:
-\begin{enumerate}
-	\item Partizionamento completo. Tutto il territorio della regione Abruzzo deve essere partizionato in modo tale da non avere alcuna zona priva di un valore di esposizione al rischio. Ogni partizione verrà chiamata \textit{Zone}.
-	\item Ogni \textit{Zone} deve avere associato un valore che esprime la pericolosità di quella particella rispetto al pericolo che essa frani. Tale valore è chiamato \textit{Szk}
-	\item Ogni \textit{Zone} deve avere un area minima di 500 $m^2$
-\end{enumerate}
-Si è quindi proposta una prima soluzione. Essa verrà esplicitata seguendo una lista di passi.
-\begin{enumerate}
-	\item Creazione di una griglia di 155x155 elementi di lato 1 $km^2$ (fig.\ref{fig:griglia})
-	\item Intersezione della griglia con la regione Abruzzo (fig.\ref{fig:abruzzoGriglia})
-\end{enumerate}
+\chapter{Costruzione di $\mathcal{Z}$}
+Per la soluzione del problema in esame è indispensabile avere una partizione completa del territorio abruzzese in cui ogni \textit{Zone} ha associata un $Sz_k$ che ne indica la propensione alla frana (definizione \ref{def:zones}). Notoriamente i dati geografici non sono facilmente reperibili. In particolare per la regione Abruzzo non è stato mai effettuato uno studio sul campo per censire le aree esposte al rischio frana. Difficilmente un lavoro del genere (lungo e costoso) verrà mai finanziato. Non avendo quindi a disposizione questi dati è stato costruito un dataset sintetico che si ottiene incrociando tra loro diverse tipologie di dati al fine di ottenere l'informazione desiderata (il più possibile coerente con la realtà). In questo caso specifico i valori di $Sz_k$ dovrebbero essere calcolati a partire dai dati territoriali delle singole variabili (tipologia di terreno, pendenza, presenza di vegetazione ecc) che contribuiscono ai fenomeni franosi. Più variabili sono presenti come dati di input, più il valore $Sz_k$ descriverà meglio l'esposizione al rischio. Il caso limite è quello di avere a disposizione tutti i dati relativi alle variabili dai quali estrapolare una stima che sia identica alla valutazione di un geologo. Il vantaggio di avere un unico parametro $Sz_k$ permette, nel caso in cui esso debba essere ricalcolato per via della disponibilità di nuovi dati, di lasciare invariato l'algoritmo. Tale approccio evidenzia quindi la robustezza del metodo proposto. Sulla base di queste considerazioni per costruire il dataset $\mathcal{Z}$ sono state necessarie tre iterazioni.
+
+\subsection{\textbf{Iterazione 1}}
+E' stata creata una griglia, di quadratini di lato l, di dimensioni $n*n$ in grado di contenere l'intera  $\mathcal{GEOAREA}$ (definizione \ref{def:geoarea}) dell'Abruzzo. Tale griglia è stata intersecata con la  $\mathcal{GEOAREA}$ (Figura \ref{fig:griglia}) per ottenere il partizionamento completo (Figura \ref{fig:abruzzoGriglia}).  
 
 \begin{figure}[h]
-	\hspace{0.1\linewidth}
-	\begin{minipage}[t]{0.30\linewidth}
+	\hspace{0.05\linewidth}
+	\begin{minipage}[t]{0.40\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{images/abruzzoQuadratini.PNG}
-		\caption{}
+		\caption{In verde la griglia }
 		\label{fig:griglia}
 	\end{minipage}
-	\hspace{0.2\linewidth}
-	\begin{minipage}[t]{0.30\linewidth}
+	\hspace{0.1\linewidth}
+	\begin{minipage}[t]{0.40\linewidth}
 		\centering
 		\includegraphics[width=\textwidth]{images/abruzzo.PNG}
-		\caption{}
+		\caption{Risultato dell'intersezione.}
 		\label{fig:abruzzoGriglia}
 	\end{minipage}
 \end{figure}
-In primo momento si è proceduto ad assegnare un valore di \textit{Szk} casuale.
-Tale valore però non avrebbe avuto una corrispondenza con la realtà e quindi qualsiasi risultato ottenuto con qualsiasi metodo sarebbe stato impossibile da validare. Si è quindi deciso che tale valore doveva essere deciso secondo una logica ben precisa.
-Non avendo uno studio geologico completo di tutto il territorio abruzzese si è deciso di tenere in considerazione una sola variabile che contribuisce agli eventi franosi, ovvero la conformazione del suolo. Essa viene espressa attraverso delle curve di livello. Esse rappresentano tutti i punti a stessa quota sul territorio. La semplificazione ad una sola variabile permette di poter fare una validazione secondo una metrica ben precisa.
-Le curve di livello  sono state ottenute a partire dai dati DEM del territorio abruzzese.
+
+In questa iterazione, non avendo dati sul territorio disponibili, è stato assegnato un valore di \textit{Szk} casuale. 
+
+\subsection{\textbf{Iterazione 2}}
+Assegnando valori $Sz_k$ casuali non si instaura una corrispondenza tra la morfologia del territorio e il dataset $\mathcal{Z}$. Per questo motivo qualsiasi risultato ottenuto, con il metodo proposto, sarebbe stato impossibile da validare in quanto viene a mancare un confronto tra i risultati prodotti dal metodo e quelli verificati sul campo da un team di esperti.    
+Si è quindi deciso che tale valore doveva essere stimato secondo una logica ben precisa.
+Non avendo uno studio geologico completo di tutto il territorio abruzzese si è presa in  considerazione una sola variabile tra quelle che contribuiscono al verificarsi di un evento franoso (Capitolo \ref{ch:introduction}) ovvero la pendenza del suolo. 
+Sono state quindi introdotte le curve di livello. Esse rappresentano tutti i punti a stessa quota sul territorio. Le curve di livello  sono state ottenute a partire dai dati DEM (Figura \ref{fig:raster_abruzzo}) del territorio abruzzese.
+
 Tali dati sono stati reperiti sul portale USGS (United States Geological Survey). L'USGS è la maggiore agenzia per la cartografia civile degli Stati Uniti. I dati prelevati da tale portale sono quelli della missione NASA SRTM.
 Lo Shuttle Radar Topography Mission (SRTM) è un'impresa internazionale che è riuscita ad ottenere un Modello digitale di elevazione su una scala quasi globale. 
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/STRM.PNG}
-	\caption{In Figura si può osservare l'immagine raster del territorio abruzzese ottenuta dalla missione SRTM}
-	\label{fig:diagrammaER}
+	\caption{Immagine raster (DEM) del territorio abruzzese.}
+	\label{fig:raster_abruzzo}
 \end{figure}
 
-Lo SRTM consisteva in un sistema radar modificato che ha volato a bordo dello Space Shuttle Endeavour durante gli 11 giorni della missione STS-99 del febbraio 2000. Per acquisire i dati topografici dei dati di elevazione, il carico SRTM è stato equipaggiato con due antenne radar. Un'antenna era posizionata nello spazio di carico dello Shuttle, l'altra alla fine di un braccio di 60 metri che si estendeva dallo spazio di carico una volta che lo Shuttle era nello spazio. La tecnica impiegata è conosciuta come Interferometric Synthetic Aperture Radar. I modelli di elevazione ricavati dai dati dello SRTM vengono usati nei Geographic information system (GIS). Possono essere liberamente scaricati tramite internet ed il loro formato di file è supportato da parecchi programmi software. Sono stati prelevati i dati raster della regione Abruzzo e attraverso QGis (Software per la visualizzazione e l'elaborazione di dati geografici) sono state generate le curve di livello. Tali curve hanno una risoluzione di 25m. Infine sono state esportate come shape file.
+Lo SRTM consisteva in un sistema radar modificato che ha volato a bordo dello Space Shuttle Endeavour durante gli 11 giorni della missione STS-99 del febbraio 2000. Per acquisire i dati topografici dei dati di elevazione, il carico SRTM è stato equipaggiato con due antenne radar. Un'antenna era posizionata nello spazio di carico dello Shuttle, l'altra alla fine di un braccio di 60 metri che si estendeva dallo spazio di carico una volta che lo Shuttle era nello spazio. La tecnica impiegata è conosciuta come Interferometric Synthetic Aperture Radar. I modelli di elevazione ricavati dai dati dello SRTM vengono usati nei Geographic information system (GIS). Possono essere liberamente scaricati tramite internet ed il loro formato di file è supportato da molti programmi software. Sono stati prelevati i dati raster della regione Abruzzo e attraverso QGIS (Software per la visualizzazione e l'elaborazione di dati geografici) sono state generate le curve di livello (Appendice \ref{ch:dem_to_isoipse}). Tali curve hanno una risoluzione di 25m (Figura \ref{fig:curve_di_livello}).
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/dettaglioCurve.PNG}
-	\caption{In figura si possono osservare le curve di livello di una porzione di territorio della regione Abruzzo}
-	\label{fig:diagrammaER}
+	\caption{Curve di livello di una porzione di territorio della regione Abruzzo}
+	\label{fig:curve_di_livello}
 \end{figure}
-Avendo introdotto le curve di livello (Isoipse) si sono decisi i valori di \textit{Szk} tenendo conto della morfologia effettiva del terreno. 
-Per far ciò si e semplicemente contato il numero di curve di livello che intersecano ogni \textit{Zone}. Maggiore sono il numero di intersezioni maggiore sarà la ripidità del suolo quindi maggiore sarà il pericolo frana. Come detto in precedenza questa è una semplificazione estrema in quanto nella realtà ci sono moltissimi altri fattori che scatenano una frana. Si è quindi ottenuto un dataset che rimarcasse attraverso gli \textit{Szk} l'andamento del terreno.
+
+Avendo introdotto le curve di livello (Isoipse) si sono decisi i valori di $Sz_k$ tenendo conto della morfologia effettiva del terreno. 
+Per far ciò si e semplicemente contato il numero di curve di livello che intersecano ogni \textit{Zone}. Più il numero di intersezioni è elevato maggiore sarà la ripidità del suolo e quindi aumenterà il pericolo di frana. Il dataset ottenuto rimarca, attraverso gli \textit{Szk}, l'andamento del terreno (Figura \ref{fig:dataset_it_2}).
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/abruzzoZKquadretto.png}
-	\caption{In figura si può osservare il dataset ottenuto tenendo conto delle curve di livello}
-	\label{fig:diagrammaER}
+	\caption{Dataset ottenuto tenendo conto delle curve di livello}
+	\label{fig:dataset_it_2}
 \end{figure}
-Tale dataset ha due grandi limiti.
+
+
+\subsection{\textbf{Iterazione 3}}
+
+Nell'iterazione 2 emergono due problematiche di cui tener conto:
+
 \begin{enumerate}
-	\item Estrema regolarità delle \textit{Zone}
 	\item Aree estremamente piccole lungo i bordi
+	\item Estrema regolarità delle \textit{Zone}
 \end{enumerate}
-Per quanto riguarda il secondo limite si è risolto il problema aggregando le aree piccole a quelle vicine a loro. Essendo il primo limite troppo vincolante si è deciso di cambiare modello di generazione delle \textit{Zone}. Si è quindi provato ad usare il modello di Voronoi. In matematica, un diagramma di Voronoi (dal nome di Georgij Voronoi), anche detto tassellatura di Voronoi, decomposizione di Voronoi, o tassellatura di Dirichlet (dal nome di Lejeune Dirichlet) è un particolare tipo di decomposizione di uno spazio metrico determinata dalle distanze rispetto ad un determinato insieme discreto di elementi dello spazio (ad esempio, un insieme finito di punti). Il risultato ottenuto dall'unione della decomposizione di Voronoi con le curve di livello ha prodotto un risultato davvero soddisfacente. Il limite delle aree regolari si è superato in quanto tale tassellatura genera aree tutte differenti tra di loro. Mentre il limite delle aree molto piccole sui bordi non si presenta affatto.
-Per aumentare la variazione \textit{Szk}  in pianura si è deciso di aggiungere un valore casuale.
+
+Queste problematiche sono state superate cambiando il modello di generazione delle \textit{Zone}. E' stata pertanto utilizzata la decomposizione di Voronoi. In matematica, un diagramma di Voronoi (dal nome di Georgij Voronoi), anche detto tassellatura di Voronoi, decomposizione di Voronoi, o tassellatura di Dirichlet (dal nome di Lejeune Dirichlet) è un particolare tipo di decomposizione di uno spazio metrico determinata dalle distanze rispetto ad un determinato insieme discreto di elementi dello spazio (ad esempio, un insieme finito di punti). 
+Il risultato ottenuto dall'unione della decomposizione di Voronoi con le curve di livello ha prodotto un risultato davvero soddisfacente. Il limite delle geometrie regolari si è superato in quanto tale tassellatura genera geometrie tutte differenti tra di loro. Mentre il limite delle aree molto piccole sui bordi non si presenta affatto.
+Per aumentare la variazione $Sz_k$ in pianura si è deciso di aggiungere un valore casuale.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{images/voronoi.png}
