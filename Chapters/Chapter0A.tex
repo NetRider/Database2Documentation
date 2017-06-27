@@ -23,7 +23,14 @@ E' stata creata una griglia, di quadratini di lato l, di dimensioni $n*n$ in gra
 	\end{minipage}
 \end{figure}
 
-In questa iterazione, non avendo dati sul territorio disponibili, è stato assegnato un valore di \textit{Szk} casuale. 
+In questa iterazione, non avendo dati sul territorio disponibili, è stato assegnato un valore di \textit{$Sz_k$} casuale. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/AbruzzoRandom}
+	\caption{Abruzzo partizionato con valore casuale di $Sz_k$}
+	\label{fig:abruzzo_random}
+\end{figure}
+
 
 \subsection{\textbf{Iterazione 2}}
 Assegnando valori $Sz_k$ casuali non si instaura una corrispondenza tra la morfologia del territorio e il dataset $\mathcal{Z}$. Per questo motivo qualsiasi risultato ottenuto, con il metodo proposto, sarebbe stato impossibile da validare in quanto viene a mancare un confronto tra i risultati prodotti dal metodo e quelli verificati sul campo da un team di esperti.    
@@ -53,7 +60,7 @@ Lo SRTM consisteva in un sistema radar modificato che ha volato a bordo dello Sp
 Avendo introdotto le curve di livello (Isoipse) si sono decisi i valori di $Sz_k$ tenendo conto della morfologia effettiva del terreno. 
 Per far ciò si e semplicemente contato il numero di curve di livello che intersecano ogni \textit{Zone}. Più il numero di intersezioni è elevato maggiore sarà la ripidità del suolo e quindi aumenterà il pericolo di frana. Il dataset ottenuto rimarca, attraverso gli \textit{Szk}, l'andamento del terreno (Figura \ref{fig:dataset_it_2}).
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{images/abruzzoZKquadretto.png}
 	\caption{Dataset ottenuto tenendo conto delle curve di livello}
