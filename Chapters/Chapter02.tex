@@ -6,7 +6,7 @@
 
 \begin{enumerate}
 	
-	\item \textit{GeoArea} : Definisce un territorio di interesse per il calcolo dell'esposizione a rischio frana. La \textit{GeoArea} può rappresentare un comune, una provincia (Figura \ref{RomaBoundary}), una regione (Figura \ref{LazioBoundary}), una nazione (Figura \ref{ItaliaBoundary}) fino ad arrivare ad un intero continente. GeoArea è descritta dalla tupla <\textit{ID}, \textit{description}, \textit{boundary}>.
+	\item \label{def:geoarea} \textit{GeoArea} : Definisce un territorio di interesse per il calcolo dell'esposizione a rischio frana. La \textit{GeoArea} può rappresentare un comune, una provincia (Figura \ref{RomaBoundary}), una regione (Figura \ref{LazioBoundary}), una nazione (Figura \ref{ItaliaBoundary}) fino ad arrivare ad un intero continente. GeoArea è descritta dalla tupla <\textit{ID}, \textit{description}, \textit{boundary}>.
 	
 	\begin{figure}[h]
 		\hspace{0.02\linewidth}
@@ -33,7 +33,7 @@
 	\end{figure}
 	
 	
-	\item  \textbf{$ \mathcal{Z} $ (Zones)} $ = \{ z_k(k=1,2,..) | z_k $ \`e una \textit{Zone} di  GeoArea \}. Una \textit{Zone} definisce una porzione di terreno all'interno della GeoArea ed è descritta dalla tupla <\textit{ID}, \textit{boundary}, \textit{$Sz_k$}>. Il campo \textit{ID} identifica univocamente la k-esima \textit{Zone}, \textit{boundary} la geometria del confine e \textit{$Sz_k$} è un valore decimale che rappresenta la probabilità di frana di $z_k$ (Figura \ref{Zk}).
+	\item \label{def:zones} \textbf{$ \mathcal{Z} $ (Zones)} $ = \{ z_k(k=1,2,..) | z_k $ \`e una \textit{Zone} di  GeoArea \}. Una \textit{Zone} definisce una porzione di terreno all'interno della GeoArea ed è descritta dalla tupla <\textit{ID}, \textit{boundary}, \textit{$Sz_k$}>. Il campo \textit{ID} identifica univocamente la k-esima \textit{Zone}, \textit{boundary} la geometria del confine e \textit{$Sz_k$} è un valore decimale che rappresenta la probabilità di frana di $z_k$ (Figura \ref{Zk}).
 	Si noti che $zk$ è una notazione sovraccaricata in quanto rappresenta sia l’\textit{ID} di una \textit{Zone} che la sua geometria.
 	
 	\begin{figure}[h]
