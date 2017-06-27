@@ -1,6 +1,48 @@
 % Appendix A
 
 \chapter{Costruzione di $\mathcal{Z}$}
+
+\definecolor{main-color}{rgb}{0.6627, 0.7176, 0.7764}
+\definecolor{back-color}{rgb}{0.1686, 0.1686, 0.1686}
+\definecolor{string-color}{rgb}{0.3333, 0.5254, 0.345}
+\definecolor{key-color}{rgb}{0.8, 0.47, 0.196}
+\definecolor{myblue}{rgb}{0.117647 0.564706 1}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+
+
+\lstdefinestyle{mystyle}{
+	language = SQL,
+	basicstyle = {\color{main-color}},
+	backgroundcolor = {\color{back-color}},
+	commentstyle=\color{codegreen},
+	stringstyle = {\color{string-color}},
+	keywordstyle = {\color{key-color}},
+	keywordstyle = [2]{\color{red}},
+	keywordstyle = [3]{\color{teal}},
+	keywordstyle = [4]{\color{myblue}},
+	otherkeywords = {PER, PERFORM, REPLACE, function, returns, void, DECLARE, BEGIN, LOOP, IF, FOR, LANGUAGE, FUNCTION, RETURNS, TEMP, TRUNCATE, WHILE, if},
+	morekeywords = [2]{RECORD, geometry, SERIAL},
+	morekeywords = [3]{\$\$},
+	morekeywords = [4]{ST_Intersects, ST_Intersection, ST_Buffer, st_intersection, st_geometrytype, st_dump, st_linemerge, st_collectionextract, st_split, st_area, ST_Perimeter, st_centroid, st_x, st_y, regr_slope, st_makepoint, st_makeline, st_setsrid, st_distance, ST_LineSubString, st_lineinterpolatepoint, st_length},
+	numberstyle=\normalfont\footnotesize\color{black},
+	stepnumber=1,
+	tabsize=2,
+	literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+
 Per la soluzione del problema in esame è indispensabile avere una partizione completa del territorio abruzzese in cui ogni \textit{Zone} ha associata un $Sz_k$ che ne indica la propensione alla frana (definizione \ref{def:zones}). Notoriamente i dati geografici non sono facilmente reperibili. In particolare per la regione Abruzzo non è stato mai effettuato uno studio sul campo per censire le aree esposte al rischio frana. Difficilmente un lavoro del genere (lungo e costoso) verrà mai finanziato. Non avendo quindi a disposizione questi dati è stato costruito un dataset sintetico che si ottiene incrociando tra loro diverse tipologie di dati al fine di ottenere l'informazione desiderata (il più possibile coerente con la realtà). In questo caso specifico i valori di $Sz_k$ dovrebbero essere calcolati a partire dai dati territoriali delle singole variabili (tipologia di terreno, pendenza, presenza di vegetazione ecc) che contribuiscono ai fenomeni franosi. Più variabili sono presenti come dati di input, più il valore $Sz_k$ descriverà meglio l'esposizione al rischio. Il caso limite è quello di avere a disposizione tutti i dati relativi alle variabili dai quali estrapolare una stima che sia identica alla valutazione di un geologo. Il vantaggio di avere un unico parametro $Sz_k$ permette, nel caso in cui esso debba essere ricalcolato per via della disponibilità di nuovi dati, di lasciare invariato l'algoritmo. Tale approccio evidenzia quindi la robustezza del metodo proposto. Sulla base di queste considerazioni per costruire il dataset $\mathcal{Z}$ sono state necessarie tre iterazioni.
 
 \subsection{\textbf{Iterazione 1}}
@@ -87,103 +129,127 @@ Per aumentare la variazione $Sz_k$ in pianura si è deciso di aggiungere un valo
 	\label{fig:diagrammaER}
 \end{figure}
 In definitiva attraverso le curve di livello ricavate dai dati raster, la suddivisione in poligoni di Voronoi si è ottenuto un dataset sintetico che va a rispettare tutte le specifiche che ci eravamo imposti. Di seguito verranno proposte le UDF relative alla creazione del dataset.
+
 \newpage
-\hrule
-\begin{lstlisting}
-CREATE TABLE voronoi AS
-SELECT (ST_DUMP(geom_voronoi)).geom AS geom_dump 
-FROM (
-SELECT ST_collectionextract(
-ST_voronoipolygons(geom_point),3) AS geom_voronoi
-FROM (
-SELECT ST_GeneratePoints( geom , 22000) AS geom_point
-FROM geo_area AS query3 
-)AS query2
-)AS query;
+\begin{lstlisting}[style = mystyle]
+ CREATE TABLE voronoi AS
+	SELECT (ST_DUMP(geom_voronoi)).geom AS geom_dump 
+	FROM (
+		SELECT ST_collectionextract(
+			ST_voronoipolygons(geom_point),3) AS geom_voronoi
+		FROM (
+			SELECT ST_GeneratePoints( geom , 22000) AS geom_point
+			FROM geo_area AS query3 
+		) AS query2
+	) AS query;
 
-CREATE TABLE dataset AS
-SELECT ST_Intersection(abruzzo.geom,voronoi.geom_dump) AS geom
-FROM voronoi, geo_area AS abruzzo;
-
-
+	CREATE TABLE dataset AS
+	
+	SELECT ST_Intersection(abruzzo.geom,voronoi.geom_dump) AS geom
+	FROM voronoi, geo_area AS abruzzo;
 
 \end{lstlisting}
-\hrule
-\begin{lstlisting}
-CREATE OR REPLACE FUNCTION zkcalcolus (idc INTEGER) RETURNS void
-LANGUAGE plpgsql
-AS $$
-DECLARE
-max INTEGER;
-min INTEGER;
-probabilita FLOAT;
-diff FLOAT;
-cursore RECORD;
-posneg FLOAT;
-variance FLOAT;
-BEGIN
-FOR cursore in SELECT id,geom FROM dataset WHERE idc = id LOOP
-max := 0;
-min := 0;
-diff := 0;
-probabilita := 0;
-posneg := 0;
-variance := 0;
 
-CREATE TEMP TABLE intersezioneQuadratino
-id SERIAL PRIMARY KEY , elevation float, geom geometry);
+\newpage
+\begin{lstlisting}[style = mystyle]
+ CREATE OR REPLACE FUNCTION zkcalcolus (idc INTEGER) RETURNS void
+ LANGUAGE plpgsql
+ AS $$
+ DECLARE
+	max INTEGER;
+	min INTEGER;
+	probabilita FLOAT;
+	diff FLOAT;
+	cursore RECORD;
+	posneg FLOAT;
+	variance FLOAT;
+ BEGIN
+ 
+ 	--- Per ogni zone nell'insieme Z
+	FOR cursore in SELECT id,geom FROM dataset WHERE idc = id LOOP
+		max := 0;
+		min := 0;
+		diff := 0;
+		probabilita := 0;
+		posneg := 0;
+		variance := 0;
 
-INSERT INTO intersezioneQuadratino(elevation, geom) 
-SELECT isoipseabruzzo25.elevation,st_collectionextract(
-st_intersection(dataset.geom,isoipseabruzzo25.geom),2) 
-FROM isoipseabruzzo25,dataset
-WHERE dataset.id = cursore.id;
+		CREATE TEMP TABLE intersezioneQuadratino (
+			id SERIAL PRIMARY KEY, 
+			elevation float, 
+			geom geometry
+		);
+	
+		--- Prende tutte le curve di livello che intersecano la zone
+		INSERT INTO intersezioneQuadratino(elevation, geom) 
+			SELECT 
+				isoipseabruzzo25.elevation,
+				st_collectionextract(st_intersection(
+						dataset.geom,
+						isoipseabruzzo25.geom)
+				,2) 
+			FROM isoipseabruzzo25,dataset
+			WHERE dataset.id = cursore.id;
 
-CREATE TEMP TABLE intersezioneQuadratinoPulita
-(id SERIAL PRIMARY KEY , elevation float, geom geometry);
-INSERT INTO intersezioneQuadratinoPulita 
-SELECT * 
-FROM intersezioneQuadratino 
-WHERE st_astext(geom) <> 'MULTILINESTRING EMPTY';
+		CREATE TEMP TABLE intersezioneQuadratinoPulita (
+			id SERIAL PRIMARY KEY, 
+			elevation float, 
+			geom geometry);
+		
+		--- Scarta tutte le curve di livello con geometria nulla
+		INSERT INTO intersezioneQuadratinoPulita 
+			SELECT * 
+			FROM intersezioneQuadratino 
+			WHERE st_astext(geom) <> 'MULTILINESTRING EMPTY';
 
-max :=( SELECT elevation 
-FROM intersezioneQuadratinoPulita 
-ORDER BY elevation DESC LIMIT 1);
-min :=( SELECT elevation 
-FROM intersezioneQuadratinoPulita 
-ORDER BY elevation ASC LIMIT 1);
+		max :=( SELECT elevation 
+				FROM intersezioneQuadratinoPulita 
+				ORDER BY elevation DESC LIMIT 1);
+		min :=( SELECT elevation 
+				FROM intersezioneQuadratinoPulita 
+				ORDER BY elevation ASC LIMIT 1);
 
-DROP TABLE intersezioneQuadratino;
-DROP TABLE intersezioneQuadratinoPulita;
+		DROP TABLE intersezioneQuadratino;
+		DROP TABLE intersezioneQuadratinoPulita;
 
-posneg :=(SELECT random());
-IF posneg > 0.5 THEN
-posneg = 1;
-ELSE
-posneg = -1;
-END IF;
-variance := (SELECT (random()*0.3));
-variance := variance * posneg;
-diff := max - min;
-IF diff <> 0 THEN
-IF diff > 800 THEN
-probabilita := 1;
-ELSE
-probabilita := diff / 800 ;
-probabilita := probabilita + variance;
-IF probabilita > 1 THEN
-probabilita := 1;
-END IF;
-IF probabilita < 0 THEN
-probabilita := 0;
-END IF;
-END IF;
-ELSE
-probabilita := 0;
-END IF ;
-UPDATE dataset SET zk = probabilita WHERE id = cursore.id;
-END LOOP;
+		--- L'algoritmo deve sommare o sottrare un valore casuale 
+		--- all' Sz_k. Posneg serve appunto per sommare o sottrare 
+		posneg :=(SELECT random());
+		
+		IF posneg > 0.5 THEN
+			posneg = 1;
+		ELSE
+			posneg = -1;
+		END IF;
+
+		--- Valore randoma che vado a sommare o sottrarre un valore causale.
+		variance := (SELECT (random()*0.3));
+		
+		variance := variance * posneg;
+		diff := max - min;
+		
+		--- Calcola l'Sz_k
+		IF diff <> 0 THEN
+			IF diff > 800 THEN
+				probabilita := 1;
+			ELSE
+				probabilita := diff / 800 ;
+				probabilita := probabilita + variance;
+				
+				--- Questo blocco if impedisce di avere Sz_k maggiori di 1
+				--- oppure minori di 0 dopo la somma con la varianza
+				IF probabilita > 1 THEN
+					probabilita := 1;
+				END IF;
+				IF probabilita < 0 THEN
+					probabilita := 0;
+				END IF;
+			END IF;
+		ELSE
+			probabilita := 0;
+		END IF ;
+		UPDATE dataset SET zk = probabilita WHERE id = cursore.id;
+	END LOOP;
 END;
 $$
 \end{lstlisting}
-\hrule
