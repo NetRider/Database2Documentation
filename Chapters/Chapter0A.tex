@@ -43,10 +43,10 @@
 	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
 }
 
-Per la soluzione del problema in esame è indispensabile avere una partizione completa del territorio abruzzese in cui ogni \textit{Zone} ha associata un $Sz_k$ che ne indica la propensione alla frana (definizione \ref{def:zones}). Notoriamente i dati geografici non sono facilmente reperibili. In particolare per la regione Abruzzo non è stato mai effettuato uno studio sul campo per censire le aree esposte al rischio frana. Difficilmente un lavoro del genere (lungo e costoso) verrà mai finanziato. Non avendo quindi a disposizione questi dati è stato costruito un dataset sintetico che si ottiene incrociando tra loro diverse tipologie di dati al fine di ottenere l'informazione desiderata (il più possibile coerente con la realtà). In questo caso specifico i valori di $Sz_k$ dovrebbero essere calcolati a partire dai dati territoriali delle singole variabili (tipologia di terreno, pendenza, presenza di vegetazione ecc) che contribuiscono ai fenomeni franosi. Più variabili sono presenti come dati di input, più il valore $Sz_k$ descriverà meglio l'esposizione al rischio. Il caso limite è quello di avere a disposizione tutti i dati relativi alle variabili dai quali estrapolare una stima che sia identica alla valutazione di un geologo. Il vantaggio di avere un unico parametro $Sz_k$ permette, nel caso in cui esso debba essere ricalcolato per via della disponibilità di nuovi dati, di lasciare invariato l'algoritmo. Tale approccio evidenzia quindi la robustezza del metodo proposto. Sulla base di queste considerazioni per costruire il dataset $\mathcal{Z}$ sono state necessarie tre iterazioni.
+Per la soluzione del problema in esame è indispensabile avere una partizione completa del territorio abruzzese in cui ogni \textit{Zone} ha associata un $Sz_k$ che ne indica la propensione alla frana (definizione \ref{def:zones}). Notoriamente i dati geografici non sono facilmente reperibili. In particolare per la regione Abruzzo non è stato mai effettuato uno studio sul campo per censire le aree esposte al rischio frana. Difficilmente un lavoro del genere (lungo e costoso) verrà mai finanziato. Non avendo quindi a disposizione questi dati è stato costruito un dataset sintetico che si ottiene incrociando tra loro diverse tipologie di dati al fine di ottenere l'informazione desiderata (il più possibile coerente con la realtà).\newline In questo caso specifico i valori di $Sz_k$ dovrebbero essere calcolati a partire dai dati territoriali delle singole variabili (tipologia di terreno, pendenza, presenza di vegetazione ecc) che contribuiscono ai fenomeni franosi. Più variabili sono presenti come dati di input, più il valore $Sz_k$ descriverà meglio l'esposizione al rischio. Il caso limite è quello di avere a disposizione tutti i dati relativi alle variabili dai quali estrapolare una stima che sia identica alla valutazione di un geologo. Il vantaggio di avere un unico parametro $Sz_k$ permette, nel caso in cui esso debba essere ricalcolato per via della disponibilità di nuovi dati, di lasciare invariato l'algoritmo. Tale approccio evidenzia quindi la robustezza del metodo proposto. Sulla base di queste considerazioni per costruire il dataset $\mathcal{Z}$ sono state necessarie tre iterazioni.
 
 \subsection{\textbf{Iterazione 1}}
-E' stata creata una griglia, di quadratini di lato l, di dimensioni $n*n$ in grado di contenere l'intera  $\mathcal{GEOAREA}$ (definizione \ref{def:geoarea}) dell'Abruzzo. Tale griglia è stata intersecata con la  $\mathcal{GEOAREA}$ (Figura \ref{fig:griglia}) per ottenere il partizionamento completo (Figura \ref{fig:abruzzoGriglia}).  
+E' stata creata una griglia, di quadratini di lato l, di dimensioni $n*n$ in grado di contenere l'intera  $\mathcal{GEOAREA}$ (definizione \ref{def:geoarea}) dell'Abruzzo. La griglia è stata creata grazie ad una primitiva chiamata \textit{st\_createfishnet}. Questa primitiva è stata introdotta dalla comunità in quanto non presente nella versione base di PostGIS \cite{fishnet}. Essa nasce dall'esigenza di dividere un area in aree più piccole tutte di forma quadrata ed analizzabili quindi in modo indipendente dall'area iniziale. Tale griglia è stata intersecata con la  $\mathcal{GEOAREA}$ (Figura \ref{fig:griglia}) per ottenere il partizionamento completo (Figura \ref{fig:abruzzoGriglia}). Questa operazione ha permesso di avere il territorio abruzzese diviso in tante \textit{Zones} descritte ognuna di esse da una geometria(Poligono). Non è possibile garantire in questo modo un'area minima per le \textit{Zones}
 
 \begin{figure}[h]
 	\hspace{0.05\linewidth}
@@ -65,7 +65,7 @@ E' stata creata una griglia, di quadratini di lato l, di dimensioni $n*n$ in gra
 	\end{minipage}
 \end{figure}
 
-In questa iterazione, non avendo dati sul territorio disponibili, è stato assegnato un valore di \textit{$Sz_k$} casuale (Figura \ref{fig:abruzzo_random}). 
+In questa iterazione è stato assegnato un valore di \textit{$Sz_k$} casuale (Figura \ref{fig:abruzzo_random}). 
 
 \begin{figure}[H]
 	\centering
@@ -91,7 +91,7 @@ Lo Shuttle Radar Topography Mission (SRTM) è un'impresa internazionale che è r
 	\label{fig:raster_abruzzo}
 \end{figure}
 
-Lo SRTM consisteva in un sistema radar modificato che ha volato a bordo dello Space Shuttle Endeavour durante gli 11 giorni della missione STS-99 del febbraio 2000. Per acquisire i dati topografici dei dati di elevazione, il carico SRTM è stato equipaggiato con due antenne radar. Un'antenna era posizionata nello spazio di carico dello Shuttle, l'altra alla fine di un braccio di 60 metri che si estendeva dallo spazio di carico una volta che lo Shuttle era nello spazio. La tecnica impiegata è conosciuta come Interferometric Synthetic Aperture Radar. I modelli di elevazione ricavati dai dati dello SRTM vengono usati nei Geographic information system (GIS). Possono essere liberamente scaricati tramite internet ed il loro formato di file è supportato da molti programmi software. Sono stati prelevati i dati raster della regione Abruzzo e attraverso QGIS (Software per la visualizzazione e l'elaborazione di dati geografici) sono state generate le curve di livello (Appendice \ref{ch:dem_to_isoipse}). Tali curve hanno una risoluzione di 25m (Figura \ref{fig:curve_di_livello}).
+Lo SRTM consisteva in un sistema radar modificato che ha volato a bordo dello Space Shuttle Endeavour durante gli 11 giorni della missione STS-99 del febbraio 2000. Per acquisire i dati topografici dei dati di elevazione, il carico SRTM è stato equipaggiato con due antenne radar. Un'antenna era posizionata nello spazio di carico dello Shuttle, l'altra alla fine di un braccio di 60 metri che si estendeva dallo spazio di carico una volta che lo Shuttle era nello spazio. La tecnica impiegata è conosciuta come Interferometric Synthetic Aperture Radar. \newline I modelli di elevazione ricavati dai dati dello SRTM vengono usati nei Geographic Information System (GIS). Possono essere liberamente scaricati tramite internet ed il loro formato di file è supportato da molti software. Sono stati prelevati i dati raster della regione Abruzzo e attraverso QGIS (Software per la visualizzazione e l'elaborazione di dati geografici) sono state generate le curve di livello (Appendice \ref{ch:dem_to_isoipse}). Tali curve hanno una risoluzione di 25m (Figura \ref{fig:curve_di_livello}).
 
 \begin{figure}[h]
 	\centering
@@ -101,7 +101,7 @@ Lo SRTM consisteva in un sistema radar modificato che ha volato a bordo dello Sp
 \end{figure}
 
 Avendo introdotto le curve di livello (Isoipse) si sono decisi i valori di $Sz_k$ tenendo conto della morfologia effettiva del terreno. 
-Per far ciò si e semplicemente contato il numero di curve di livello che intersecano ogni \textit{Zone}. Più il numero di intersezioni è elevato maggiore sarà la ripidità del suolo e quindi aumenterà il pericolo di frana. Il dataset ottenuto rimarca, attraverso gli \textit{Szk}, l'andamento del terreno (Figura \ref{fig:dataset_it_2}).
+Per far ciò si è semplicemente contato il numero di curve di livello che intersecano ogni \textit{Zone}. Più il numero di intersezioni è elevato maggiore sarà la ripidità del suolo e quindi aumenterà il pericolo di frana. Il dataset ottenuto rimarca, attraverso gli \textit{Szk}, l'andamento del terreno (Figura \ref{fig:dataset_it_2}).
 
 \begin{figure}[H]
 	\centering
@@ -113,16 +113,16 @@ Per far ciò si e semplicemente contato il numero di curve di livello che inters
 
 \subsection{\textbf{Iterazione 3}}
 
-Nell'iterazione 2 emergono due problematiche di cui tener conto:
+Nell'iterazione 2 sono emerse due problematiche di cui tener conto:
 
 \begin{enumerate}
-	\item Aree estremamente piccole lungo i bordi
-	\item Estrema regolarità delle \textit{Zone}
+	\item aree estremamente piccole lungo i bordi
+	\item estrema regolarità delle \textit{Zone}
 \end{enumerate}
 
 Queste problematiche sono state superate cambiando il modello di generazione delle \textit{Zone}. E' stata pertanto utilizzata la decomposizione di Voronoi. In matematica, un diagramma di Voronoi (dal nome di Georgij Voronoi), anche detto tassellatura di Voronoi, decomposizione di Voronoi, o tassellatura di Dirichlet (dal nome di Lejeune Dirichlet) è un particolare tipo di decomposizione di uno spazio metrico determinata dalle distanze rispetto ad un determinato insieme discreto di elementi dello spazio (ad esempio, un insieme finito di punti). 
-Il risultato ottenuto dall'unione della decomposizione di Voronoi con le curve di livello ha prodotto un risultato davvero soddisfacente. Il limite delle geometrie regolari si è superato in quanto tale tassellatura genera geometrie tutte differenti tra di loro. Mentre il limite delle aree molto piccole sui bordi non si presenta affatto.
-Per aumentare la variazione $Sz_k$ in pianura si è deciso di aggiungere un valore casuale (Figura \ref{fig:final_dataset_it_3}).
+Il risultato ottenuto combinando la decomposizione di Voronoi con le curve di livello ha prodotto un risultato davvero soddisfacente. Il limite delle geometrie regolari si è superato in quanto tale tassellatura genera geometrie tutte differenti tra di loro. Mentre il limite delle aree molto piccole sui bordi non si presenta affatto.
+Per aumentare la variazione $Sz_k$ per le zone pianeggianti si è deciso di aggiungere un valore casuale (Figura \ref{fig:final_dataset_it_3}).
 
 \begin{figure}[h]
 	\centering
@@ -131,7 +131,7 @@ Per aumentare la variazione $Sz_k$ in pianura si è deciso di aggiungere un valo
 	\label{fig:final_dataset_it_3}
 \end{figure}
 
-In definitiva attraverso le curve di livello ricavate dai dati raster, la suddivisione in poligoni di Voronoi si è ottenuto un dataset sintetico che va a rispettare tutte le specifiche che ci eravamo imposti. Di seguito verranno proposte le UDF relative alla creazione del dataset.
+In definitiva attraverso le curve di livello ricavate dai dati raster, la suddivisione in poligoni di Voronoi si è ottenuto un dataset sintetico che va a rispettare tutte le specifiche che ci eravamo imposti. Di seguito viene proposta l'UDF relativa alla creazione del dataset $\mathcal{Z}$.
 
 \newpage
 \begin{lstlisting}[style = mystyle]
