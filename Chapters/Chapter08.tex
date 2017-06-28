@@ -82,7 +82,7 @@ Per ogni entità vengono mostrate
 	\node (GeomIsoipse) [attributo, right of = Isoipse,xshift = 0.5cm] {};
 	
 	%RaylwayStation
-	\node (RailwayStation) [process1, below of= GeoArea,yshift= -2cm] {railway\_station};
+	\node (RailwayStation) [process1, below of= GeoArea,yshift= -2cm] {railway\_stations};
 	\node (IdRailway) [idEntita, below of= RailwayStation,yshift = 1cm,xshift= -1cm] {};
 	\node (NameRailwayStation) [attributo, below of= RailwayStation,yshift = 1cm,xshift= 1cm] {};
 	\node (GeomRailway) [attributo, left of = RailwayStation,xshift = -0.5cm] {};
@@ -90,10 +90,9 @@ Per ogni entità vengono mostrate
 	%relazione
 	\node (Relazione) [relazione,right of=RailwayStation,xshift=3cm]{Ha associato};
 		
-	%station_exposure	
-	\node (StationExposure) [process1, right of= Relazione, xshift= 3cm] {station\_exposure};
-	\node (IdStationExposure) [idEntita, below of= StationExposure,yshift = 1cm,xshift= -1cm] {};
-	\node (StationID) [attributo, below of= StationExposure,yshift = 1cm,xshift= 1cm] {};
+	%exposure_stations	
+	\node (StationExposure) [process1, right of= Relazione, xshift= 3cm] {exposure\_stations};
+	\node (IdStationExposure) [idEntita, below of= StationExposure,yshift = 1cm,xshift= 0cm] {};
 	\node (Exposure) [attributo, right of = StationExposure,xshift = 0.5cm] {};
 		
 		
@@ -119,7 +118,6 @@ Per ogni entità vengono mostrate
 	\draw [line] (StationExposure.west) -| node[anchor=west,yshift = 0.3cm, xshift= 0.9cm] {(1,1)} (Relazione.east);
 	%station_exposure
 	\draw [line] (StationExposure.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdStationExposure.north);
-	\draw [line] (StationExposure.south) -| node[anchor=west,yshift = -0.5cm,xshift= 0.3cm] {station\_id}(StationID.north);
 	\draw [line] (StationExposure.east) -| node[anchor=north,yshift= 0.7cm,xshift= 0.3cm] {exposure}(Exposure.west);
 	
 	
@@ -155,8 +153,8 @@ Per ogni entità vengono mostrate
 		geoarea                  & \begin{tabular}[c]{@{}c@{}}Entità relativa al \\ territorio  di interesse\end{tabular}                                & \begin{tabular}[c]{@{}c@{}}id\\ geom\end{tabular}                   & id                      \\ \hline
 		zones                  & \begin{tabular}[c]{@{}c@{}}Entità relativa al territorio \\ partizionato della regione abruzzo\end{tabular}                                                 & \begin{tabular}[c]{@{}c@{}}gid \\ szk\\ geom\end{tabular}           & gid                     \\ \hline
 		isoipse    & \begin{tabular}[c]{@{}c@{}}Entità relativa alle isoipse contenute \\ all'interno del territorio abruzzese.\end{tabular}                                     & \begin{tabular}[c]{@{}c@{}}gid \\ elevation\\ geom\end{tabular}     & gid                     \\ \hline
-		railway\_station         & \begin{tabular}[c]{@{}c@{}}Entità relativa alle stazioni presenti \\ sul suolo della regione di interesse\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}gid \\ name\\ geom\end{tabular}          & gid                     \\ \hline
-		station\_exposure        & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana da parte di una stazione\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}id\\ station\_id\\ exposure\end{tabular} & id                      \\ \hline
+		railway\_stations         & \begin{tabular}[c]{@{}c@{}}Entità relativa alle stazioni presenti \\ sul suolo della regione di interesse\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}gid \\ name\\ geom\end{tabular}          & gid                     \\ \hline
+		exposure\_stations        & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana da parte di una stazione\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}id\\ station\_id\\ exposure\end{tabular} & id                      \\ \hline
 	
 	\end{tabular}
 	\caption{Descrizioni entità}
@@ -171,19 +169,10 @@ Dallo schema Concettuale si è progettato quello logico nel seguente modo.
 	\item geoarea(\underline{id},geom)
 	\item dataset(\underline{gid},szk,geom) 
 	\item isoipse\_abruzzo\_25(\underline{gid},elevation,geom)
-	\item railway\_station(\underline{gid},name,geom)
-	\item station\_exposure(\underline{id},station\_id,exposure)
+	\item railway\_stations(\underline{gid},name,geom)
+	\item exposure\_stations(\underline{id},station\_id,exposure)
 	\begin{enumerate}
-		\item FK: station\_id REFERENCES railway\_station  
-	\end{enumerate}
-	\item railway\_routes(\underline{gid},name,geom)
-	\item railway\_routes\_segment(\underline{id},id\_route,geom)
-	\begin{enumerate}
-		\item FK: id\_route REFERENCES railway\_routes
-	\end{enumerate}
-	\item segment\_exposure(\underline{id},id\_segment,exposure)
-	\begin{enumerate}
-		\item FK: id\_segment REFERENCES railway\_routes\_segment
+		\item FK: station\_id REFERENCES railway\_stations(gid)  
 	\end{enumerate}
 \end{enumerate}
 

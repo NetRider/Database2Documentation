@@ -60,26 +60,23 @@ e le entità.
 
 	\begin{tikzpicture}[,node distance=2cm]
 	%ExposurePoints
-	\node (ExposurePoints) [process1] {exposure\_points};
-	\node (IdExposurePoint) [idEntita, below of= ExposurePoints,yshift = 1cm,xshift= -1cm] {};
-	\node (IdPoint) [attributo, below of= ExposurePoints,yshift = 1cm,xshift= 1cm] {};
+	\node (ExposurePoints) [process1] {exposure\_route\_\\points};
+	\node (IdExposurePoint) [idEntita, below of= ExposurePoints,yshift = 1cm,xshift= 0cm] {};
 	\node (Exposure) [attributo, left of = ExposurePoints,xshift = -0.5cm] {};
 	
 	%relazione
 	\node (Relazione) [relazione,right of=ExposurePoints,xshift=2.5cm]{hanno associati};
 	
 	%Point	
-	\node (Points) [process1, right of= Relazione, xshift= 2.5cm] {points};
-	\node (IdPoints) [idEntita, above of= Points,yshift = -1cm,xshift= -1cm] {};
-	\node (IDTratte) [attributo, above of= Points,yshift = -1cm,xshift= 1cm] {};
+	\node (Points) [process1, right of= Relazione, xshift= 2.5cm] {route\_points};
+	\node (IdPoints) [idEntita, above of= Points,yshift = -1cm,xshift= 0cm] {};
 	\node (GeomPoints) [attributo, right of = Points,xshift = 0.5cm] {};
 	
 	%Relazione2
 	\node (Relazione2) [relazione,below of=Points,yshift=-1cm]{Sono Costituiti};
 	%Tratte
-	\node (Tratte) [process1, below of= Relazione2, yshift=-1cm] {tratte};
+	\node (Tratte) [process1, below of= Relazione2, yshift=-1cm] {route\_segments};
 	\node (IdTratta) [idEntita, below of= Tratte,yshift = 1cm,xshift= -1cm] {};
-	\node (IdRoute) [attributo, below of= Tratte,yshift = 1cm,xshift= 1cm] {};
 	\node (geom) [attributo, right of = Tratte,xshift = 0.5cm] {};
 	
 	%Relazione 3
@@ -95,24 +92,21 @@ e le entità.
 	\node (Relazione4) [relazione,below of=Tratte,yshift=-2cm]{hanno associati};
 	
 	%ExposureTratte
-	\node (RailwayRoutesExposure) [process1 , left of = Relazione4,xshift=-2.5cm] {exposure\_tratte};
-	\node (IdRailwayRoutesExposure) [idEntita, below of= RailwayRoutesExposure,yshift = 1cm,xshift= -1cm] {};
-	\node (idTratte) [attributo, below of= RailwayRoutesExposure,yshift = 1cm,xshift= 1cm] {};
+	\node (RailwayRoutesExposure) [process1 , left of = Relazione4,xshift=-2.5cm] {exposure\_routes};
+	\node (IdRailwayRoutesExposure) [idEntita, below of= RailwayRoutesExposure,yshift = 1cm,xshift= -0cm] {};
 	\node (ExposureRailwayRoutes) [attributo, left of = RailwayRoutesExposure,xshift = -0.5cm] {};
 	
 	
 
 	%ExposurePoint
 	\draw [line] (ExposurePoints.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdExposurePoint.north);
-	\draw [line] (ExposurePoints.south) -| node[anchor=east,yshift = -0.5cm] {id\_point}(IdPoint.north);
 	\draw [line] (ExposurePoints.west) -| node[anchor=north,yshift= 0.7cm,xshift=-0.2cm] {exposure}(Exposure.east);
 	%relazione
 	\draw [line] (Relazione.west) -| node[anchor=west,yshift = 0.3cm, xshift= 0.2cm] {(1,1)} (ExposurePoints);
 	\draw [line] (Relazione.east) -| node[anchor=east,yshift = 0.3cm, xshift= -0.2cm] {(0,1)} (Points.west);
 
-	%Point
+	%Route Points
 	\draw [line] (Points.north) -| node[anchor=east,yshift = 0.5cm, xshift= -0.2cm] {gid} (IdPoints.south);
-	\draw [line] (Points.north) -| node[anchor=west,yshift = 0.5cm,xshift= 0.3cm] {id\_tratta}(IDTratte.south);
 	\draw [line] (Points.east) -| node[anchor=south,yshift= -0.7cm,xshift= 0.3cm] {geom}(GeomPoints.west);
 	
 	%relazione2
@@ -121,7 +115,6 @@ e le entità.
 	
 	%Tratte
 	\draw [line] (Tratte.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdTratta.north);
-	\draw [line] (Tratte.south) -| node[anchor=west,yshift = -0.5cm,xshift=0.1cm] {id\_route}(IdRoute.north);
 	\draw [line] (Tratte.east) -| node[anchor=north,yshift= 0.7cm,xshift=0.2cm] {geom}(geom.west);
 	
 	%relazione3
@@ -139,8 +132,7 @@ e le entità.
 	
 	%exposureRoutes
 	\draw [line] (RailwayRoutesExposure.south) -| node[anchor=east,yshift = -0.5cm, xshift= -0.2cm] {gid} (IdRailwayRoutesExposure.north);
-	\draw [line] (RailwayRoutesExposure.south) -| node[anchor=east,yshift = -0.5cm] {id\_tratta}(idTratte.north);
-	\draw [line] (RailwayRoutesExposure.west) -| node[anchor=north,yshift= 0.7cm,xshift=-0.2cm] {exposure}(ExposureRailwayRoutes.east);
+	\draw [line] (RailwayRoutesExposure.west) -| node[anchor=north,yshift= 0.7cm,xshift=-0.5cm] {exposure}(ExposureRailwayRoutes.east);
 	
 	
 	\end{tikzpicture}
@@ -151,20 +143,20 @@ e le entità.
 \end{figure}
 	\begin{enumerate}
 	\item railway\_routes(\underline{gid},geom,name)
-	\item tratte(\underline{gid},id\_route,geom)
+	\item route\_segments(\underline{gid},id\_route,geom)
 	\begin{enumerate}
-		\item FK: id\_route REFERENCES railway\_routes  
+		\item FK: id\_route REFERENCES railway\_routes(gid)  
 	\end{enumerate} 
-	\item points(\underline{gid},id\_tratta,geom)
+	\item route\_points(\underline{gid},id\_segment,geom)
 	\begin{enumerate}
-		\item FK: id\_tratta REFERENCES tratta  
+		\item FK: id\_segment REFERENCES route\_segments(gid)  
 	\end{enumerate}
-	\item exposure\_tratte(\underline{gid},id\_tratta,exposure)
+	\item exposure\_routes(\underline{gid},id\_segment,exposure)
 	\begin{enumerate}
-		\item FK: id\_tratta REFERENCES tratte 
+		\item FK: id\_segment REFERENCES route\_segments(gid)
 	\end{enumerate}
-	\item exposure\_points(\underline{gid},id\_point,exposure)
+	\item exposure\_route\_points(\underline{gid},id\_point,exposure)
 	\begin{enumerate}
-		\item FK: id\_point REFERENCES points  
+		\item FK: id\_point REFERENCES route\_points(gid)
 	\end{enumerate}
 \end{enumerate}
