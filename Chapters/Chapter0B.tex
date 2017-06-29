@@ -82,7 +82,6 @@ BEGIN
 	DROP TABLE IF EXISTS linearregression;
 	DROP TABLE IF EXISTS hazardzones;
 	DROP TABLE IF EXISTS landslide;
-	DROP TABLE IF EXISTS exposure_stations;
 	
 	-- Creazione della tabella dove veranno inseriti i risultati finali delle exposure
 	CREATE TABLE IF NOT EXISTS exposure_stations (
@@ -106,7 +105,7 @@ BEGIN
 	
 	--Memorizza il risultato del calcolo dell'exposure
 	INSERT INTO exposure_stations (Building_gid, exposure) 
-				VALUES (exposure.id, exposure.exposure);
+				VALUES (point.gid, exposure.exposure);
 	END LOOP;
 
 	PERFORM __cleartables();
