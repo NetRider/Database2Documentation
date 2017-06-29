@@ -43,6 +43,38 @@
 	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
 }
 
+\lstdefinestyle{python}{
+	language = PYTHON,
+	basicstyle = {\color{main-color}},
+	backgroundcolor = {\color{back-color}},
+	commentstyle=\color{codegreen},
+	stringstyle = {\color{string-color}},
+	keywordstyle = {\color{key-color}},
+	keywordstyle = [2]{\color{red}},
+	keywordstyle = [3]{\color{teal}},
+	keywordstyle = [4]{\color{myblue}},
+	otherkeywords = {import, try, print, round, range},
+	morekeywords = [2]{},
+	morekeywords = [3]{},
+	morekeywords = [4]{},
+	numberstyle=\normalfont\footnotesize\color{black},
+	stepnumber=1,
+	tabsize=2,
+	literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+	{»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
 In questo capitolo vengono illustrate le User Defined Functions (da qui in avanti indicate con l’acronimo UDFs), per il calcolo del valore di exposure per le stazioni ferroviarie nonché per le linee ferroviarie. Tali UDFs sono state realizzate nel linguaggio PL/pgSQL offerto da PostgreSQL, sfruttando le funzioni fornite dall’estensione spaziale PostGIS.
 
 \section{UDFs per le stazioni}
@@ -56,8 +88,61 @@ Lo script Python itera \textit{\_\_Exposure} per tutte le stazioni (Figura \ref{
 	\label{diagramma_algoritmo}
 \end{figure}
 
-Inoltre stima il tempo necessario al completamento dei calcoli e fornisce lo stato di avanzamento delle operazioni inteso come il numero di stazioni per il quale è stato calcolato l'exposure rispetto al totale.ì .
+Inoltre stima il tempo necessario al completamento dei calcoli e fornisce lo stato di avanzamento delle operazioni inteso come il numero di stazioni per il quale è stato calcolato l'exposure rispetto al totale.
 
+
+\subsection{HotSpotCalculator}
+Lo script Python si collega al database tramite un'apposita libreria \textit{psycopg2}. Successivamente per ogni stazione esegue la funzione \textit{\_\_Exposure} passandogli come parametro l'id. 
+
+\begin{lstlisting}[style = python]
+	import psycopg2
+	import os
+	import time
+	
+	# Try to connect
+
+	numeroTuple = 115
+	media = 0
+	
+	try:
+		#prova ad instaurare la connessione
+		conn=psycopg2.connect("dbname='' user='' password=''")
+
+	except:
+		print("I am unable to connect to the database.")
+	
+	#Viene creata una struttura dati della libreria psycopg2
+	#per leggere i risultati ottenuti mendiante una query.
+	cur = conn.cursor()
+	TempoStimato = 0;
+	id = range (1,numeroTuple)
+
+	for count in id:
+	percentuale = count/numeroTuple * 100
+	print("Completamento ",round(percentuale,3), "%", "Tempo Stimato :",round(TempoStimato/60,3), " Minuti", "quaryfatte", count )
+
+	try:
+		startTime = time.time();
+		
+		# Si costrusice la stringa della query con il parametro count 
+		# che contiene l'id della stazione corrente.
+		query = "SELECT __exposure(" + str(count) + ")"
+		
+		# La query viene messa in coda di esecuzione
+		cur.execute(query)
+		
+		# Tutte le query in coda vengono eseguite dal DBMS
+		conn.commit()
+		endTime = time.time()
+
+		diff = (endTime - startTime )
+		
+		if diff > 0.1:
+			TempoStimato = diff * (numeroTuple - count)
+	except:
+		print("z_exposure failed")
+
+\end{lstlisting}
 
 
 \subsection{\_\_exposure}
@@ -82,7 +167,6 @@ BEGIN
 	DROP TABLE IF EXISTS linearregression;
 	DROP TABLE IF EXISTS hazardzones;
 	DROP TABLE IF EXISTS landslide;
-	DROP TABLE IF EXISTS exposure_stations;
 	
 	-- Creazione della tabella dove veranno inseriti i risultati finali delle exposure
 	CREATE TABLE IF NOT EXISTS exposure_stations (
@@ -98,7 +182,7 @@ BEGIN
 		PERFORM __nearestzonefinder(point.gid,800);
 		PERFORM __nearestisoipsefinder(point.gid,850);
 		PERFORM __zonefragmentsfinder();
-		PERFORM __linearregressionfinder(point.gid,2.5);
+		PERFORM __bufferedlinearregressionfinder(point.gid,2.5);
 		PERFORM __landslidefinder(point.gid,50);
 		PERFORM __contributionoflandslide(point.gid,50);
 
@@ -106,7 +190,7 @@ BEGIN
 	
 	--Memorizza il risultato del calcolo dell'exposure
 	INSERT INTO exposure_stations (Building_gid, exposure) 
-				VALUES (exposure.id, exposure.exposure);
+				VALUES (point.gid, exposure.exposure);
 	END LOOP;
 
 	PERFORM __cleartables();
@@ -357,13 +441,13 @@ $$;
 \end{lstlisting}
 
 \newpage
-\subsection{\_\_linearregressionfinder}
+\subsection{\_\_bufferedlinearregressionfinder}
 \textbf{INPUT}: \textit{pdiv} parametro necessario per la costruzione della $blr_{i,j}$. \newline
 \textbf{OUTPUT}: \textit{void}. \newline
 \textbf{COMMENTO}: trova tutte le $blr_{i,j}$ che partono dalle nearest zones.
 
 \begin{lstlisting}[style = mystyle]
-CREATE OR REPLACE FUNCTION "__linearregressionfinder"(pdiv double precision) returns void
+CREATE OR REPLACE FUNCTION "__bufferedlinearregressionfinder"(pdiv double precision) returns void
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -552,6 +636,63 @@ Lo script Python, \textit{HotSpotCalculatorRoutes} si collega al database ed ese
 	\label{diagramma_algoritmo2}
 \end{figure}
 
+\subsection{HotSpotCalculatorRoutes}
+Lo script Python si collega al database tramite un'apposita libreria \textit{psycopg2}. Successivamente per ogni route esegue la funzione \textit{\_\_Exposure\_Routes} passandogli come parametro l'id. 
+
+\begin{lstlisting}[style = python]
+import psycopg2
+import os
+import time
+# Try to connect
+
+
+numeroTuple = 10
+media = 0
+
+try:
+	#prova ad instaurare la connessione
+	conn=psycopg2.connect("dbname='' user='' password=''")
+
+except:
+	print("I am unable to connect to the database.")
+
+
+#Viene creata una struttura dati della liberia psycopg2
+#per leggere i risultati ottenuti mediante un query.
+cur = conn.cursor()
+TempoStimato = 0;
+id = range (1,numeroTuple)
+
+for count in id:
+
+	percentuale = count/numeroTuple * 100
+	print("Completamento ",round(percentuale,3), "%", "Tempo Stimato :",round(TempoStimato/60,3), " Minuti", "quaryfatte", count )
+
+try:
+	startTime = time.time();
+	
+	#Si costruisce la stringa della query con il parametro count
+	#che contiene l'id della route corrente.
+	query = "SELECT __exposure_routes(" + str(count) + ")"
+	
+	#La query viene messa in coda di esecuzione
+	cur.execute(query)
+	
+	#Tutte le query in coda vengono eseguite dal DBMS
+	conn.commit()
+	endTime = time.time()
+
+	diff = (endTime - startTime )
+	
+	if diff > 0.1:
+		TempoStimato = diff * (numeroTuple - count)
+		
+except:
+
+print("z_exposure failed")
+
+\end{lstlisting}
+
 \subsection{\_\_exposure\_routes}
 
 \textbf{INPUT}: \textit{id\_route} è l'ID del $r_k$ \newline
@@ -625,7 +766,7 @@ BEGIN
 			PERFORM __nearestzonefinder(point.gid,800);
 			PERFORM __nearestisoipsefinder(point.gid,850);
 			PERFORM __zonefragmentsfinder();
-			PERFORM __linearregressionfinder(point.gid,2.5);
+			PERFORM __bufferedlinearregressionfinder(point.gid,2.5);
 			PERFORM __landslidefinder(point.gid,50);
 			PERFORM __contributionoflandslide(point.gid,50);
 
