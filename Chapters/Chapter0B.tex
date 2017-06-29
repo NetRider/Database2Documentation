@@ -182,7 +182,7 @@ BEGIN
 		PERFORM __nearestzonefinder(point.gid,800);
 		PERFORM __nearestisoipsefinder(point.gid,850);
 		PERFORM __zonefragmentsfinder();
-		PERFORM __linearregressionfinder(point.gid,2.5);
+		PERFORM __bufferedlinearregressionfinder(point.gid,2.5);
 		PERFORM __landslidefinder(point.gid,50);
 		PERFORM __contributionoflandslide(point.gid,50);
 
@@ -441,13 +441,13 @@ $$;
 \end{lstlisting}
 
 \newpage
-\subsection{\_\_linearregressionfinder}
+\subsection{\_\_bufferedlinearregressionfinder}
 \textbf{INPUT}: \textit{pdiv} parametro necessario per la costruzione della $blr_{i,j}$. \newline
 \textbf{OUTPUT}: \textit{void}. \newline
 \textbf{COMMENTO}: trova tutte le $blr_{i,j}$ che partono dalle nearest zones.
 
 \begin{lstlisting}[style = mystyle]
-CREATE OR REPLACE FUNCTION "__linearregressionfinder"(pdiv double precision) returns void
+CREATE OR REPLACE FUNCTION "__bufferedlinearregressionfinder"(pdiv double precision) returns void
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -766,7 +766,7 @@ BEGIN
 			PERFORM __nearestzonefinder(point.gid,800);
 			PERFORM __nearestisoipsefinder(point.gid,850);
 			PERFORM __zonefragmentsfinder();
-			PERFORM __linearregressionfinder(point.gid,2.5);
+			PERFORM __bufferedlinearregressionfinder(point.gid,2.5);
 			PERFORM __landslidefinder(point.gid,50);
 			PERFORM __contributionoflandslide(point.gid,50);
 
