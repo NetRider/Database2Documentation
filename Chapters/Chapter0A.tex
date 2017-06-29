@@ -138,6 +138,7 @@ Per aumentare la variazione $Sz_k$ per le zone pianeggianti si è deciso di aggi
 In definitiva attraverso le curve di livello ricavate dai dati raster, la suddivisione in poligoni di Voronoi si è ottenuto un dataset sintetico che va a rispettare tutte le specifiche che ci eravamo imposti. Di seguito viene proposta l'UDF relativa alla creazione del dataset $\mathcal{Z}$.
 
 \newpage
+Costruzione del dataset $\mathcal{Z}$ attraverso voronoi.
 \begin{lstlisting}[style = mystyle]
  CREATE TABLE voronoi AS
 	SELECT (ST_DUMP(geom_voronoi)).geom AS geom_dump 
@@ -158,6 +159,7 @@ In definitiva attraverso le curve di livello ricavate dai dati raster, la suddiv
 \end{lstlisting}
 
 \newpage
+Assegnazione del valore $Sz_k$ relativo alla \textit{Zone} con con identificativo \textit{idc}
 \begin{lstlisting}[style = mystyle]
  CREATE OR REPLACE FUNCTION zkcalcolus (idc INTEGER) RETURNS void
  LANGUAGE plpgsql
