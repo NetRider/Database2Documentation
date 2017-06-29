@@ -128,7 +128,7 @@
 	
 	\item \textbf{$ \mathcal{LR}_i $} (\textbf{LinearRegressions}) $ = \{lr_{i,j}(i=1,..,\mathbf{card}(\mathcal{B})),(j=1,..,\mathbf{card}(\mathcal{NZ}_i)\} | lr_{i,j} $ rappresenta la retta di regressione lineare della \textit{Nearest Zone} $nz_{i,j}$. Nel caso specifico $lr_{i,j} $ rappresenta la retta passante per il centro di massa $cnz_{i,j}$ della nearest zone $nz_{i,j}$ con coefficiente angolare \textit{m} tale che, dati i centri di massa ($czfx_{i,j,t}, czfy_{i,j,t}$)  delle zone fragment $zf_{i,j,t}$,  sia minima la somma dei quadrati dei loro scarti (Figura \ref{linear_regression}). Matematicamente essa è descritta come segue:\\
 	\\
-	l'equazione (\ref{eq:retta_passante_per}) rappresenta la retta passante per il centro di massa $cnz_{i,j}$ rappresentata in Figura \ref{linear_regression}
+	l'equazione (\ref{eq:retta_passante_per}) rappresenta la retta passante per il centro di massa $cnz_{i,j}$ rappresentata in figura \ref{linear_regression}
 	\begin{equation}\label{eq:retta_passante_per}
 		y - cnzy_{i,j} = m(x-cnzx_{i,j})
 	\end{equation}
@@ -140,7 +140,7 @@
 	\begin{equation}
 		\textnormal{ove}\: q = cnzy_{i,j} - m*cnzx_{i,j}
 	\end{equation}
-	Questo concetto matematico sarà utilizzato per stimare la direzione di caduta della frana relativa alla $nz_{i,j}$ Figura \ref{linear_regression}.
+	Questo concetto matematico sarà utilizzato per stimare la direzione di caduta della frana relativa alla $nz_{i,j}$ (Figura \ref{linear_regression}).
 		
 	\newpage
 	\item \textit{$BuildingBuffer_i$} rappresenta l'area circostante l'edificio $b_i$ e ne approssima l'estensione. E' definita come la circonferenza centrata su $b_i$ di raggio $l$ dove $l<<r $ con $r$ raggio del \textit{$HazardArea_i$} (Figura \ref{buildingimpactfactor}).

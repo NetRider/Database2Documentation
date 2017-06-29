@@ -16,7 +16,7 @@ Avendo introdotto il metodo, esso deve poter essere verificato e validato.
 Si deve quindi poter implementare attraverso un linguaggio di programmazione lo pseudo-codice. Essendo il problema di natura geografica il campo decisionale riguardo le tecnologie che permettono di operare su questo tipo di dati è ristretto.
 Nel ambito delle basi di dati, i principali DMBS supportano i dati territoriali attraverso delle componenti installabili. Questi plugin permettono l'uso di funzioni
 spaziali implementate grazie alla geometria computazionale. I risultati inoltre devono poter essere consultati agevolmente per facilitare le decisioni riguardo la prevenzione del territorio. Queste esigenze si traducono nella creazione di UDF e di una basi di dati geografica che riassume i risultati ottenuti dal metodo. Sfruttando le tecnologie messe a disposizione dai sistemi GIS (Geographical Information System), sarà possibile valutare i risultati presenti nella base di dati attraverso il rendering su una mappa geografica. Tale visualizzazione contestualizza meglio i risultati rendendoli più chiari. Verrà quindi illustrata la sua progettazione attraverso le tecniche tipiche di questo ambito.
-Si è progettata quindi la base di dati seguendo i seguenti passi progettuali.
+Si è progettata quindi la base di dati seguendo i seguenti passi progettuali (Figura \ref{fig:progettazione_basi_dati}).
 
 \begin{figure}[H]
 	\centering
@@ -34,7 +34,7 @@ Si è progettata quindi la base di dati seguendo i seguenti passi progettuali.
 \draw [arrow] (Logica) -- (SchemaLogico);
 \end{tikzpicture}
 \caption{In figura vengono brevemente mostrati i passi concettuali nella progettazione di una base di dati. In blu vengono rappresentate le fasi concettuali. In rosso vengono rappresentati i vari schemi che si acquisiscono in output alla fine di ogni ogni fase progettuale} 
-\label{fig:diagrammaER}
+\label{fig:progettazione_basi_dati}
 \end{figure}
 
 Dalle definizioni e le notazioni introdotte nella sezione \ref{ch:notazioni} possiamo 
@@ -154,7 +154,7 @@ Per ogni entità vengono mostrate
 		zones                  & \begin{tabular}[c]{@{}c@{}}Entità relativa al territorio \\ partizionato della regione abruzzo\end{tabular}                                                 & \begin{tabular}[c]{@{}c@{}}gid \\ szk\\ geom\end{tabular}           & gid                     \\ \hline
 		isoipse    & \begin{tabular}[c]{@{}c@{}}Entità relativa alle isoipse contenute \\ all'interno del territorio abruzzese.\end{tabular}                                     & \begin{tabular}[c]{@{}c@{}}gid \\ elevation\\ geom\end{tabular}     & gid                     \\ \hline
 		railway\_stations         & \begin{tabular}[c]{@{}c@{}}Entità relativa alle stazioni presenti \\ sul suolo della regione di interesse\end{tabular}                                      & \begin{tabular}[c]{@{}c@{}}gid \\ name\\ geom\end{tabular}          & gid                     \\ \hline
-		exposure\_stations        & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana da parte di una stazione\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}id\\ station\_id\\ exposure\end{tabular} & id                      \\ \hline
+		exposure\_stations        & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana da parte di una stazione\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}gid\\ exposure\end{tabular} & gid                      \\ \hline
 	
 	\end{tabular}
 	\caption{Descrizioni entità}
@@ -170,7 +170,7 @@ Dallo schema Concettuale si è progettato quello logico nel seguente modo.
 	\item dataset(\underline{gid},szk,geom) 
 	\item isoipse\_abruzzo\_25(\underline{gid},elevation,geom)
 	\item railway\_stations(\underline{gid},name,geom)
-	\item exposure\_stations(\underline{id},station\_id,exposure)
+	\item exposure\_stations(\underline{gid},station\_id,exposure)
 	\begin{enumerate}
 		\item FK: station\_id REFERENCES railway\_stations(gid)  
 	\end{enumerate}

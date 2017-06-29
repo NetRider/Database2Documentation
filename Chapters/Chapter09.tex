@@ -8,10 +8,10 @@ individuiamo un associazione tra le definizioni della sezione \ref{metodoLinee}
 e le entità.
 \begin{enumerate}
 	\item railway\_routes $\leftarrow$ $\mathcal{R}$
-	\item railway\_routes\_segment $\leftarrow$ $\mathcal{RS}_k$
-	\item railway\_routes\_points $\leftarrow$ $\mathcal{RSP}_{k,s}$
-	\item exposure\_segments\_points $\leftarrow$ $ExpRSP$
-	\item exposure\_route\_segment $\leftarrow$ $ExpRS$
+	\item route\_segments $\leftarrow$ $\mathcal{RS}_k$
+	\item route\_points $\leftarrow$ $\mathcal{RSP}_{k,s}$
+	\item exposure\_route\_points $\leftarrow$ $ExpRSP$
+	\item exposure\_routes $\leftarrow$ $ExpRS$
 	
 \end{enumerate}
 
@@ -24,10 +24,10 @@ e le entità.
 		Entità                   & Descrizione                                                                                                                                                 & Attributi                                                           & Attributi Identificanti \\ \hline
 		\multicolumn{1}{|l|}{}   & \multicolumn{1}{l|}{}                                                                                                                                       & \multicolumn{1}{l|}{}                                               & \multicolumn{1}{l|}{}   \\ \hline
 		railway\_routes                  & \begin{tabular}[c]{@{}c@{}}Entità relativa alle linee ferroviarie della\\ regione di interesse\end{tabular}                                & \begin{tabular}[c]{@{}c@{}}gid\\ geom \\ name\end{tabular}                   & gid                      \\ \hline
-		tratte                  & \begin{tabular}[c]{@{}c@{}}Entità relativa ai vari segmenti che \\ compongono le linee ferroviarie\end{tabular}                                                 & \begin{tabular}[c]{@{}c@{}}gid \\ id\_route\\ geom\end{tabular}           & gid                     \\ \hline
-		points    & \begin{tabular}[c]{@{}c@{}}Entità relativa ai punti che \\ costituiscono le tratte.\end{tabular}                                     & \begin{tabular}[c]{@{}c@{}}gid \\ tratta\_id\\ geom\end{tabular}     & gid                     \\ \hline
-		exposure\_tratte         & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ di frana da parte di un segmento che \\ compone una linea ferroviaria \end{tabular}  & \begin{tabular}[c]{@{}c@{}}gid \\ id\_tratta\\ exposure\end{tabular}          & gid                     \\ \hline
-		exposure\_points       & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana dei punti che compongono le tratte\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}gid\\ id\_point\\ exposure\end{tabular} & id                      \\ \hline
+		route\_segments                  & \begin{tabular}[c]{@{}c@{}}Entità relativa ai vari segmenti che \\ compongono le linee ferroviarie\end{tabular}                                                 & \begin{tabular}[c]{@{}c@{}}gid \\ geom\end{tabular}           & gid                     \\ \hline
+		route\_points    & \begin{tabular}[c]{@{}c@{}}Entità relativa ai punti che \\ costituiscono le tratte.\end{tabular}                                     & \begin{tabular}[c]{@{}c@{}}gid \\ geom\end{tabular}     & gid                     \\ \hline
+		exposure\_routes         & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ di frana da parte di un segmento che \\ compone una linea ferroviaria \end{tabular}  & \begin{tabular}[c]{@{}c@{}}gid \\ exposure\end{tabular}          & gid                     \\ \hline
+		exposure\_route\_points       & \begin{tabular}[c]{@{}c@{}}Entità relativa all'esposizione al rischio \\ frana dei punti che compongono le tratte\end{tabular}                                        & \begin{tabular}[c]{@{}c@{}}gid\\ exposure\end{tabular} & id                      \\ \hline
 		
 	\end{tabular}
 		
@@ -43,8 +43,8 @@ e le entità.
 		\rowcolor[HTML]{C0C0C0} 
 		Associazione           & Descrizione                                                                                                                                                                                 & Entità coinvolte                                                                                                                                                    & Attributi             \\ \hline
 		\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{}                                                                                                                                                                       & \multicolumn{1}{l|}{}                                                                                                                                               & \multicolumn{1}{l|}{} \\ \hline
-		hanno associati           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che\\ un punto o una tratta può avere associato un valore\\ di exposure. \end{tabular} & \begin{tabular}[c]{@{}c@{}}exposure\_points\textless\textgreater      points\\ tratte\textless\textgreater exposure\_tratte\end{tabular} & nessuno               \\ \hline
-		Sono costituiti           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che una route \\ può essere associata con N tratte. Una tratta\\ può appartenere ad una sola route.\\ Una tratta può essere costituita da \\ n punti, un punto appartiene ad \\ una sola tratta\end{tabular} & \begin{tabular}[c]{@{}c@{}}  railway\_routes\textless\textgreater tratte \\ points \textless\textgreater tratte      \end{tabular}                                                                                               & nessuno               \\ \hline
+		hanno associati           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che\\ un punto o una tratta può avere associato un valore\\ di exposure. \end{tabular} & \begin{tabular}[c]{@{}c@{}}exposure\_route\_points\textless\textgreater      route\_points\\ route\_segments \textless\textgreater exposure\_routes\end{tabular} & nessuno               \\ \hline
+		Sono costituiti           & \begin{tabular}[c]{@{}c@{}}La seguente relazione evidenzia che una route \\ può essere associata con N tratte. Una tratta\\ può appartenere ad una sola route.\\ Una tratta può essere costituita da \\ n punti, un punto appartiene ad \\ una sola tratta\end{tabular} & \begin{tabular}[c]{@{}c@{}}  railway\_routes\textless\textgreater route\_segments \\ route\_points \textless\textgreater route\_segments  \end{tabular}                                                                                               & nessuno               \\ \hline
 	\end{tabular}
 	
 	\caption{descrizioni associazioni in modo dettagliato}
