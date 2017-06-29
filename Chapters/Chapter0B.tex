@@ -1,6 +1,6 @@
 % Appendix X
 
-\chapter{User Defined Function}
+\chapter{User Defined Functions}
 
 \definecolor{main-color}{rgb}{0.6627, 0.7176, 0.7764}
 \definecolor{back-color}{rgb}{0.1686, 0.1686, 0.1686}
@@ -45,7 +45,7 @@
 
 In questo capitolo vengono illustrate le User Defined Functions (da qui in avanti indicate con l’acronimo UDFs), per il calcolo del valore di exposure per le stazioni ferroviarie nonché per le linee ferroviarie. Tali UDFs sono state realizzate nel linguaggio PL/pgSQL offerto da PostgreSQL, sfruttando le funzioni fornite dall’estensione spaziale PostGIS.
 
-\section{UDF per le stazioni}
+\section{UDFs per le stazioni}
 E' stato realizzato uno script Python, \textit{HotSpotCalculator}, in grado di collegarsi al database ed eseguire la UDF  \textit{\_\_Exposure(id\_point)}. Quest'ultima è la funzione fondamentale in quanto richiama sequenzialmente tutte le UDF necessarie per il calcolo dell'exposure di una stazione. L'ultima UDF eseguita, ovvero la \textit{\_\_ContributionOfLandslide(id\_point,l)} inserisce il risultato nella tabella \textit{exposure\_station}.
 Lo script Python itera \textit{\_\_Exposure} per tutte le stazioni (Figura \ref{diagramma_algoritmo}).  
 
@@ -540,7 +540,7 @@ $$;
 
 \newpage
 
-\section{UDF per le linee ferroviarie}
+\section{UDFs per le linee ferroviarie}
 
 Lo script Python, \textit{HotSpotCalculatorRoutes} si collega al database ed esegue la UDF  \textit{\_\_exposure\_routes(id\_point)}. Quest'ultima è la funzione fondamentale in quanto richiama sequenzialmente tutte le UDF necessarie per il calcolo dell'exposure di una linea ferroviaria. L'ultima UDF eseguita, ovvero la \textit{\_\_contributionoflandslide(id\_point,l)} inserisce il risultato nella tabella \textit{exposure\_routes} (Figura \ref{diagramma_algoritmo2}).
 
